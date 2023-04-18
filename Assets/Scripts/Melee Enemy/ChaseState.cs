@@ -22,7 +22,7 @@ namespace MeleeEnemy
 
         public override void Execute()
         {
-            if (_manager.DetectObject(_manager.targetTransform, _manager.attackRange, _manager.targetLayerMask)) 
+            if (_manager.DetectObject(_manager.targetTransform, _manager.baseAttackRange, _manager.targetLayerMask)) 
             {
                 _manager.TransitionToState(_manager.basicAttackState);
                 return;

@@ -1,47 +1,97 @@
 using UnityEngine;
+using System.Collections;
 
 namespace MeleeEnemy
 {
+    // *** Idée pour moi du futur: faire des dictionnaires d'anims pour differencier enrage et non enrage anims.
     public class MeleeEnemyStateManager : MonoBehaviour
     {
         // ---- State Test materials ------------------------------
-        public Material idleMat;
-        public Material chaseMat;
-        public Material basicAttackMat;
-        public Material shieldAbilityMat;
-        public Material cleaveAbilityMat;
-        public Material resetMat;
+            public Material idleMat;
+            public Material chaseMat;
+            public Material basicAttackMat;
+            public Material enrageAbilityMat;
+            public Material resetMat;
+        // ---------------------------------------------------------
+
+
+        // ---- Cooldown states ------------------------------------
+            public bool enrageOnCooldown = false;   
+            public bool enrageActive = false;   
         // ---------------------------------------------------------
 
 
         // ---- Melee Enemy States ---------------------------------
-        public MeleeEnemyState currentState;
+            public MeleeEnemyState currentState;
 
-        public IdleState idleState;
-        public ChaseState chaseState;
-        public BasicAttackState basicAttackState;
-        public ShieldAbilityState shieldAbilityState;
-        public CleaveAbilityState cleaveAbilityState;
-        public ResetState resetState;
+            public IdleState idleState;
+            public ChaseState chaseState;
+            public BasicAttackState basicAttackState;
+            public ResetState resetState;
         // ---------------------------------------------------------
 
 
         // ---- Melee Enemy Components -----------------------------
-        public MeshRenderer meshRenderer;
-        public NavMeshAgentManager navMeshAgentManagerCS;
+            public MeshRenderer meshRenderer;
+            public NavMeshAgentManager navMeshAgentManagerCS;
         // ---------------------------------------------------------
 
 
         // ---- External References --------------------------------
-        public Transform targetTransform;
-        public LayerMask targetLayerMask;
+            public Transform targetTransform;
+            public LayerMask targetLayerMask;
+        // ---------------------------------------------------------
+
+
+        // ---- Coroutines -----------------------------------------
+            private Coroutine _coroutineEnrageCooldown;
+            private Coroutine _coroutineStopEnrage;
         // ---------------------------------------------------------
 
 
         // ---- Ajustable Values -----------------------------------
-        public float attackRange = 2.2f;
-        public float globalCooldown = 2f;
+            [Header("Base Attack Settings")]
+            public float baseAttackRange = 2.2f;
+            public float baseAttackDamage = 20f;
+            public float baseAttackSpeed = 1.5f;
+
+
+            [Header("Enrage Settings")]
+            public float enrageCoodldown = 20f;
+            public float enrageDuration = 10f;
+            public float enrageAttackDamageBonus = 20f;
+            public float enrageAttackSpeedBonus = 0.5f;
+            public float enrageMovementSpeedBonus = 20f;
+            public int nbOfAttacksToTriggerEnrage = 3;
+
+
+            [Header("Base Movement Settings")]
+            public float baseMovementSpeed = 20f;
         // ---------------------------------------------------------
+
+
+        // ---- Calculated Values ----------------------------------
+            [Header("Current values")]
+            public float currentAttackDamage;
+            public float currentAttackSpeed;
+            public float currentMovementSpeed;
+            [SerializeField] private float _successiveBasicAttacks = 0;
+            public float successiveBasicAttacks
+            {
+                get => _successiveBasicAttacks;
+                set
+                {
+                    if(enrageActive || enrageOnCooldown) return;
+                    _successiveBasicAttacks = value;
+                    if(_successiveBasicAttacks >= nbOfAttacksToTriggerEnrage) 
+                    {
+                        _successiveBasicAttacks = 0;
+                        OnEnrageEnter();
+                    }
+                }
+            }
+        // ---------------------------------------------------------
+
         void Awake()
         {
             TryGetRequiredComponents();
@@ -50,6 +100,7 @@ namespace MeleeEnemy
         private void Start()
         {
             CreateStateInstances();
+            SetBaseValues();
             TransitionToState(idleState);
         }
 
@@ -64,10 +115,8 @@ namespace MeleeEnemy
 
             if (Input.GetKeyDown(KeyCode.Alpha1)) TransitionToState(chaseState);
             if (Input.GetKeyDown(KeyCode.Alpha2)) TransitionToState(basicAttackState);
-            if (Input.GetKeyDown(KeyCode.Alpha3)) TransitionToState(shieldAbilityState);
-            if (Input.GetKeyDown(KeyCode.Alpha4)) TransitionToState(cleaveAbilityState);
-            if (Input.GetKeyDown(KeyCode.Alpha5)) TransitionToState(resetState);
-            if (Input.GetKeyDown(KeyCode.Alpha6)) TransitionToState(idleState);
+            if (Input.GetKeyDown(KeyCode.Alpha3)) TransitionToState(resetState);
+            if (Input.GetKeyDown(KeyCode.Alpha4)) TransitionToState(idleState);
         }
 
         public void TransitionToState(MeleeEnemyState newState)
@@ -95,9 +144,14 @@ namespace MeleeEnemy
             idleState = new IdleState(this);
             chaseState = new ChaseState(this);
             basicAttackState = new BasicAttackState(this);
-            shieldAbilityState = new ShieldAbilityState(this);
-            cleaveAbilityState = new CleaveAbilityState(this);
             resetState = new ResetState(this);
+        }
+
+        private void SetBaseValues()
+        {
+            currentAttackDamage = baseAttackDamage;
+            currentAttackSpeed = baseAttackSpeed;
+            currentMovementSpeed = baseMovementSpeed;
         }
 
         public bool DetectObject(Transform otherObjectTransform, float distanceThreshold, LayerMask layerMask)
@@ -135,6 +189,48 @@ namespace MeleeEnemy
                 Debug.DrawLine(object1Pos, hit.point, Color.red, 0.1f);
                 return false;
             }
+        }
+
+        public void OnEnrageEnter()
+        {
+            enrageActive = true;
+
+            // Set enrage animations & model
+            gameObject.transform.localScale = Vector3.one * 1.5f;
+            
+            // Set enrage values
+            currentAttackDamage = baseAttackDamage + enrageAttackDamageBonus;
+            currentAttackSpeed = baseAttackSpeed - enrageAttackSpeedBonus;
+            currentMovementSpeed = baseMovementSpeed + enrageMovementSpeedBonus;
+
+            _coroutineStopEnrage = StartCoroutine(CoroutineStopEnrage());
+        }
+
+        public void OnEnrageExit()
+        {
+            // Set base animations & model
+            gameObject.transform.localScale = Vector3.one;
+            
+            // Set base values
+            currentAttackDamage = baseAttackDamage;
+            currentAttackSpeed = baseAttackSpeed;
+            currentMovementSpeed = baseMovementSpeed;
+            
+            enrageActive = false;
+            _coroutineEnrageCooldown = StartCoroutine(CoroutineEnrageCooldown());
+        }
+
+        public IEnumerator CoroutineStopEnrage()
+        {
+            yield return new WaitForSecondsRealtime(enrageDuration);
+            OnEnrageExit();
+        }
+
+        public IEnumerator CoroutineEnrageCooldown()
+        {
+            enrageOnCooldown = true;
+            yield return new WaitForSecondsRealtime(enrageCoodldown);
+            enrageOnCooldown = false;
         }
     }
 }
