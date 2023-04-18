@@ -7,17 +7,18 @@ namespace MeleeEnemy
     public class MeleeEnemyStateManager : MonoBehaviour
     {
         // ---- State Test materials ------------------------------
+            [Header("State Test Materials")]
             public Material idleMat;
             public Material chaseMat;
             public Material basicAttackMat;
-            public Material enrageAbilityMat;
             public Material resetMat;
         // ---------------------------------------------------------
 
 
         // ---- Cooldown states ------------------------------------
-            public bool enrageOnCooldown = false;   
-            public bool enrageActive = false;   
+            [Header("Cooldown States")]
+            public bool enrageOnCooldown = false;
+            public bool enrageActive = false; 
         // ---------------------------------------------------------
 
 
@@ -32,12 +33,15 @@ namespace MeleeEnemy
 
 
         // ---- Melee Enemy Components -----------------------------
+            [Header("Internal Components")]
             public MeshRenderer meshRenderer;
             public NavMeshAgentManager navMeshAgentManagerCS;
         // ---------------------------------------------------------
 
 
         // ---- External References --------------------------------
+            [Header("External references")]
+            public Transform resetTransform;
             public Transform targetTransform;
             public LayerMask targetLayerMask;
         // ---------------------------------------------------------
