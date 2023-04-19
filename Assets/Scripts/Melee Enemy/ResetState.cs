@@ -24,7 +24,6 @@ namespace MeleeEnemy
 
         public override void Execute()
         {
-            Debug.Log(Vector3.Distance(_manager.transform.position, _manager.resetTransform.position));
             if(Vector3.Distance(_manager.transform.position, _manager.resetTransform.position) < 2f) _manager.TransitionToState(_manager.idleState);
         }
 

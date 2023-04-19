@@ -117,10 +117,10 @@ namespace MeleeEnemy
 
             currentState.Execute();
 
-            if (Input.GetKeyDown(KeyCode.Alpha1)) TransitionToState(chaseState);
-            if (Input.GetKeyDown(KeyCode.Alpha2)) TransitionToState(basicAttackState);
-            if (Input.GetKeyDown(KeyCode.Alpha3)) TransitionToState(resetState);
-            if (Input.GetKeyDown(KeyCode.Alpha4)) TransitionToState(idleState);
+            // if (Input.GetKeyDown(KeyCode.Alpha1)) TransitionToState(chaseState);
+            // if (Input.GetKeyDown(KeyCode.Alpha2)) TransitionToState(basicAttackState);
+            // if (Input.GetKeyDown(KeyCode.Alpha3)) TransitionToState(resetState);
+            // if (Input.GetKeyDown(KeyCode.Alpha4)) TransitionToState(idleState);
         }
 
         public void TransitionToState(MeleeEnemyState newState)
