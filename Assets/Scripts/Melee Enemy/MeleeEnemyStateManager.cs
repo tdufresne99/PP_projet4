@@ -29,6 +29,7 @@ namespace MeleeEnemy
             public ChaseState chaseState;
             public BasicAttackState basicAttackState;
             public ResetState resetState;
+            public DyingState dyingState;
         // ---------------------------------------------------------
 
 
@@ -36,6 +37,7 @@ namespace MeleeEnemy
             [Header("Internal Components")]
             public MeshRenderer meshRenderer;
             public NavMeshAgentManager navMeshAgentManagerCS;
+            public HealthManager healthManagerCS;
             public EnemyDamageDealer enemyDamageDealerCS;
         // ---------------------------------------------------------
 
@@ -58,6 +60,7 @@ namespace MeleeEnemy
             [Header("Base Attack Settings")]
             public float baseAttackRange = 2.2f;
             public float baseAttackDamage = 20f;
+            public float baseLeech = 0f;
             public float baseAttackSpeed = 1.5f;
 
 
@@ -65,6 +68,7 @@ namespace MeleeEnemy
             public float enrageCoodldown = 20f;
             public float enrageDuration = 8f;
             public float enrageAttackDamageBonus = 5f;
+            public float enrageLeechBonus = 0.3f;
             public float enrageAttackSpeedBonus = 0.5f;
             public float enrageMovementSpeedBonus = 20f;
             public int nbOfAttacksToTriggerEnrage = 3;
@@ -78,6 +82,7 @@ namespace MeleeEnemy
         // ---- Calculated Values ----------------------------------
             [Header("Current values")]
             public float currentAttackDamage;
+            public float currentLeech;
             public float currentAttackSpeed;
             public float currentMovementSpeed;
             [SerializeField] private float _successiveBasicAttacks = 0;
@@ -100,6 +105,7 @@ namespace MeleeEnemy
         void Awake()
         {
             TryGetRequiredComponents();
+            SubscribeToRequiredEvents();
         }
 
         private void Start()
@@ -117,11 +123,6 @@ namespace MeleeEnemy
             }
 
             currentState.Execute();
-
-            // if (Input.GetKeyDown(KeyCode.Alpha1)) TransitionToState(chaseState);
-            // if (Input.GetKeyDown(KeyCode.Alpha2)) TransitionToState(basicAttackState);
-            // if (Input.GetKeyDown(KeyCode.Alpha3)) TransitionToState(resetState);
-            // if (Input.GetKeyDown(KeyCode.Alpha4)) TransitionToState(idleState);
         }
 
         public void TransitionToState(MeleeEnemyState newState)
@@ -135,6 +136,11 @@ namespace MeleeEnemy
             currentState.Enter();
         }
 
+        private void SubscribeToRequiredEvents()
+        {
+            healthManagerCS.OnHealthPointsEmpty += OnHealthPointsEmpty;
+        }
+
         private void TryGetRequiredComponents()
         {
             if (TryGetComponent(out MeshRenderer meshRendererTemp)) meshRenderer = meshRendererTemp;
@@ -145,6 +151,9 @@ namespace MeleeEnemy
 
             if (TryGetComponent(out EnemyDamageDealer enemyDamageDealerCSTemp)) enemyDamageDealerCS = enemyDamageDealerCSTemp;
             else Debug.LogError("The component 'EnemyDamageDealer' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+
+            if (TryGetComponent(out HealthManager healthManagerCSTemp)) healthManagerCS = healthManagerCSTemp;
+            else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
 
         private void CreateStateInstances()
@@ -153,6 +162,7 @@ namespace MeleeEnemy
             chaseState = new ChaseState(this);
             basicAttackState = new BasicAttackState(this);
             resetState = new ResetState(this);
+            dyingState = new DyingState(this);
         }
 
         private void SetBaseValues()
@@ -160,6 +170,16 @@ namespace MeleeEnemy
             currentAttackDamage = baseAttackDamage;
             currentAttackSpeed = baseAttackSpeed;
             currentMovementSpeed = baseMovementSpeed;
+        }
+
+        private void OnHealthPointsEmpty()
+        {
+            TransitionToState(dyingState);
+        }
+
+        public void SelfDestruct()
+        {
+            Destroy(gameObject);
         }
 
         public bool DetectObject(Transform otherObjectTransform, float distanceThreshold, LayerMask layerMask)
@@ -208,6 +228,7 @@ namespace MeleeEnemy
             
             // Set enrage values
             currentAttackDamage = baseAttackDamage + enrageAttackDamageBonus;
+            currentLeech = baseLeech + enrageLeechBonus;
             currentAttackSpeed = baseAttackSpeed - enrageAttackSpeedBonus;
             currentMovementSpeed = baseMovementSpeed + enrageMovementSpeedBonus;
 
@@ -221,6 +242,7 @@ namespace MeleeEnemy
             
             // Set base values
             currentAttackDamage = baseAttackDamage;
+            currentLeech = baseLeech;
             currentAttackSpeed = baseAttackSpeed;
             currentMovementSpeed = baseMovementSpeed;
             

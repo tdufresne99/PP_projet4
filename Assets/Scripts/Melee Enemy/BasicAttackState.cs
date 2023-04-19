@@ -48,7 +48,9 @@ namespace MeleeEnemy
         private void PerformBasicAttack()
         {
             _manager.enemyDamageDealerCS.OnDamageDealt(_manager.currentAttackDamage);
+            _manager.healthManagerCS.ReceiveHealing(_manager.currentAttackDamage * _manager.currentLeech);
             Debug.Log(_manager.gameObject.name + " performs a basic attack");
+
 
             if(!_manager.enrageActive && !_manager.enrageOnCooldown)
             {
