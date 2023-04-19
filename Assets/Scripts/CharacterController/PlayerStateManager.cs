@@ -33,6 +33,7 @@ namespace Player
         // ---- Player Components -----------------------------
         [Header("Internal Components")]
         public MeshRenderer meshRenderer;
+        public Rigidbody playerRigidbody;
         // ---------------------------------------------------------
 
 
@@ -58,6 +59,7 @@ namespace Player
 
         [Header("Base Movement Settings")]
         public float baseMovementSpeed = 20f;
+        public float baseJumpForce = 20f;
         // ---------------------------------------------------------
 
 
@@ -66,6 +68,7 @@ namespace Player
         public float currentAttackDamage;
         public float currentAttackSpeed;
         public float currentMovementSpeed;
+        public float currentJumpForce;
         // ---------------------------------------------------------
 
         void Awake()
@@ -88,11 +91,6 @@ namespace Player
             }
 
             currentState.Execute();
-
-            // if (Input.GetKeyDown(KeyCode.Alpha1)) TransitionToState(chaseState);
-            // if (Input.GetKeyDown(KeyCode.Alpha2)) TransitionToState(basicAttackState);
-            // if (Input.GetKeyDown(KeyCode.Alpha3)) TransitionToState(resetState);
-            // if (Input.GetKeyDown(KeyCode.Alpha4)) TransitionToState(idleState);
         }
 
         public void TransitionToState(PlayerState newState)
@@ -109,7 +107,10 @@ namespace Player
         private void TryGetRequiredComponents()
         {
             if (TryGetComponent(out MeshRenderer meshRendererTemp)) meshRenderer = meshRendererTemp;
-            else Debug.LogError("The component 'MeshRenderer' does not exist object " + gameObject.name + " at MeleeEnemyStateManager.cs");
+            else Debug.LogError("The component 'MeshRenderer' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+
+            if (TryGetComponent(out Rigidbody playerRigidbodyTemp)) playerRigidbody = playerRigidbodyTemp;
+            else Debug.LogError("The component 'Rigidbody' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
         private void CreateStateInstances()
         {
@@ -122,7 +123,7 @@ namespace Player
             currentAttackDamage = baseAttackDamage;
             currentAttackSpeed = baseAttackSpeed;
             currentMovementSpeed = baseMovementSpeed;
+            currentJumpForce = baseJumpForce;
         }
-
     }
 }

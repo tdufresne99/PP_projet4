@@ -11,6 +11,7 @@ namespace Player
         {
             this._manager = manager;
         }
+
         public override void Enter()
         {
             
@@ -24,6 +25,13 @@ namespace Player
         public override void Exit()
         {
             
+        }
+
+        private bool VerifyMovementKeys()
+        {
+            if(Input.GetAxis("Horizontal") != 0) return true;
+            if(Input.GetAxis("Vertical") != 0) return true;
+            return false;
         }
     }
 }

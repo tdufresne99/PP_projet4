@@ -137,10 +137,11 @@ namespace MeleeEnemy
         private void TryGetRequiredComponents()
         {
             if (TryGetComponent(out MeshRenderer meshRendererTemp)) meshRenderer = meshRendererTemp;
-            else Debug.LogError("The component 'MeshRenderer' does not exist object " + gameObject.name + " at MeleeEnemyStateManager.cs");
+            else Debug.LogError("The component 'MeshRenderer' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
 
             if (TryGetComponent(out NavMeshAgentManager navMeshAgentManagerTemp)) navMeshAgentManagerCS = navMeshAgentManagerTemp;
-            else Debug.LogError("The component 'NavMeshAgentManager' does not exist object " + gameObject.name + " at MeleeEnemyStateManager.cs");
+            else Debug.LogError("The component 'NavMeshAgentManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+
 
         }
         private void CreateStateInstances()
