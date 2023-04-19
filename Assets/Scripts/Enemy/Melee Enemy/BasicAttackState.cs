@@ -17,7 +17,6 @@ namespace MeleeEnemy
 
         public override void Enter()
         {
-            Debug.Log(_manager.gameObject.name + " is now attacking");
             // ---- Set state animations ------------------------------
             _manager.meshRenderer.material = _manager.basicAttackMat;
 
@@ -49,7 +48,6 @@ namespace MeleeEnemy
         {
             _manager.enemyDamageDealerCS.OnDamageDealt(_manager.currentAttackDamage);
             _manager.healthManagerCS.ReceiveHealing(_manager.currentAttackDamage * _manager.currentLeech);
-            Debug.Log(_manager.gameObject.name + " performs a basic attack");
 
 
             if(!_manager.enrageActive && !_manager.enrageOnCooldown)

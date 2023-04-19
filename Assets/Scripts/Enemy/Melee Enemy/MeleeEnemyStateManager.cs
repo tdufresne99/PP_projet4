@@ -43,7 +43,7 @@ namespace MeleeEnemy
 
 
         // ---- External References --------------------------------
-            [Header("-- External references --")]
+            [Header("-- External References --")]
             public Transform resetTransform;
             public Transform targetTransform;
             public LayerMask targetLayerMask;
@@ -80,7 +80,7 @@ namespace MeleeEnemy
 
 
         // ---- Calculated Values ----------------------------------
-            [Header("-- Current values --")]
+            [Header("-- Current Values --")]
             public float currentAttackDamage;
             public float currentLeech;
             public float currentAttackSpeed;
@@ -149,10 +149,10 @@ namespace MeleeEnemy
             if (TryGetComponent(out NavMeshAgentManager navMeshAgentManagerTemp)) navMeshAgentManagerCS = navMeshAgentManagerTemp;
             else Debug.LogError("The component 'NavMeshAgentManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
 
-            if (TryGetComponent(out EnemyDamageDealer enemyDamageDealerCSTemp)) enemyDamageDealerCS = enemyDamageDealerCSTemp;
+            if (TryGetComponent(out EnemyDamageDealer enemyDamageDealerTemp)) enemyDamageDealerCS = enemyDamageDealerTemp;
             else Debug.LogError("The component 'EnemyDamageDealer' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
 
-            if (TryGetComponent(out HealthManager healthManagerCSTemp)) healthManagerCS = healthManagerCSTemp;
+            if (TryGetComponent(out HealthManager healthManagerTemp)) healthManagerCS = healthManagerTemp;
             else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
 
