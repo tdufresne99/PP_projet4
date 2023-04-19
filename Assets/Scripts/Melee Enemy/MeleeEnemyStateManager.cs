@@ -36,6 +36,7 @@ namespace MeleeEnemy
             [Header("Internal Components")]
             public MeshRenderer meshRenderer;
             public NavMeshAgentManager navMeshAgentManagerCS;
+            public EnemyDamageDealer enemyDamageDealerCS;
         // ---------------------------------------------------------
 
 
@@ -62,8 +63,8 @@ namespace MeleeEnemy
 
             [Header("Enrage Settings")]
             public float enrageCoodldown = 20f;
-            public float enrageDuration = 10f;
-            public float enrageAttackDamageBonus = 20f;
+            public float enrageDuration = 8f;
+            public float enrageAttackDamageBonus = 5f;
             public float enrageAttackSpeedBonus = 0.5f;
             public float enrageMovementSpeedBonus = 20f;
             public int nbOfAttacksToTriggerEnrage = 3;
@@ -142,8 +143,10 @@ namespace MeleeEnemy
             if (TryGetComponent(out NavMeshAgentManager navMeshAgentManagerTemp)) navMeshAgentManagerCS = navMeshAgentManagerTemp;
             else Debug.LogError("The component 'NavMeshAgentManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
 
-
+            if (TryGetComponent(out EnemyDamageDealer enemyDamageDealerCSTemp)) enemyDamageDealerCS = enemyDamageDealerCSTemp;
+            else Debug.LogError("The component 'EnemyDamageDealer' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
+
         private void CreateStateInstances()
         {
             idleState = new IdleState(this);
@@ -201,7 +204,7 @@ namespace MeleeEnemy
             enrageActive = true;
 
             // Set enrage animations & model
-            gameObject.transform.localScale = Vector3.one * 1.5f;
+            gameObject.transform.localScale = Vector3.one * 1.2f;
             
             // Set enrage values
             currentAttackDamage = baseAttackDamage + enrageAttackDamageBonus;

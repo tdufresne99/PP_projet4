@@ -37,6 +37,7 @@ public class HealthManager : MonoBehaviour
 
     void Start()
     {
+        _currentHealthPoints = _maxHealthPoints;
         AjustHealthBar();
     }
 
@@ -51,12 +52,12 @@ public class HealthManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha6)) ReceiveHealing(30);
     }
 
-    public void ReceiveDamage(int damageReceived)
+    public void ReceiveDamage(float damageReceived)
     {
         currentHealthPoints -= damageReceived;
     }
 
-    public void ReceiveHealing(int healingReceived)
+    public void ReceiveHealing(float healingReceived)
     {
         currentHealthPoints += healingReceived;
     }

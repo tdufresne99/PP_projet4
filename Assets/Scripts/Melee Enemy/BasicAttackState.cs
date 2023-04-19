@@ -47,8 +47,14 @@ namespace MeleeEnemy
 
         private void PerformBasicAttack()
         {
-            _manager.successiveBasicAttacks++;
-            Debug.Log(_manager.gameObject.name + " performs a basic attack (" + _manager.successiveBasicAttacks + ")");
+            _manager.enemyDamageDealerCS.OnDamageDealt(_manager.currentAttackDamage);
+            Debug.Log(_manager.gameObject.name + " performs a basic attack");
+
+            if(!_manager.enrageActive && !_manager.enrageOnCooldown)
+            {
+                _manager.successiveBasicAttacks++;
+                Debug.Log(_manager.gameObject.name + " consecutive attack #" + _manager.successiveBasicAttacks);
+            }
         }
     }
 }
