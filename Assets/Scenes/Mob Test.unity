@@ -2746,6 +2746,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4795973796544503315, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+      propertyPath: targetLayerMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795973796544503315, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
       propertyPath: enrageAttackDamageBonus
       value: 5
       objectReference: {fileID: 0}

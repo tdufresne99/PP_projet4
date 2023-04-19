@@ -7,7 +7,7 @@ namespace MeleeEnemy
     public class MeleeEnemyStateManager : MonoBehaviour
     {
         // ---- State Test materials ------------------------------
-            [Header("State Test Materials")]
+            [Header("-- State Test Materials --")]
             public Material idleMat;
             public Material chaseMat;
             public Material basicAttackMat;
@@ -16,7 +16,7 @@ namespace MeleeEnemy
 
 
         // ---- Cooldown states ------------------------------------
-            [Header("Cooldown States")]
+            [Header("-- Cooldown States --")]
             public bool enrageOnCooldown = false;
             public bool enrageActive = false; 
         // ---------------------------------------------------------
@@ -34,7 +34,7 @@ namespace MeleeEnemy
 
 
         // ---- Melee Enemy Components -----------------------------
-            [Header("Internal Components")]
+            [Header("-- Internal Components --")]
             public MeshRenderer meshRenderer;
             public NavMeshAgentManager navMeshAgentManagerCS;
             public HealthManager healthManagerCS;
@@ -43,7 +43,7 @@ namespace MeleeEnemy
 
 
         // ---- External References --------------------------------
-            [Header("External references")]
+            [Header("-- External references --")]
             public Transform resetTransform;
             public Transform targetTransform;
             public LayerMask targetLayerMask;
@@ -57,14 +57,14 @@ namespace MeleeEnemy
 
 
         // ---- Ajustable Values -----------------------------------
-            [Header("Base Attack Settings")]
+            [Header("-- Base Attack Settings --")]
             public float baseAttackRange = 2.2f;
             public float baseAttackDamage = 20f;
             public float baseLeech = 0f;
             public float baseAttackSpeed = 1.5f;
 
 
-            [Header("Enrage Settings")]
+            [Header("-- Enrage Settings --")]
             public float enrageCoodldown = 20f;
             public float enrageDuration = 8f;
             public float enrageAttackDamageBonus = 5f;
@@ -74,13 +74,13 @@ namespace MeleeEnemy
             public int nbOfAttacksToTriggerEnrage = 3;
 
 
-            [Header("Base Movement Settings")]
+            [Header("-- Base Movement Settings --")]
             public float baseMovementSpeed = 20f;
         // ---------------------------------------------------------
 
 
         // ---- Calculated Values ----------------------------------
-            [Header("Current values")]
+            [Header("-- Current values --")]
             public float currentAttackDamage;
             public float currentLeech;
             public float currentAttackSpeed;
