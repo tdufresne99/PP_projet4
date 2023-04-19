@@ -4,6 +4,7 @@ public class CharacterControllerTemp : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
+    public float gravitymultiplier = 10f;
     public float mouseSensitivity = 100f;
     public Transform groundCheck;
     public LayerMask groundMask;
@@ -37,6 +38,11 @@ public class CharacterControllerTemp : MonoBehaviour
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+
+        if(!isGrounded && rb.velocity.y < 0)
+        {
+            rb.AddForce((Vector3.down * gravitymultiplier), ForceMode.Acceleration);
         }
 
         if (Input.GetMouseButtonDown(1))
