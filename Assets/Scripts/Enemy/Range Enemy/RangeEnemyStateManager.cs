@@ -10,6 +10,7 @@ namespace RangeEnemy
         public Material idleMat;
         public Material chaseMat;
         public Material basicAttackMat;
+        public Material teleportMat;
         public Material resetMat;
         public Material dyingMat;
         // ---------------------------------------------------------
@@ -17,6 +18,7 @@ namespace RangeEnemy
 
         // ---- Cooldown states ------------------------------------
         [Header("-- Cooldown States --")]
+        public bool teleportOnCooldown = false;
         // ---------------------------------------------------------
 
 
@@ -26,6 +28,7 @@ namespace RangeEnemy
         public IdleState idleState;
         public ChaseState chaseState;
         public BasicAttackState basicAttackState;
+        public TeleportAbilityState teleportAbilityState;
         public ResetState resetState;
         public DyingState dyingState;
         // ---------------------------------------------------------
@@ -38,6 +41,7 @@ namespace RangeEnemy
         [HideInInspector] public HealthManager healthManagerCS;
         [HideInInspector] public EnemyDamageDealer enemyDamageDealerCS;
         [HideInInspector] public EnemyDamageReceiver enemyDamageReceiverCS;
+        [HideInInspector] public TeleportLocationFinder teleportLocationFinderCS;
         // ---------------------------------------------------------
 
 
@@ -48,6 +52,11 @@ namespace RangeEnemy
         public Transform projectileSpawnTransform;
         public GameObject projectileGO;
         public LayerMask targetLayerMask;
+        // ---------------------------------------------------------
+
+
+        // ---- Coroutines -----------------------------------------
+        public Coroutine coroutineTeleportCooldown;
         // ---------------------------------------------------------
 
 
@@ -66,6 +75,12 @@ namespace RangeEnemy
 
         [Header("-- Base Movement Settings --")]
         public float baseMovementSpeed = 5f;
+
+
+        [Header("-- Teleport Ability Settings --")]
+        public float teleportCooldown = 12f;
+        public float teleportMaxRange = 20f;
+        public float teleportMinRange = 15f;
         // ---------------------------------------------------------
 
 
@@ -124,6 +139,8 @@ namespace RangeEnemy
         private void SubscribeToRequiredEvents()
         {
             healthManagerCS.OnHealthPointsEmpty += OnHealthPointsEmpty;
+            healthManagerCS.OnDamageReceived += OnDamageReceived;
+
         }
 
         private void TryGetRequiredComponents()
@@ -142,6 +159,9 @@ namespace RangeEnemy
 
             if (TryGetComponent(out HealthManager healthManagerTemp)) healthManagerCS = healthManagerTemp;
             else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+
+            if (TryGetComponent(out TeleportLocationFinder teleportLocationFinderTemp)) teleportLocationFinderCS = teleportLocationFinderTemp;
+            else Debug.LogError("The component 'TeleportLocationFinder' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
 
         private void CreateStateInstances()
@@ -149,6 +169,7 @@ namespace RangeEnemy
             idleState = new IdleState(this);
             chaseState = new ChaseState(this);
             basicAttackState = new BasicAttackState(this);
+            teleportAbilityState = new TeleportAbilityState(this);
             resetState = new ResetState(this);
             dyingState = new DyingState(this);
         }
@@ -163,6 +184,17 @@ namespace RangeEnemy
             healthManagerCS.SetHealthPointsValues(baseHealthPoints);
 
             navMeshAgentManagerCS.ChangeStopDistance(currentAttackRange);
+
+            teleportLocationFinderCS.radius = teleportMaxRange;
+            teleportLocationFinderCS.minRadius = teleportMinRange;
+        }
+
+        private void OnDamageReceived()
+        {
+            if(!teleportOnCooldown)
+            {
+                TransitionToState(teleportAbilityState);
+            }
         }
 
         private void OnHealthPointsEmpty()
@@ -218,6 +250,19 @@ namespace RangeEnemy
             var rangeEnemyProjectileCS = instanciatedProjectile.GetComponent<RangeEnemyProjectile>();
             rangeEnemyProjectileCS.targetTransform = targetTransform;
             rangeEnemyProjectileCS.damage = currentAttackDamage;
+        }
+
+        public void TeleportRangeEnemy(Vector3 teleportPosition)
+        {
+            transform.position = teleportPosition;
+            transform.LookAt(targetTransform);
+        }
+
+        public IEnumerator CoroutineTeleportCooldown()
+        {
+            teleportOnCooldown = true;
+            yield return new WaitForSecondsRealtime(teleportCooldown);
+            teleportOnCooldown = false;
         }
     }
 }

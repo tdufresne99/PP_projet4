@@ -15,12 +15,13 @@ namespace RangeEnemy
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.idleMat;
+            _manager.meshRenderer.material = _manager.dyingMat;
+            _manager.SelfDestruct();
         }
 
         public override void Execute()
         {
-            if (_manager.DetectObject(_manager.targetTransform, _manager.detectionRange, _manager.targetLayerMask)) _manager.TransitionToState(_manager.chaseState);
+            
         }
 
         public override void Exit()

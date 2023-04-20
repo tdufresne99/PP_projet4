@@ -1146,6 +1146,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744283159}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &758252888 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9069514299499766444, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+  m_PrefabInstance: {fileID: 1808402929}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &767242031
 GameObject:
   m_ObjectHideFlags: 0
@@ -2416,6 +2421,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9069514299499766433, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+      propertyPath: teleportMat
+      value: 
+      objectReference: {fileID: 2100000, guid: be2ece84f1b7d3d4987c49ea321e9d8c, type: 2}
+    - target: {fileID: 9069514299499766433, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
       propertyPath: detectionRange
       value: 15
       objectReference: {fileID: 0}
@@ -2432,6 +2441,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 45171554}
     - target: {fileID: 9069514299499766433, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+      propertyPath: teleportCooldown
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 9069514299499766433, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
       propertyPath: baseMovementSpeed
       value: 5
       objectReference: {fileID: 0}
@@ -2442,8 +2455,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9069514299499766444, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1808402940}
   m_SourcePrefab: {fileID: 100100000, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+--- !u!114 &1808402940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758252888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd190d522735924284613567b87c201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 15
+  minRadius: 0
+  maxGroundDistance: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1809076743
 GameObject:
   m_ObjectHideFlags: 0
