@@ -5,6 +5,8 @@ namespace TankEnemy
 {
     public class BasicAttackState : TankEnemyState
     {
+        private float _firstAttackWaitTime = 1f;
+        private Coroutine coroutineBasicAttack;
         private TankEnemyStateManager _manager;
 
         public BasicAttackState(TankEnemyStateManager manager)
@@ -14,19 +16,35 @@ namespace TankEnemy
 
         public override void Enter()
         {
-            Debug.Log(_manager.gameObject.name + " is now using a basic attack");
             // ---- Set state animations ------------------------------
             _manager.meshRenderer.material = _manager.basicAttackMat;
+
+            coroutineBasicAttack = _manager.StartCoroutine(CoroutineBasicAttack());
         }
 
         public override void Execute()
         {
-            
+            if (!_manager.DetectObject(_manager.targetTransform, _manager.baseAttackRange, _manager.targetLayerMask)) _manager.TransitionToState(_manager.chaseState);
         }
 
         public override void Exit()
         {
-            
+            _manager.StopCoroutine(coroutineBasicAttack);
+        }
+        private IEnumerator CoroutineBasicAttack()
+        {
+            yield return new WaitForSecondsRealtime(_firstAttackWaitTime);
+            while (true)
+            {
+                PerformBasicAttack();
+                yield return new WaitForSecondsRealtime(_manager.currentAttackSpeed);
+            }
+        }
+
+        private void PerformBasicAttack()
+        {
+            _manager.enemyDamageDealerCS.OnDamageDealt(_manager.currentAttackDamage);
+            _manager.healthManagerCS.ReceiveHealing(_manager.currentAttackDamage * _manager.currentLeech);
         }
     }
 }

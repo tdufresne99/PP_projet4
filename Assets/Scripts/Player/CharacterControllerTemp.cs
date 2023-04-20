@@ -10,6 +10,7 @@ public class CharacterControllerTemp : MonoBehaviour
     public LayerMask groundMask;
 
     private Rigidbody rb;
+    private HealthManager _healthBarManagerCS;
     private float rotationX = 0f;
     private bool isCursorLocked = false;
     private bool isGrounded;
@@ -17,6 +18,19 @@ public class CharacterControllerTemp : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        _healthBarManagerCS = GetComponent<HealthManager>();
+
+        if(_healthBarManagerCS != null) _healthBarManagerCS.OnDamageReceived += OnDamageReceived;
+        if(_healthBarManagerCS != null) _healthBarManagerCS.OnHealthPointsEmpty += OnHealthPointsEmpty;
+    }
+
+    private void OnDamageReceived()
+    {
+
+    }
+    private void OnHealthPointsEmpty()
+    {
+
     }
 
     void Update()

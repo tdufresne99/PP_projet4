@@ -16,13 +16,15 @@ GameObject:
   - component: {fileID: 4795973796544503312}
   - component: {fileID: 4795973796544503313}
   - component: {fileID: 1747550991}
+  - component: {fileID: 1747550998}
+  - component: {fileID: 1747550999}
   m_Layer: 0
   m_Name: Melee Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4795973796544503319
 Transform:
   m_ObjectHideFlags: 0
@@ -37,7 +39,7 @@ Transform:
   m_Children:
   - {fileID: 4795973794743050314}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4795973796544503316
 MeshFilter:
@@ -128,26 +130,32 @@ MonoBehaviour:
   chaseMat: {fileID: 2100000, guid: 6840d6f5e4f6e114ca6eb89f2a2e1e0c, type: 2}
   basicAttackMat: {fileID: 2100000, guid: 3acd2e98807a24d4797b825543770700, type: 2}
   resetMat: {fileID: 2100000, guid: 1635693dd870ca94ba49e9f95d57e6c6, type: 2}
+  dyingMat: {fileID: 2100000, guid: 0bc1abef075063e4da014ad6eaa18904, type: 2}
   enrageOnCooldown: 0
   enrageActive: 0
   meshRenderer: {fileID: 0}
   navMeshAgentManagerCS: {fileID: 0}
+  healthManagerCS: {fileID: 0}
+  enemyDamageDealerCS: {fileID: 0}
   resetTransform: {fileID: 0}
   targetTransform: {fileID: 0}
   targetLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   baseAttackRange: 2.2
-  baseAttackDamage: 20
+  baseAttackDamage: 10
+  baseLeech: 0
   baseAttackSpeed: 1.5
   enrageCoodldown: 20
   enrageDuration: 10
-  enrageAttackDamageBonus: 20
+  enrageAttackDamageBonus: 5
+  enrageLeechBonus: 0.3
   enrageAttackSpeedBonus: 0.5
   enrageMovementSpeedBonus: 20
   nbOfAttacksToTriggerEnrage: 3
   baseMovementSpeed: 20
   currentAttackDamage: 0
+  currentLeech: 0
   currentAttackSpeed: 0
   currentMovementSpeed: 0
   _successiveBasicAttacks: 0
@@ -202,6 +210,33 @@ MonoBehaviour:
   _healthBar: {fileID: 4795973794897340919}
   _maxHealthPoints: 100
   _currentHealthPoints: 100
+--- !u!114 &1747550998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4795973796544503326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720df0f82362f0f4297d16c83835ad38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageMultiplier: 1
+--- !u!114 &1747550999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4795973796544503326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf64bde1b629244c9ea5d3d01246be9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerDamageReceiver: {fileID: 0}
+  _damageMultiplier: 1
 --- !u!1001 &7562038896271505093
 PrefabInstance:
   m_ObjectHideFlags: 0

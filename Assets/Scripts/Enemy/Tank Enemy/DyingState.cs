@@ -1,16 +1,16 @@
 using System.Collections;
 using UnityEngine;
 
-namespace MeleeEnemy
+namespace TankEnemy
 {
-    public class DyingState : MeleeEnemyState
+    public class DyingState : TankEnemyState
     {
-        private MeleeEnemyStateManager _manager;
+        private TankEnemyStateManager _manager;
 
-        public DyingState(MeleeEnemyStateManager manager)
+        public DyingState(TankEnemyStateManager manager)
         {
             this._manager = manager;
-        }
+        } 
 
         public override void Enter()
         {

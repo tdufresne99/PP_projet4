@@ -14,8 +14,6 @@ namespace MeleeEnemy
 
         public override void Enter()
         {
-            Debug.Log(_manager.gameObject.name + " is now resetting");
-
             // ---- Set state animations ------------------------------
             _manager.meshRenderer.material = _manager.resetMat;
 

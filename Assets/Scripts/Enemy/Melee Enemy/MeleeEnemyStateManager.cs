@@ -12,6 +12,7 @@ namespace MeleeEnemy
             public Material chaseMat;
             public Material basicAttackMat;
             public Material resetMat;
+            public Material dyingMat;
         // ---------------------------------------------------------
 
 
@@ -39,6 +40,7 @@ namespace MeleeEnemy
             public NavMeshAgentManager navMeshAgentManagerCS;
             public HealthManager healthManagerCS;
             public EnemyDamageDealer enemyDamageDealerCS;
+            public EnemyDamageReceiver enemyDamageReceiverCS;
         // ---------------------------------------------------------
 
 
@@ -62,6 +64,11 @@ namespace MeleeEnemy
             public float baseAttackDamage = 20f;
             public float baseLeech = 0f;
             public float baseAttackSpeed = 1.5f;
+            public float detectionRange = 5f;
+
+
+            [Header("-- Base Attack Settings --")]
+            public float baseHealthPoints = 100f;
 
 
             [Header("-- Enrage Settings --")]
@@ -84,7 +91,16 @@ namespace MeleeEnemy
             public float currentAttackDamage;
             public float currentLeech;
             public float currentAttackSpeed;
-            public float currentMovementSpeed;
+            [SerializeField] private float _currentMovementSpeed;
+            public float currentMovementSpeed
+            {
+                get => _currentMovementSpeed;
+                set
+                {
+                    _currentMovementSpeed = value;
+                    navMeshAgentManagerCS.ChangeAgentSpeed(value);
+                }
+            }
             [SerializeField] private float _successiveBasicAttacks = 0;
             public float successiveBasicAttacks
             {
@@ -152,6 +168,9 @@ namespace MeleeEnemy
             if (TryGetComponent(out EnemyDamageDealer enemyDamageDealerTemp)) enemyDamageDealerCS = enemyDamageDealerTemp;
             else Debug.LogError("The component 'EnemyDamageDealer' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
 
+            if (TryGetComponent(out EnemyDamageReceiver enemyDamageReceiverTemp)) enemyDamageReceiverCS = enemyDamageReceiverTemp;
+            else Debug.LogError("The component 'EnemyDamageReceiver' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+
             if (TryGetComponent(out HealthManager healthManagerTemp)) healthManagerCS = healthManagerTemp;
             else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
@@ -170,6 +189,8 @@ namespace MeleeEnemy
             currentAttackDamage = baseAttackDamage;
             currentAttackSpeed = baseAttackSpeed;
             currentMovementSpeed = baseMovementSpeed;
+
+            healthManagerCS.SetHealthPointsValues(baseHealthPoints);
         }
 
         private void OnHealthPointsEmpty()

@@ -7,10 +7,10 @@ public class HealthManager : MonoBehaviour
 {
     [SerializeField] private RectTransform _healthBar;
 
-    [SerializeField] private float _maxHealthPoints;
+    [SerializeField] private float _maxHealthPoints = 100f;
     public float maxHealthPoints => _maxHealthPoints;
 
-    [SerializeField] private float _currentHealthPoints;
+    [SerializeField] private float _currentHealthPoints = 100f;
     public float currentHealthPoints
     {
         get => _currentHealthPoints;
@@ -21,7 +21,7 @@ public class HealthManager : MonoBehaviour
             if (value <= 0)
             {
                 _currentHealthPoints = 0;
-                OnHealthPointsEmpty.Invoke();
+                OnHealthPointsEmpty?.Invoke();
             }
             else if (value >= _maxHealthPoints)
             {
@@ -36,15 +36,16 @@ public class HealthManager : MonoBehaviour
         }
     }
 
-    void Start()
+    public void SetHealthPointsValues(float maxHP)
     {
-        _currentHealthPoints = _maxHealthPoints;
-        AjustHealthBar();
+        _maxHealthPoints = maxHP;
+        currentHealthPoints = maxHealthPoints;
     }
 
     public void ReceiveDamage(float damageReceived)
     {
         currentHealthPoints -= damageReceived;
+        OnDamageReceived?.Invoke();
     }
 
     public void ReceiveHealing(float healingReceived)
@@ -58,4 +59,5 @@ public class HealthManager : MonoBehaviour
     }
 
     public event Action OnHealthPointsEmpty;
+    public event Action OnDamageReceived;
 }

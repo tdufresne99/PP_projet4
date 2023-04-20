@@ -14,7 +14,6 @@ namespace TankEnemy
 
         public override void Enter()
         {
-            Debug.Log(_manager.gameObject.name + " is now using Cleave ability");
             // ---- Set state animations ------------------------------
             _manager.meshRenderer.material = _manager.cleaveAbilityMat;
         }
