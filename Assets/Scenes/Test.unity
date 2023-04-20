@@ -457,8 +457,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 1813129516}
-  _maxHealthPoints: 100
-  _currentHealthPoints: 100
+  _maxHealthPoints: 400
+  _currentHealthPoints: 400
 --- !u!1 &105745347
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,6 +879,59 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 335176621}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &479491874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 479491875}
+  - component: {fileID: 479491876}
+  m_Layer: 0
+  m_Name: CleaveHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &479491875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479491874}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1119258055}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &479491876
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479491874}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &528447070
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,11 +1646,36 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3062301022447654543, guid: d05d39919c124d646819bbb7a1322703, type: 3}
   m_PrefabInstance: {fileID: 1548683978}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1119258051 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6564061161486787236, guid: 4845af0050136c74287e0f8962e28361, type: 3}
+  m_PrefabInstance: {fileID: 6564061162536511335}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1119258055 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6564061161486787232, guid: 4845af0050136c74287e0f8962e28361, type: 3}
   m_PrefabInstance: {fileID: 6564061162536511335}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1119258062
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119258051}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d252adf294c6de74a8e75ecfa74d9be5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1264256875
 GameObject:
   m_ObjectHideFlags: 0
@@ -2863,11 +2941,21 @@ PrefabInstance:
       propertyPath: baseMovementSpeed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6564061161486787247, guid: 4845af0050136c74287e0f8962e28361, type: 3}
+      propertyPath: cleaveActivationChance
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6564061161486787232, guid: 4845af0050136c74287e0f8962e28361, type: 3}
       insertIndex: -1
       addedObject: {fileID: 13483450}
-    m_AddedComponents: []
+    - targetCorrespondingSourceObject: {fileID: 6564061161486787232, guid: 4845af0050136c74287e0f8962e28361, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 479491875}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6564061161486787236, guid: 4845af0050136c74287e0f8962e28361, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1119258062}
   m_SourcePrefab: {fileID: 100100000, guid: 4845af0050136c74287e0f8962e28361, type: 3}

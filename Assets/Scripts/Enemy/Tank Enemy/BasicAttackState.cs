@@ -45,6 +45,8 @@ namespace TankEnemy
         {
             _manager.enemyDamageDealerCS.OnDamageDealt(_manager.currentAttackDamage);
             _manager.healthManagerCS.ReceiveHealing(_manager.currentAttackDamage * _manager.currentLeech);
+
+            // Pige Random to activate cleave here
         }
     }
 }

@@ -53,8 +53,8 @@ namespace MeleeEnemy
 
 
         // ---- Coroutines -----------------------------------------
-            private Coroutine _coroutineEnrageCooldown;
-            private Coroutine _coroutineStopEnrage;
+            public Coroutine coroutineEnrageCooldown;
+            public Coroutine coroutineStopEnrage;
         // ---------------------------------------------------------
 
 
@@ -253,7 +253,7 @@ namespace MeleeEnemy
             currentAttackSpeed = baseAttackSpeed - enrageAttackSpeedBonus;
             currentMovementSpeed = baseMovementSpeed + enrageMovementSpeedBonus;
 
-            _coroutineStopEnrage = StartCoroutine(CoroutineStopEnrage());
+            coroutineStopEnrage = StartCoroutine(CoroutineStopEnrage());
         }
 
         public void OnEnrageExit()
@@ -268,7 +268,7 @@ namespace MeleeEnemy
             currentMovementSpeed = baseMovementSpeed;
             
             enrageActive = false;
-            _coroutineEnrageCooldown = StartCoroutine(CoroutineEnrageCooldown());
+            coroutineEnrageCooldown = StartCoroutine(CoroutineEnrageCooldown());
         }
 
         public IEnumerator CoroutineStopEnrage()

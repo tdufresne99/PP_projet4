@@ -34,6 +34,9 @@ namespace TankEnemy
         [Header("-- Cooldown States --")]
         public bool shieldOnCooldown = false;
         public bool shieldActive = false;
+
+        public bool cleaveOnCooldown = false;
+        public bool cleaveActive = false;
         // ---------------------------------------------------------
 
 
@@ -44,6 +47,7 @@ namespace TankEnemy
         [HideInInspector] public HealthManager healthManagerCS;
         [HideInInspector] public EnemyDamageDealer enemyDamageDealerCS;
         [HideInInspector] public EnemyDamageReceiver enemyDamageReceiverCS;
+        [HideInInspector] public Animator tankAnimator;
         // --------------------------------------------------------
 
 
@@ -56,7 +60,8 @@ namespace TankEnemy
 
 
         // ---- Coroutines -----------------------------------------
-
+        public Coroutine coroutineShieldCooldown;
+        public Coroutine coroutineCleaveCooldown;
         // ---------------------------------------------------------
 
 
@@ -64,7 +69,7 @@ namespace TankEnemy
         [Header("-- Base Attack Settings --")]
         public float baseAttackRange = 2.2f;
         public float baseAttackDamage = 20f;
-        public float baseLeech = 0f;
+        [Range(0f, 1f)] public float baseLeech = 0f;
         public float baseAttackSpeed = 1.5f;
         public float detectionRange = 5f;
 
@@ -73,15 +78,20 @@ namespace TankEnemy
         public float baseHealthPoints = 200f;
 
 
+        [Header("-- Base Movement Settings --")]
+        public float baseMovementSpeed = 20f;
+
+
         [Header("-- Shield Ability Settings --")]
-        public float shieldDamageReduction = 0.1f;
-        public float shieldActivationRatio = 0.8f;
+        [Range(0f, 1f)] public float shieldDamageReduction = 0.1f;
+        [Range(0f, 1f)] public float shieldActivationRatio = 0.8f;
         public float shieldUpTime = 10f;
         public float shieldCooldown = 20f;
 
 
-        [Header("-- Base Movement Settings --")]
-        public float baseMovementSpeed = 20f;
+        [Header("-- Cleave Ability Settings --")]
+        [Range(0f, 1f)] public float cleaveActivationChance = 0.3f;
+        public float cleaveCooldown = 20f;
         // ---------------------------------------------------------
 
 
@@ -158,6 +168,9 @@ namespace TankEnemy
 
             if (TryGetComponent(out HealthManager healthManagerTemp)) healthManagerCS = healthManagerTemp;
             else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+
+            if (TryGetComponent(out Animator tankAnimatorTemp)) tankAnimator = tankAnimatorTemp;
+            else Debug.LogError("The component 'Animator' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
 
         private void CreateStateInstances()
@@ -165,8 +178,9 @@ namespace TankEnemy
             idleState = new IdleState(this);
             chaseState = new ChaseState(this);
             basicAttackState = new BasicAttackState(this);
-            resetState = new ResetState(this);
             shieldAbilityState = new ShieldAbilityState(this);
+            cleaveAbilityState = new CleaveAbilityState(this);
+            resetState = new ResetState(this);
             dyingState = new DyingState(this);
         }
 
@@ -189,12 +203,10 @@ namespace TankEnemy
         {
             var healthRatio = healthManagerCS.currentHealthPoints / healthManagerCS.maxHealthPoints;
 
-            if (healthRatio <= shieldActivationRatio && !shieldOnCooldown && !shieldActive)
+            if (healthRatio <= shieldActivationRatio && !shieldOnCooldown && !shieldActive && !cleaveActive)
             {
                 TransitionToState(shieldAbilityState);
             }
-            if(shieldOnCooldown) Debug.Log("shield is on cooldown");
-            if(shieldActive) Debug.Log("shield is active");
         }
 
         public void SelfDestruct()
@@ -244,6 +256,18 @@ namespace TankEnemy
             shieldOnCooldown = true;
             yield return new WaitForSecondsRealtime(shieldCooldown);
             shieldOnCooldown = false;
+        }
+
+        public void EndCleave()
+        {
+            TransitionToState(chaseState);
+        }
+
+        public IEnumerator CoroutineCleaveCooldown()
+        {
+            cleaveOnCooldown = true;
+            yield return new WaitForSecondsRealtime(cleaveCooldown);
+            cleaveOnCooldown = false;
         }
     }
 }

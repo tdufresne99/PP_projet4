@@ -35,7 +35,7 @@ namespace TankEnemy
         {
             _manager.enemyDamageReceiverCS.damageMultiplier = 1f;
             _manager.shieldActive = false;
-            _manager.StartCoroutine(_manager.CoroutineShieldCooldown());
+            _manager.coroutineShieldCooldown = _manager.StartCoroutine(_manager.CoroutineShieldCooldown());
         }
 
         private IEnumerator CoroutineShieldUp()
