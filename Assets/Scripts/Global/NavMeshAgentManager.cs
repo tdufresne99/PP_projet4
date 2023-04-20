@@ -26,6 +26,11 @@ public class NavMeshAgentManager : MonoBehaviour
         _agent.speed = newSpeed;
     }
 
+    public void ChangeStopDistance(float newStoppingDistance)
+    {
+        _agent.stoppingDistance = newStoppingDistance;
+    }
+
     public void ToggleNavMeshAgent(bool enable)
     {
         _agent.enabled = enable;
