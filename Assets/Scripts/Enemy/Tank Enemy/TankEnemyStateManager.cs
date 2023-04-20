@@ -90,6 +90,7 @@ namespace TankEnemy
 
 
         [Header("-- Cleave Ability Settings --")]
+        public float cleaveAttackDamage = 80f;
         [Range(0f, 1f)] public float cleaveActivationChance = 0.3f;
         public float cleaveCooldown = 20f;
         // ---------------------------------------------------------
