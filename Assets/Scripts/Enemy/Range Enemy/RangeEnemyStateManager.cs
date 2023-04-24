@@ -19,6 +19,7 @@ namespace RangeEnemy
         // ---- Cooldown states ------------------------------------
         [Header("-- Cooldown States --")]
         public bool teleportOnCooldown = false;
+        public bool meteorOnCooldown = false;
         // ---------------------------------------------------------
 
 
@@ -29,6 +30,7 @@ namespace RangeEnemy
         public ChaseState chaseState;
         public BasicAttackState basicAttackState;
         public TeleportAbilityState teleportAbilityState;
+        public MeteorAbilityState meteorAbilityState;
         public ResetState resetState;
         public DyingState dyingState;
         // ---------------------------------------------------------
@@ -45,18 +47,21 @@ namespace RangeEnemy
         // ---------------------------------------------------------
 
 
-         // ---- External References --------------------------------
+        // ---- External References --------------------------------
         [Header("-- External References --")]
         public Transform resetTransform;
         public Transform targetTransform;
         public Transform projectileSpawnTransform;
         public GameObject projectileGO;
+        public GameObject meteorOverlayGO;
+        public GameObject meteorGO;
         public LayerMask targetLayerMask;
         // ---------------------------------------------------------
 
 
         // ---- Coroutines -----------------------------------------
         public Coroutine coroutineTeleportCooldown;
+        public Coroutine coroutineMeteor;
         // ---------------------------------------------------------
 
 
@@ -81,11 +86,15 @@ namespace RangeEnemy
         public float teleportCooldown = 12f;
         public float teleportMaxRange = 20f;
         public float teleportMinRange = 15f;
+
+        [Header("-- Meteor Ability Settings --")]
+        public float meteorCooldown = 5f;
         // ---------------------------------------------------------
 
 
         // ---- Calculated Values ----------------------------------
         [Header("-- Current Values --")]
+        public bool inCombat;
         public float currentAttackRange;
         public float currentAttackDamage;
         public float currentLeech;
@@ -170,6 +179,7 @@ namespace RangeEnemy
             chaseState = new ChaseState(this);
             basicAttackState = new BasicAttackState(this);
             teleportAbilityState = new TeleportAbilityState(this);
+            meteorAbilityState = new MeteorAbilityState(this);
             resetState = new ResetState(this);
             dyingState = new DyingState(this);
         }
@@ -191,7 +201,7 @@ namespace RangeEnemy
 
         private void OnDamageReceived()
         {
-            if(!teleportOnCooldown)
+            if (!teleportOnCooldown)
             {
                 TransitionToState(teleportAbilityState);
             }
@@ -263,6 +273,35 @@ namespace RangeEnemy
             teleportOnCooldown = true;
             yield return new WaitForSecondsRealtime(teleportCooldown);
             teleportOnCooldown = false;
+        }
+
+
+
+        public GameObject InstantiateMeteorOverlay()
+        {
+            var instanciatedMeteorOverlay = Instantiate(meteorOverlayGO, new Vector3(targetTransform.position.x, 0.01f, targetTransform.position.z), Quaternion.identity);
+            return instanciatedMeteorOverlay;
+        }
+
+        public GameObject InstantiateMeteor(Vector3 meteorHitLocation)
+        {
+            var instanciatedMeteor = Instantiate(meteorGO, new Vector3(meteorHitLocation.x + Random.Range(-5f, 5f), 5f, meteorHitLocation.z + Random.Range(-5f, 5f)), Quaternion.identity);
+
+            Meteor meteorCS = instanciatedMeteor.GetComponent<Meteor>();
+
+            if (meteorCS != null)
+            {
+                meteorCS.targetPosition = meteorHitLocation;
+            }
+            return instanciatedMeteor;
+        }
+        public IEnumerator CoroutineMeteor()
+        {
+            while (true)
+            {
+                yield return new WaitForSecondsRealtime(meteorCooldown);
+                TransitionToState(meteorAbilityState);
+            }
         }
     }
 }

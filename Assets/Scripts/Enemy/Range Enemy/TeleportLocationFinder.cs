@@ -6,10 +6,15 @@ namespace RangeEnemy
 {
     public class TeleportLocationFinder : MonoBehaviour
     {
-        public float radius;
-        public float minRadius;
+        public float radius = 5f;
+        public float minRadius = 5f;
         public float maxGroundDistance = 5f;
-        public LayerMask groundLayer;
+        private LayerMask groundLayer;
+
+        void Start()
+        {
+            groundLayer = LayersEnum.instance.GroundLayer;
+        }
 
         public Vector3 GetRandomPosition(Transform centerTransform)
         {

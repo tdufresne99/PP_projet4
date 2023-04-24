@@ -334,7 +334,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45171550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -28.1}
+  m_LocalPosition: {x: 0, y: 1, z: -28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -385,7 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f23a06146a24dd046ae7104d5b8dcae7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 80
+  moveSpeed: 22
   jumpForce: 5
   gravitymultiplier: 5
   mouseSensitivity: 500
@@ -1964,6 +1964,53 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1419862637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1419862639}
+  - component: {fileID: 1419862638}
+  m_Layer: 0
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1419862638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419862637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e59224d991abce04696425f5c413c69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!4 &1419862639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419862637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.604127, y: 2526.6606, z: -6.657476}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1454364684
 GameObject:
   m_ObjectHideFlags: 0
@@ -2421,6 +2468,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9069514299499766433, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+      propertyPath: meteorGO
+      value: 
+      objectReference: {fileID: 2462352460885313913, guid: 8951ff7c7b26fd848b728e2ef8a6157a, type: 3}
+    - target: {fileID: 9069514299499766433, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
       propertyPath: teleportMat
       value: 
       objectReference: {fileID: 2100000, guid: be2ece84f1b7d3d4987c49ea321e9d8c, type: 2}
@@ -2434,8 +2485,12 @@ PrefabInstance:
       objectReference: {fileID: 578164975}
     - target: {fileID: 9069514299499766433, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
       propertyPath: baseAttackRange
-      value: 10
+      value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 9069514299499766433, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+      propertyPath: meteorOverlayGO
+      value: 
+      objectReference: {fileID: 6779010422290908207, guid: 702b7cdc55e050f458739b6b9bf360c2, type: 3}
     - target: {fileID: 9069514299499766433, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
       propertyPath: targetTransform
       value: 
@@ -2448,9 +2503,21 @@ PrefabInstance:
       propertyPath: baseMovementSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 9069514299499766433, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+      propertyPath: targetLayerMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9069514299499766434, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 48373a56ff45e8747ab1b36905cfde2b, type: 2}
     - target: {fileID: 9069514299499766444, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
       propertyPath: m_Name
       value: RangeEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 9069514299499766444, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2475,9 +2542,6 @@ MonoBehaviour:
   radius: 15
   minRadius: 0
   maxGroundDistance: 5
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &1809076743
 GameObject:
   m_ObjectHideFlags: 0
