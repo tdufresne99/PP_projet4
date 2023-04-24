@@ -24,7 +24,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4795973796544503319
 Transform:
   m_ObjectHideFlags: 0
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: be2ece84f1b7d3d4987c49ea321e9d8c, type: 2}
+  - {fileID: 2100000, guid: 3acd2e98807a24d4797b825543770700, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -137,6 +137,7 @@ MonoBehaviour:
   navMeshAgentManagerCS: {fileID: 0}
   healthManagerCS: {fileID: 0}
   enemyDamageDealerCS: {fileID: 0}
+  enemyDamageReceiverCS: {fileID: 0}
   resetTransform: {fileID: 0}
   targetTransform: {fileID: 0}
   targetLayerMask:
@@ -146,6 +147,8 @@ MonoBehaviour:
   baseAttackDamage: 10
   baseLeech: 0
   baseAttackSpeed: 1.5
+  detectionRange: 5
+  baseHealthPoints: 100
   enrageCoodldown: 20
   enrageDuration: 10
   enrageAttackDamageBonus: 5
@@ -157,7 +160,7 @@ MonoBehaviour:
   currentAttackDamage: 0
   currentLeech: 0
   currentAttackSpeed: 0
-  currentMovementSpeed: 0
+  _currentMovementSpeed: 0
   _successiveBasicAttacks: 0
 --- !u!195 &4795973796544503312
 NavMeshAgent:
