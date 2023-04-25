@@ -14,7 +14,8 @@ namespace Player
 
         public override void Enter()
         {
-            
+            // ---- Set state animations ------------------------------
+            _manager.meshRenderer.material = _manager.idleMat;
         }
 
         public override void Execute()
@@ -25,13 +26,6 @@ namespace Player
         public override void Exit()
         {
             
-        }
-
-        private bool VerifyMovementKeys()
-        {
-            if(Input.GetAxis("Horizontal") != 0) return true;
-            if(Input.GetAxis("Vertical") != 0) return true;
-            return false;
         }
     }
 }

@@ -6,7 +6,8 @@ namespace Player
 {
     public class PlayerStateManager : MonoBehaviour
     {
-        // ---- State Test materials ------------------------------
+        // ---------------------------------------------------------
+        #region State Test Materials
         [Header("State Test Materials")]
         public Material idleMat;
         public Material basicAttackMat;
@@ -15,10 +16,11 @@ namespace Player
         public Material iceShieldMat;
         public Material naturesMelodyMat;
         public Material dyingMat;
+        #endregion State Test Materials
         // ---------------------------------------------------------
 
-
-        // ---- Cooldown states ------------------------------------
+        // ---------------------------------------------------------
+        #region Cooldown States
         [Header("Cooldown States")]
         [SerializeField] private bool _spreadFireOnCooldown = false;
         public bool spreadFireOnCooldown
@@ -35,67 +37,123 @@ namespace Player
             }
         }
 
-        public bool lightningRainOnCooldown = false;
 
-        public bool iceShieldOnCooldown = false;
+        [SerializeField] private bool _lightningRainOnCooldown = false;
+        public bool lightningRainOnCooldown
+        {
+            get => _lightningRainOnCooldown;
+            set
+            {
+                if (_lightningRainOnCooldown == value) return;
 
-        public bool naturesMelodyOnCooldown = false;
+                if (value == true) OnLightningRainCooldownStart();
+                else OnLightningRainCooldownEnd();
+
+                _lightningRainOnCooldown = value;
+            }
+        }
+
+
+        [SerializeField] private bool _iceShieldOnCooldown = false;
+        public bool iceShieldOnCooldown
+        {
+            get => _iceShieldOnCooldown;
+            set
+            {
+                if (_iceShieldOnCooldown == value) return;
+
+                if (value == true) OnIceShieldCooldownStart();
+                else OnIceShieldCooldownEnd();
+
+                _iceShieldOnCooldown = value;
+            }
+        }
+
+
+        [SerializeField] private bool _naturesMelodyOnCooldown = false;
+        public bool naturesMelodyOnCooldown
+        {
+            get => _naturesMelodyOnCooldown;
+            set
+            {
+                if (_naturesMelodyOnCooldown == value) return;
+
+                if (value == true) OnNaturesMelodyCooldownStart();
+                else OnNaturesMelodyCooldownEnd();
+
+                _naturesMelodyOnCooldown = value;
+            }
+        }
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Player States --------------------------------------
+        // ---------------------------------------------------------
+        #region Player States
         public PlayerState currentState;
 
         public IdleState idleState;
+        public BasicAttackState basicAttackState;
         public LightningRainState lightningRainState;
         public SpreadFireState spreadFireState;
         public IceShieldState iceShieldState;
         public NaturesMelodyState naturesMelodyState;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Player Components ----------------------------------
+        // ---------------------------------------------------------
+        #region Internal Components
         [Header("Internal Components")]
-        public MeshRenderer meshRenderer;
-        public Rigidbody playerRigidbody;
-        public HealthManager healthManagerCS;
-        public ShieldManager shieldManagerCS;
-
+        [HideInInspector] public MeshRenderer meshRenderer;
+        [HideInInspector] public Rigidbody playerRigidbody;
+        [HideInInspector] public HealthManager healthManagerCS;
+        [HideInInspector] public ShieldManager shieldManagerCS;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- External References --------------------------------
+        // ---------------------------------------------------------
+        #region External References
         [Header("External references")]
         public Transform spawnTransform;
         public Transform targetTransform;
         public LayerMask targetLayerMask;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Coroutines -----------------------------------------
+        // ---------------------------------------------------------
+        #region Coroutines
         private Coroutine _coroutineSpreadFireCooldown;
+        private Coroutine _coroutineLightningRainCooldown;
+        private Coroutine _coroutineIceShieldCooldown;
+        private Coroutine _coroutineNaturesMelodyCooldown;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Ajustable Values -----------------------------------
+        // ---------------------------------------------------------
+        #region Ajustable Values
+        // ======================== >>
+        #region Base Attack Settings
         [Header("Base Attack Settings")]
         public float baseAttackRange = 2.2f;
         public float baseAttackDamage = 20f;
         public float baseAttackSpeed = 1.5f;
+        #endregion
 
-
+        #region Base Movement Settings
         [Header("Base Movement Settings")]
         public float baseMovementSpeed = 20f;
         public float baseJumpForce = 20f;
+        #endregion
 
+        #region SpreadFire Ability Settings
         [Header("SpreadFire Ability Settings")]
         public float spreadFireRange = 12f;
         public float spreadFireDamage = 120f;
         public float spreadFireDuration = 8f;
         public float spreadFireCooldownTime = 45f;
         public int spreadFireTicks = 5;
+        #endregion
 
-
+        #region LightningRain Ability Settings
         [Header("LightningRain Ability Settings")]
         public float lightningRainRadius = 8f;
         public float lightningRainDamagePerCharge = 40f;
@@ -103,24 +161,34 @@ namespace Player
         public float lightningRainActivationDelay = 3f;
         public float lightningRainStunDuration = 3f;
         public int lightningRainMaxCharges = 3;
+        #endregion
 
-
+        #region IceShield Ability Settings
         [Header("IceShield Ability Settings")]
         public int iceShieldMaxStacks = 4;
         public float iceShieldHealthPerStack = 50f;
+        public float iceShieldCooldownTime = 100f;
+        #endregion
 
+        #region NaturesMelody Ability Settings
         [Header("NaturesMelody Ability Settings")]
-
+        public float naturesMelodyCooldownTime = 100f;
+        public float naturesMelodyTickTime = 0.25f;
+        public int naturesMelodyMaxTicks = 10;
+        #endregion
+        // << ========================
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Calculated Values ----------------------------------
+        // ---------------------------------------------------------
+        #region Current Values
         [Header("Current values")]
         public float currentAttackDamage;
         public float currentAttackSpeed;
         public float currentMovementSpeed;
         public float currentJumpForce;
         public bool abilityLocked = false;
+        #endregion
         // ---------------------------------------------------------
 
         void Awake()
@@ -185,9 +253,11 @@ namespace Player
             if (TryGetComponent(out ShieldManager shieldManagerTemp)) shieldManagerCS = shieldManagerTemp;
             else Debug.LogError("The component 'ShieldManager' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
         }
+        
         private void CreateStateInstances()
         {
             idleState = new IdleState(this);
+            basicAttackState = new BasicAttackState(this);
             lightningRainState = new LightningRainState(this);
             spreadFireState = new SpreadFireState(this);
             iceShieldState = new IceShieldState(this);
@@ -204,7 +274,8 @@ namespace Player
             shieldManagerCS.SetShieldPointsValues(iceShieldHealthPerStack * iceShieldMaxStacks);
         }
 
-
+        // ==== Spread Fire ===============================================================================================
+        #region Spread Fire Cooldown
         public IEnumerator CoroutineSpreadFireCooldown()
         {
             yield return new WaitForSecondsRealtime(spreadFireCooldownTime);
@@ -220,5 +291,63 @@ namespace Player
         {
             if (_coroutineSpreadFireCooldown != null) StopCoroutine(_coroutineSpreadFireCooldown);
         }
+        #endregion
+
+        // ==== Lightning Rain ============================================================================================
+        #region Lightning Rain Cooldown
+        public IEnumerator CoroutineLightningRainCooldown()
+        {
+            yield return new WaitForSecondsRealtime(lightningRainCooldownTime);
+            lightningRainOnCooldown = false;
+        }
+
+        private void OnLightningRainCooldownStart()
+        {
+            _coroutineLightningRainCooldown = StartCoroutine(CoroutineLightningRainCooldown());
+        }
+
+        private void OnLightningRainCooldownEnd()
+        {
+            if (_coroutineLightningRainCooldown != null) StopCoroutine(_coroutineLightningRainCooldown);
+        }
+        #endregion
+
+        // ==== Ice Shield ================================================================================================
+        #region Ice Shield Cooldown
+        public IEnumerator CoroutineIceShieldCooldown()
+        {
+            yield return new WaitForSecondsRealtime(iceShieldCooldownTime);
+            iceShieldOnCooldown = false;
+        }
+
+        private void OnIceShieldCooldownStart()
+        {
+            _coroutineIceShieldCooldown = StartCoroutine(CoroutineIceShieldCooldown());
+        }
+
+        private void OnIceShieldCooldownEnd()
+        {
+            if (_coroutineIceShieldCooldown != null) StopCoroutine(_coroutineIceShieldCooldown);
+        }
+        #endregion
+
+        // ==== Nature's Melody ================================================================================================
+        #region Nature's Melody Cooldown
+        public IEnumerator CoroutineNaturesMelodyCooldown()
+        {
+            yield return new WaitForSecondsRealtime(naturesMelodyCooldownTime);
+            naturesMelodyOnCooldown = false;
+        }
+
+        private void OnNaturesMelodyCooldownStart()
+        {
+            _coroutineNaturesMelodyCooldown = StartCoroutine(CoroutineNaturesMelodyCooldown());
+        }
+
+        private void OnNaturesMelodyCooldownEnd()
+        {
+            if (_coroutineNaturesMelodyCooldown != null) StopCoroutine(_coroutineNaturesMelodyCooldown);
+        }
+        #endregion
     }
 }

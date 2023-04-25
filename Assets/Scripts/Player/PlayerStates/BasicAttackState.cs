@@ -3,19 +3,19 @@ using UnityEngine;
 
 namespace Player
 {
-    public class NaturesMelodyState : PlayerState
+    public class BasicAttackState : PlayerState
     {
         private PlayerStateManager _manager;
 
-        public NaturesMelodyState(PlayerStateManager manager)
+        public BasicAttackState(PlayerStateManager manager)
         {
             this._manager = manager;
         }
 
         public override void Enter()
         {
-            _manager.abilityLocked = true;
-            
+            // ---- Set state animations ------------------------------
+            _manager.meshRenderer.material = _manager.basicAttackMat;
         }
 
         public override void Execute()
@@ -25,7 +25,6 @@ namespace Player
 
         public override void Exit()
         {
-            _manager.abilityLocked = false;
             
         }
     }

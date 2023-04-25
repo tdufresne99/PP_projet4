@@ -49,7 +49,8 @@ GameObject:
   - component: {fileID: 2960636565839041403}
   - component: {fileID: 7361740992320121962}
   - component: {fileID: 2842930009320985034}
-  - component: {fileID: 2177741831598726214}
+  - component: {fileID: 9069514299569285009}
+  - component: {fileID: 9069514299569285010}
   m_Layer: 0
   m_Name: HealerEnemy
   m_TagString: Untagged
@@ -72,7 +73,7 @@ Transform:
   - {fileID: 529755953534290215}
   - {fileID: 2177741830568054077}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7198308682028891879
 MeshFilter:
@@ -165,6 +166,7 @@ MonoBehaviour:
   teleportMat: {fileID: 2100000, guid: be2ece84f1b7d3d4987c49ea321e9d8c, type: 2}
   healStartMat: {fileID: 2100000, guid: bccfea9bea2e1d84c817c2d676584e76, type: 2}
   healEndMat: {fileID: 2100000, guid: 48373a56ff45e8747ab1b36905cfde2b, type: 2}
+  stunMat: {fileID: 2100000, guid: 3b1ef9636eddad24885692716e996e21, type: 2}
   resetMat: {fileID: 2100000, guid: 1635693dd870ca94ba49e9f95d57e6c6, type: 2}
   dyingMat: {fileID: 2100000, guid: 0bc1abef075063e4da014ad6eaa18904, type: 2}
   teleportOnCooldown: 0
@@ -183,11 +185,11 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  baseAttackRange: 5
+  baseAttackRange: 18
   baseAttackDamage: 20
   baseLeech: 0
   baseAttackSpeed: 2.2
-  detectionRange: 5
+  detectionRange: 15
   baseHealthPoints: 100
   baseMovementSpeed: 5
   teleportCooldownTime: 12
@@ -196,10 +198,13 @@ MonoBehaviour:
   healValue: 100
   healCastTime: 3
   healCooldownTime: 5
+  healRange: 20
   currentAttackRange: 0
   currentAttackDamage: 0
   currentLeech: 0
   currentAttackSpeed: 0
+  stunDuration: 0
+  stunned: 0
   _currentMovementSpeed: 0
 --- !u!195 &5153123527673159042
 NavMeshAgent:
@@ -278,8 +283,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 720df0f82362f0f4297d16c83835ad38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyType: 3
   _damageMultiplier: 1
---- !u!114 &2177741831598726214
+--- !u!114 &9069514299569285009
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -288,11 +294,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 7198308682028891880}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fd190d522735924284613567b87c201, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f016f24913051d45a46ec85ec6e1bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 15
-  minRadius: 0
+  _healingMultiplier: 1
+--- !u!114 &9069514299569285010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198308682028891880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7b49ac529b5c984cbcb1ed52a3d9bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 5
+  minRadius: 5
   maxGroundDistance: 5
 --- !u!1001 &3253121435568283560
 PrefabInstance:

@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace Player
 {
-    public class SpreadFireState : PlayerState
+    public class IceShieldState : PlayerState
     {
         private PlayerStateManager _manager;
-        private Coroutine _coroutineSpreadFire;
+        private Coroutine _coroutineIceShield;
 
-        public SpreadFireState(PlayerStateManager manager)
+        public IceShieldState(PlayerStateManager manager)
         {
             this._manager = manager;
         }
@@ -17,27 +17,27 @@ namespace Player
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.spreadFireMat;
+            _manager.meshRenderer.material = _manager.iceShieldMat;
 
             _manager.abilityLocked = true;
-            _coroutineSpreadFire = _manager.StartCoroutine(CoroutineSpreadFire());
+            _coroutineIceShield = _manager.StartCoroutine(CoroutineIceShield());
         }
 
         public override void Execute()
         {
-            
+
         }
 
         public override void Exit()
         {
-            _manager.StopCoroutine(_coroutineSpreadFire);
+            if (_coroutineIceShield != null) _manager.StopCoroutine(_coroutineIceShield);
             _manager.abilityLocked = false;
-            _manager.spreadFireOnCooldown = true;
+            _manager.iceShieldOnCooldown = true;
         }
 
-        public IEnumerator CoroutineSpreadFire()
+        public IEnumerator CoroutineIceShield()
         {
-            var detectedEnemies = new List<EnemyDamageReceiver>();
+            int stacks = 0;
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.spreadFireRange);
             foreach (Collider collider in colliders)
             {
@@ -45,10 +45,11 @@ namespace Player
 
                 if (detectedEnemy != null)
                 {
-                    detectedEnemies.Add(detectedEnemy);
-                    var spreadFireDebuff = detectedEnemy.gameObject.AddComponent<SpreadFireDebuff>();
-                    spreadFireDebuff.playerStateManagerCS = _manager;
-
+                    stacks++;
+                    if (stacks > _manager.iceShieldMaxStacks)
+                    {
+                        stacks = _manager.iceShieldMaxStacks;
+                    }
                     Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.green, 1f);
                 }
                 else
@@ -56,6 +57,8 @@ namespace Player
                     Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.red, 1f);
                 }
             }
+            if(stacks == 0) stacks = 1;
+            _manager.shieldManagerCS.ReceiveShield(_manager.iceShieldHealthPerStack * stacks);
 
             yield return new WaitForSecondsRealtime(0.5f);
             _manager.TransitionToState(_manager.idleState);
