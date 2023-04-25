@@ -17,20 +17,41 @@ namespace Player
 
         // ---- Cooldown states ------------------------------------
         [Header("Cooldown States")]
-        public bool enrageOnCooldown = false;
-        public bool enrageActive = false;
+        [SerializeField] private bool _spreadFireOnCooldown = false;
+        public bool spreadFireOnCooldown
+        {
+            get => _spreadFireOnCooldown;
+            set
+            {
+                if (_spreadFireOnCooldown == value) return;
+
+                if (value == true) OnSpreadFireCooldownStart();
+                else OnSpreadFireCooldownEnd();
+
+                _spreadFireOnCooldown = value;
+            }
+        }
+
+        public bool lightningRainOnCooldown = false;
+
+        public bool iceShieldOnCooldown = false;
+
+        public bool naturesMelodyOnCooldown = false;
         // ---------------------------------------------------------
 
 
-        // ---- Player States ---------------------------------
+        // ---- Player States --------------------------------------
         public PlayerState currentState;
 
         public IdleState idleState;
-        public RunState runState;
+        public LightningRainState lightningRainState;
+        public SpreadFireState spreadFireState;
+        public IceShieldState iceShieldState;
+        public NaturesMelodyState naturesMelodyState;
         // ---------------------------------------------------------
 
 
-        // ---- Player Components -----------------------------
+        // ---- Player Components ----------------------------------
         [Header("Internal Components")]
         public MeshRenderer meshRenderer;
         public Rigidbody playerRigidbody;
@@ -46,7 +67,7 @@ namespace Player
 
 
         // ---- Coroutines -----------------------------------------
-
+        private Coroutine _coroutineSpreadFireCooldown;
         // ---------------------------------------------------------
 
 
@@ -60,6 +81,21 @@ namespace Player
         [Header("Base Movement Settings")]
         public float baseMovementSpeed = 20f;
         public float baseJumpForce = 20f;
+
+        [Header("SpreadFire Ability Settings")]
+        public float spreadFireRange = 12f;
+        public float spreadFireDamage = 20f;
+        public float spreadFireDuration = 8f;
+        public float spreadFireCooldownTime = 22f;
+        public int spreadFireTicks = 5;
+
+
+        [Header("LightningRain Ability Settings")]
+
+        [Header("IceShield Ability Settings")]
+
+        [Header("NaturesMelody Ability Settings")]
+
         // ---------------------------------------------------------
 
 
@@ -69,6 +105,7 @@ namespace Player
         public float currentAttackSpeed;
         public float currentMovementSpeed;
         public float currentJumpForce;
+        public bool abilityLocked = false;
         // ---------------------------------------------------------
 
         void Awake()
@@ -90,6 +127,21 @@ namespace Player
                 TransitionToState(idleState);
             }
 
+            if (abilityLocked == false)
+            {
+                // Spread Fire
+                if (Input.GetKeyDown(KeyCode.E) && !spreadFireOnCooldown) TransitionToState(spreadFireState);
+
+                // Lightning Rain
+                else if (Input.GetKeyDown(KeyCode.Q) && !lightningRainOnCooldown) TransitionToState(lightningRainState);
+
+                // Ice Shield
+                else if (Input.GetKeyDown(KeyCode.LeftShift) && !iceShieldOnCooldown) TransitionToState(iceShieldState);
+
+                // Nature's Melody
+                else if (Input.GetKeyDown(KeyCode.R) && !naturesMelodyOnCooldown) TransitionToState(naturesMelodyState);
+            }
+
             currentState.Execute();
         }
 
@@ -107,15 +159,18 @@ namespace Player
         private void TryGetRequiredComponents()
         {
             if (TryGetComponent(out MeshRenderer meshRendererTemp)) meshRenderer = meshRendererTemp;
-            else Debug.LogError("The component 'MeshRenderer' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+            else Debug.LogError("The component 'MeshRenderer' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
 
             if (TryGetComponent(out Rigidbody playerRigidbodyTemp)) playerRigidbody = playerRigidbodyTemp;
-            else Debug.LogError("The component 'Rigidbody' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+            else Debug.LogError("The component 'Rigidbody' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
         }
         private void CreateStateInstances()
         {
             idleState = new IdleState(this);
-            runState = new RunState(this);
+            lightningRainState = new LightningRainState(this);
+            spreadFireState = new SpreadFireState(this);
+            iceShieldState = new IceShieldState(this);
+            naturesMelodyState = new NaturesMelodyState(this);
         }
 
         private void SetBaseValues()
@@ -124,6 +179,23 @@ namespace Player
             currentAttackSpeed = baseAttackSpeed;
             currentMovementSpeed = baseMovementSpeed;
             currentJumpForce = baseJumpForce;
+        }
+
+
+        public IEnumerator CoroutineSpreadFireCooldown()
+        {
+            yield return new WaitForSecondsRealtime(spreadFireCooldownTime);
+            spreadFireOnCooldown = false;
+        }
+
+        private void OnSpreadFireCooldownStart()
+        {
+            _coroutineSpreadFireCooldown = StartCoroutine(CoroutineSpreadFireCooldown());
+        }
+
+        private void OnSpreadFireCooldownEnd()
+        {
+            if (_coroutineSpreadFireCooldown != null) StopCoroutine(_coroutineSpreadFireCooldown);
         }
     }
 }

@@ -2425,6 +2425,24 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 3b2fe73363534b74eab85c8eb3ec3fe8, type: 2}
   m_BuildHeightMesh: 0
+--- !u!1 &1806185381 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4795973796544503326, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+  m_PrefabInstance: {fileID: 4795973794801147161}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1806185392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806185381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f016f24913051d45a46ec85ec6e1bee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healingMultiplier: 1
 --- !u!1001 &1808402929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2543,6 +2561,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 9069514299499766444, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1808402951}
+    - targetCorrespondingSourceObject: {fileID: 9069514299499766444, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1808402940}
   m_SourcePrefab: {fileID: 100100000, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
 --- !u!114 &1808402940
@@ -2560,6 +2581,19 @@ MonoBehaviour:
   radius: 15
   minRadius: 0
   maxGroundDistance: 5
+--- !u!114 &1808402951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758252888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f016f24913051d45a46ec85ec6e1bee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healingMultiplier: 1
 --- !u!1 &1809076743
 GameObject:
   m_ObjectHideFlags: 0
@@ -2797,7 +2831,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7198308682028891876, guid: 2ef9876472094724e8b68add6905aa6b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7198308682028891876, guid: 2ef9876472094724e8b68add6905aa6b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2843,6 +2877,10 @@ PrefabInstance:
       propertyPath: _playerDamageReceiver
       value: 
       objectReference: {fileID: 45171559}
+    - target: {fileID: 8646141562255660410, guid: 2ef9876472094724e8b68add6905aa6b, type: 3}
+      propertyPath: healRange
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 8646141562255660410, guid: 2ef9876472094724e8b68add6905aa6b, type: 3}
       propertyPath: detectionRange
       value: 15
@@ -2958,7 +2996,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4795973796544503326, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1806185392}
   m_SourcePrefab: {fileID: 100100000, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
 --- !u!1001 &6564061162536511335
 PrefabInstance:
@@ -2978,7 +3019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6564061161486787232, guid: 4845af0050136c74287e0f8962e28361, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6564061161486787232, guid: 4845af0050136c74287e0f8962e28361, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2986,7 +3027,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6564061161486787232, guid: 4845af0050136c74287e0f8962e28361, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6564061161486787232, guid: 4845af0050136c74287e0f8962e28361, type: 3}
       propertyPath: m_LocalRotation.w
