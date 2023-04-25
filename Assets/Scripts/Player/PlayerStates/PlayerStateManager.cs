@@ -105,6 +105,7 @@ namespace Player
         [Header("Internal Components")]
         [HideInInspector] public MeshRenderer meshRenderer;
         [HideInInspector] public Rigidbody playerRigidbody;
+        [HideInInspector] public Animator playerAnimator;
         [HideInInspector] public HealthManager healthManagerCS;
         [HideInInspector] public ShieldManager shieldManagerCS;
         #endregion
@@ -212,6 +213,9 @@ namespace Player
 
             if (abilityLocked == false)
             {
+                // Basic Attack
+                if (Input.GetButtonDown("Fire1")) TransitionToState(basicAttackState);
+
                 // Spread Fire
                 if (Input.GetKeyDown(KeyCode.E) && !spreadFireOnCooldown) TransitionToState(spreadFireState);
 
@@ -247,6 +251,9 @@ namespace Player
             if (TryGetComponent(out Rigidbody playerRigidbodyTemp)) playerRigidbody = playerRigidbodyTemp;
             else Debug.LogError("The component 'Rigidbody' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
             
+            if (TryGetComponent(out Animator playerAnimatorTemp)) playerAnimator = playerAnimatorTemp;
+            else Debug.LogError("The component 'Animator' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
+            
             if (TryGetComponent(out HealthManager healthManagerTemp)) healthManagerCS = healthManagerTemp;
             else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
 
@@ -274,7 +281,7 @@ namespace Player
             shieldManagerCS.SetShieldPointsValues(iceShieldHealthPerStack * iceShieldMaxStacks);
         }
 
-        // ==== Spread Fire ===============================================================================================
+        // ===================================================================================================
         #region Spread Fire Cooldown
         public IEnumerator CoroutineSpreadFireCooldown()
         {
@@ -293,7 +300,7 @@ namespace Player
         }
         #endregion
 
-        // ==== Lightning Rain ============================================================================================
+        // ===================================================================================================
         #region Lightning Rain Cooldown
         public IEnumerator CoroutineLightningRainCooldown()
         {
@@ -312,7 +319,7 @@ namespace Player
         }
         #endregion
 
-        // ==== Ice Shield ================================================================================================
+        // ===================================================================================================
         #region Ice Shield Cooldown
         public IEnumerator CoroutineIceShieldCooldown()
         {
@@ -331,7 +338,7 @@ namespace Player
         }
         #endregion
 
-        // ==== Nature's Melody ================================================================================================
+        // ===================================================================================================
         #region Nature's Melody Cooldown
         public IEnumerator CoroutineNaturesMelodyCooldown()
         {
