@@ -246,6 +246,7 @@ GameObject:
   - component: {fileID: 45171558}
   - component: {fileID: 45171560}
   - component: {fileID: 45171559}
+  - component: {fileID: 45171561}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -454,6 +455,48 @@ MonoBehaviour:
   _healthBar: {fileID: 1813129516}
   _maxHealthPoints: 400
   _currentHealthPoints: 400
+--- !u!114 &45171561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45171550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21f08133a7b68b24ea5102b1e150f284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleMat: {fileID: 2100000, guid: 84d39e3dcb9b2ed478db54456976f186, type: 2}
+  chaseMat: {fileID: 0}
+  basicAttackMat: {fileID: 2100000, guid: 3acd2e98807a24d4797b825543770700, type: 2}
+  resetMat: {fileID: 0}
+  _spreadFireOnCooldown: 0
+  lightningRainOnCooldown: 0
+  iceShieldOnCooldown: 0
+  naturesMelodyOnCooldown: 0
+  meshRenderer: {fileID: 0}
+  playerRigidbody: {fileID: 0}
+  spawnTransform: {fileID: 0}
+  targetTransform: {fileID: 0}
+  targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  baseAttackRange: 2.2
+  baseAttackDamage: 20
+  baseAttackSpeed: 1.5
+  baseMovementSpeed: 20
+  baseJumpForce: 20
+  spreadFireRange: 12
+  spreadFireDamage: 20
+  spreadFireDuration: 8
+  spreadFireCooldownTime: 22
+  spreadFireTicks: 5
+  currentAttackDamage: 0
+  currentAttackSpeed: 0
+  currentMovementSpeed: 0
+  currentJumpForce: 0
+  abilityLocked: 0
 --- !u!1 &105745347
 GameObject:
   m_ObjectHideFlags: 0
