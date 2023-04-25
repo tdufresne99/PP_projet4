@@ -158,6 +158,7 @@ namespace HealerEnemy
         public void TransitionToState(HealerEnemyState newState)
         {
             if (stunned) return;
+            
             if (currentState != null)
             {
                 currentState.Exit();

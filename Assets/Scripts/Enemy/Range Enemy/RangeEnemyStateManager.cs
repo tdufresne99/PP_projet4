@@ -141,6 +141,7 @@ namespace RangeEnemy
         public void TransitionToState(RangeEnemyState newState)
         {
             if (stunned) return;
+            
             if (currentState != null)
             {
                 currentState.Exit();

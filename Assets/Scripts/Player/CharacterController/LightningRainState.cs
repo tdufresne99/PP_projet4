@@ -18,6 +18,9 @@ namespace Player
 
         public override void Enter()
         {
+            // ---- Set state animations ------------------------------
+            _manager.meshRenderer.material = _manager.lightningRainMat;
+
             _manager.abilityLocked = true;
             _lightRainPerformed = false;
             _charges = 0;
@@ -26,9 +29,17 @@ namespace Player
 
         public override void Execute()
         {
-            if(Input.GetKeyUp(KeyCode.E))
+            if (Input.GetKeyUp(KeyCode.Q))
             {
-                if(_coroutineLightningRain != null) _manager.StopCoroutine(_coroutineLightningRain);
+                if (_coroutineLightningRain != null) 
+                {
+                    _manager.StopCoroutine(_coroutineLightningRain);
+                    Debug.Log("Stopped coroutine lightning rain");
+                }
+                else
+                {
+                    Debug.LogWarning("Could not stop coroutine lightning rain");
+                }
                 PerformLightningRain();
             }
         }
@@ -36,25 +47,31 @@ namespace Player
         public override void Exit()
         {
             _manager.abilityLocked = false;
-            
         }
 
         private IEnumerator CoroutineChargeLightningRain()
         {
             var activationDelayPerCharge = _manager.lightningRainActivationDelay / _manager.lightningRainMaxCharges;
-            while (_charges < _manager.lightningRainMaxCharges)
+
+            for (int i = 0; i < _manager.lightningRainMaxCharges; i++)
             {
                 _charges++;
+                Debug.Log("Charging... (" + _charges + ")");
                 yield return new WaitForSecondsRealtime(activationDelayPerCharge);
-                PerformLightningRain();
             }
+            PerformLightningRain();
         }
 
         private void PerformLightningRain()
         {
-            if(_lightRainPerformed) return;
+            if (_lightRainPerformed) 
+            {
+                Debug.LogWarning("lightning rain already performed...");
+                return;
+            }
+            Debug.Log("Performing lightning rain ability");
             _lightRainPerformed = true;
-            var detectedEnemies = new System.Collections.Generic.List<EnemyDamageReceiver>();
+
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.spreadFireRange);
             foreach (Collider collider in colliders)
             {
@@ -62,8 +79,6 @@ namespace Player
 
                 if (detectedEnemy != null)
                 {
-                    detectedEnemies.Add(detectedEnemy);
-
                     switch (detectedEnemy.enemyType)
                     {
                         case EnemyTypes.Melee:

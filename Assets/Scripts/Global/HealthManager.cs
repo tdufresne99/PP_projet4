@@ -6,6 +6,7 @@ using UnityEngine;
 public class HealthManager : MonoBehaviour
 {
     [SerializeField] private RectTransform _healthBar;
+    private ShieldManager _shieldManagerCS;
 
     [SerializeField] private float _maxHealthPoints = 100f;
     public float maxHealthPoints => _maxHealthPoints;
@@ -36,6 +37,11 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        _shieldManagerCS = GetComponent<ShieldManager>();
+    }
+
     public void SetHealthPointsValues(float maxHP)
     {
         _maxHealthPoints = maxHP;
@@ -44,6 +50,15 @@ public class HealthManager : MonoBehaviour
 
     public void ReceiveDamage(float damageReceived)
     {
+        if(_shieldManagerCS != null)
+        {
+            if(_shieldManagerCS.currentShieldPoints > 0)
+            {
+                _shieldManagerCS.ReceiveDamage(damageReceived);
+                return;
+            }
+        }
+
         currentHealthPoints -= damageReceived;
         OnDamageReceived?.Invoke();
     }

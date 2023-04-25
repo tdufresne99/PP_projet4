@@ -147,6 +147,8 @@ namespace MeleeEnemy
 
         public void TransitionToState(MeleeEnemyState newState)
         {
+            if (stunned) return;
+            
             if (currentState != null)
             {
                 currentState.Exit();

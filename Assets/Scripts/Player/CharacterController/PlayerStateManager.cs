@@ -9,9 +9,12 @@ namespace Player
         // ---- State Test materials ------------------------------
         [Header("State Test Materials")]
         public Material idleMat;
-        public Material chaseMat;
         public Material basicAttackMat;
-        public Material resetMat;
+        public Material spreadFireMat;
+        public Material lightningRainMat;
+        public Material iceShieldMat;
+        public Material naturesMelodyMat;
+        public Material dyingMat;
         // ---------------------------------------------------------
 
 
@@ -55,6 +58,9 @@ namespace Player
         [Header("Internal Components")]
         public MeshRenderer meshRenderer;
         public Rigidbody playerRigidbody;
+        public HealthManager healthManagerCS;
+        public ShieldManager shieldManagerCS;
+
         // ---------------------------------------------------------
 
 
@@ -99,9 +105,9 @@ namespace Player
         public int lightningRainMaxCharges = 3;
 
 
-
-
         [Header("IceShield Ability Settings")]
+        public int iceShieldMaxStacks = 4;
+        public float iceShieldHealthPerStack = 50f;
 
         [Header("NaturesMelody Ability Settings")]
 
@@ -172,6 +178,12 @@ namespace Player
 
             if (TryGetComponent(out Rigidbody playerRigidbodyTemp)) playerRigidbody = playerRigidbodyTemp;
             else Debug.LogError("The component 'Rigidbody' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
+            
+            if (TryGetComponent(out HealthManager healthManagerTemp)) healthManagerCS = healthManagerTemp;
+            else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
+
+            if (TryGetComponent(out ShieldManager shieldManagerTemp)) shieldManagerCS = shieldManagerTemp;
+            else Debug.LogError("The component 'ShieldManager' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
         }
         private void CreateStateInstances()
         {
@@ -188,6 +200,8 @@ namespace Player
             currentAttackSpeed = baseAttackSpeed;
             currentMovementSpeed = baseMovementSpeed;
             currentJumpForce = baseJumpForce;
+
+            shieldManagerCS.SetShieldPointsValues(iceShieldHealthPerStack * iceShieldMaxStacks);
         }
 
 

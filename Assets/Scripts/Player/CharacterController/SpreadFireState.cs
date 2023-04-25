@@ -16,6 +16,9 @@ namespace Player
 
         public override void Enter()
         {
+            // ---- Set state animations ------------------------------
+            _manager.meshRenderer.material = _manager.spreadFireMat;
+
             _manager.abilityLocked = true;
             _coroutineSpreadFire = _manager.StartCoroutine(CoroutineSpreadFire());
         }
