@@ -11,6 +11,7 @@ namespace RangeEnemy
         public Material chaseMat;
         public Material basicAttackMat;
         public Material teleportMat;
+        public Material stunMat;
         public Material resetMat;
         public Material dyingMat;
         // ---------------------------------------------------------
@@ -31,6 +32,7 @@ namespace RangeEnemy
         public BasicAttackState basicAttackState;
         public TeleportAbilityState teleportAbilityState;
         public MeteorAbilityState meteorAbilityState;
+        public StunState stunState;
         public ResetState resetState;
         public DyingState dyingState;
         // ---------------------------------------------------------
@@ -99,6 +101,8 @@ namespace RangeEnemy
         public float currentAttackDamage;
         public float currentLeech;
         public float currentAttackSpeed;
+        public float stunDuration;
+        public bool stunned = false;
         [SerializeField] private float _currentMovementSpeed;
         public float currentMovementSpeed
         {
@@ -136,6 +140,7 @@ namespace RangeEnemy
 
         public void TransitionToState(RangeEnemyState newState)
         {
+            if (stunned) return;
             if (currentState != null)
             {
                 currentState.Exit();
@@ -180,6 +185,7 @@ namespace RangeEnemy
             basicAttackState = new BasicAttackState(this);
             teleportAbilityState = new TeleportAbilityState(this);
             meteorAbilityState = new MeteorAbilityState(this);
+            stunState = new StunState(this);
             resetState = new ResetState(this);
             dyingState = new DyingState(this);
         }

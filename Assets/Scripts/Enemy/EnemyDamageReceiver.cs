@@ -6,6 +6,8 @@ using UnityEngine;
 public class EnemyDamageReceiver : MonoBehaviour
 {
     private HealthManager _healthManagerCS;
+    [SerializeField] private EnemyTypes _enemyType;
+    public EnemyTypes enemyType => _enemyType;
     [SerializeField] private float _damageMultiplier = 1;
     public float damageMultiplier
     {

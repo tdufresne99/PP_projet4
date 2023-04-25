@@ -11,6 +11,7 @@ namespace MeleeEnemy
         public Material idleMat;
         public Material chaseMat;
         public Material basicAttackMat;
+        public Material stunMat;
         public Material resetMat;
         public Material dyingMat;
         // ---------------------------------------------------------
@@ -29,6 +30,7 @@ namespace MeleeEnemy
         public IdleState idleState;
         public ChaseState chaseState;
         public BasicAttackState basicAttackState;
+        public StunState stunState;
         public ResetState resetState;
         public DyingState dyingState;
         // ---------------------------------------------------------
@@ -91,6 +93,8 @@ namespace MeleeEnemy
         public float currentAttackDamage;
         public float currentLeech;
         public float currentAttackSpeed;
+        public float stunDuration;
+        public bool stunned = false;
         [SerializeField] private float _currentMovementSpeed;
         public float currentMovementSpeed
         {
@@ -180,6 +184,7 @@ namespace MeleeEnemy
             idleState = new IdleState(this);
             chaseState = new ChaseState(this);
             basicAttackState = new BasicAttackState(this);
+            stunState = new StunState(this);
             resetState = new ResetState(this);
             dyingState = new DyingState(this);
         }

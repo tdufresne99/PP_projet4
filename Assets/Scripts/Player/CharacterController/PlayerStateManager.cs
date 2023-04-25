@@ -84,13 +84,22 @@ namespace Player
 
         [Header("SpreadFire Ability Settings")]
         public float spreadFireRange = 12f;
-        public float spreadFireDamage = 20f;
+        public float spreadFireDamage = 120f;
         public float spreadFireDuration = 8f;
-        public float spreadFireCooldownTime = 22f;
+        public float spreadFireCooldownTime = 45f;
         public int spreadFireTicks = 5;
 
 
         [Header("LightningRain Ability Settings")]
+        public float lightningRainRadius = 8f;
+        public float lightningRainDamagePerCharge = 40f;
+        public float lightningRainCooldownTime = 100f;
+        public float lightningRainActivationDelay = 3f;
+        public float lightningRainStunDuration = 3f;
+        public int lightningRainMaxCharges = 3;
+
+
+
 
         [Header("IceShield Ability Settings")]
 

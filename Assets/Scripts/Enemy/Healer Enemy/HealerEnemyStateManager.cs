@@ -14,6 +14,7 @@ namespace HealerEnemy
         public Material teleportMat;
         public Material healStartMat;
         public Material healEndMat;
+        public Material stunMat;
         public Material resetMat;
         public Material dyingMat;
         // ---------------------------------------------------------
@@ -34,6 +35,7 @@ namespace HealerEnemy
         public BasicAttackState basicAttackState;
         public TeleportAbilityState teleportAbilityState;
         public HealingAbilityState healingAbilityState;
+        public StunState stunState;
         public ResetState resetState;
         public DyingState dyingState;
         // ---------------------------------------------------------
@@ -103,6 +105,8 @@ namespace HealerEnemy
         public float currentAttackDamage;
         public float currentLeech;
         public float currentAttackSpeed;
+        public float stunDuration;
+        public bool stunned = false;
         private bool _inCombat = false;
         public bool inCombat
         {
@@ -153,6 +157,7 @@ namespace HealerEnemy
 
         public void TransitionToState(HealerEnemyState newState)
         {
+            if (stunned) return;
             if (currentState != null)
             {
                 currentState.Exit();
@@ -197,6 +202,7 @@ namespace HealerEnemy
             basicAttackState = new BasicAttackState(this);
             teleportAbilityState = new TeleportAbilityState(this);
             healingAbilityState = new HealingAbilityState(this);
+            stunState = new StunState(this);
             resetState = new ResetState(this);
             dyingState = new DyingState(this);
         }

@@ -12,6 +12,7 @@ namespace TankEnemy
         public Material basicAttackMat;
         public Material shieldAbilityMat;
         public Material cleaveAbilityMat;
+        public Material stunMat;
         public Material resetMat;
         public Material dyingMat;
         // --------------------------------------------------------
@@ -25,6 +26,7 @@ namespace TankEnemy
         public BasicAttackState basicAttackState;
         public ShieldAbilityState shieldAbilityState;
         public CleaveAbilityState cleaveAbilityState;
+        public StunState stunState;
         public ResetState resetState;
         public DyingState dyingState;
         // --------------------------------------------------------
@@ -101,6 +103,8 @@ namespace TankEnemy
         public float currentAttackDamage;
         public float currentLeech;
         public float currentAttackSpeed;
+        public float stunDuration;
+        public bool stunned = false;
         [SerializeField] private float _currentMovementSpeed;
         public float currentMovementSpeed
         {
@@ -138,6 +142,8 @@ namespace TankEnemy
 
         public void TransitionToState(TankEnemyState newState)
         {
+            if (stunned) return;
+            
             if (currentState != null)
             {
                 currentState.Exit();
@@ -181,6 +187,7 @@ namespace TankEnemy
             basicAttackState = new BasicAttackState(this);
             shieldAbilityState = new ShieldAbilityState(this);
             cleaveAbilityState = new CleaveAbilityState(this);
+            stunState = new StunState(this);
             resetState = new ResetState(this);
             dyingState = new DyingState(this);
         }
