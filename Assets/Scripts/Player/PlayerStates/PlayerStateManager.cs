@@ -116,7 +116,10 @@ namespace Player
         [Header("External references")]
         public Transform spawnTransform;
         public Transform targetTransform;
+        public Transform groundCheckTransform;
         public LayerMask targetLayerMask;
+        public LayerMask groundLayerMask;
+        public Camera mainCamera;
         #endregion
         // ---------------------------------------------------------
 
@@ -143,6 +146,10 @@ namespace Player
         [Header("Base Movement Settings")]
         public float baseMovementSpeed = 20f;
         public float baseJumpForce = 20f;
+        public float gravityMultiplier = 20f;
+        public float rotateSpeed = 5f;
+        public float mouseSensitivity = 100f;
+
         #endregion
 
         #region SpreadFire Ability Settings
@@ -188,6 +195,12 @@ namespace Player
         public float currentAttackSpeed;
         public float currentMovementSpeed;
         public float currentJumpForce;
+        public bool playerIsJumping;
+        public bool playerIsFastFalling;
+        public Vector3 playerMovement;
+        public bool playerIsGrounded;
+        public float horizontalIntput;
+        public bool isCursorLocked = false;
         public bool abilityLocked = false;
         #endregion
         // ---------------------------------------------------------
@@ -229,7 +242,57 @@ namespace Player
                 else if (Input.GetKeyDown(KeyCode.R) && !naturesMelodyOnCooldown) TransitionToState(naturesMelodyState);
             }
 
+            horizontalIntput = Input.GetAxis("Horizontal");
+
+            float vertical = Input.GetAxis("Vertical");
+
+            playerMovement = transform.forward * vertical;
+            playerMovement = playerMovement.normalized * currentMovementSpeed * Time.deltaTime;
+
+            playerIsGrounded = Physics.CheckSphere(groundCheckTransform.position, 0.1f, groundLayerMask);
+            Color debugColor = playerIsGrounded ? Color.green : Color.red;
+            Debug.DrawRay(groundCheckTransform.position, Vector3.down * 0.1f, debugColor);
+
+            playerIsJumping = (playerIsGrounded && Input.GetKeyDown(KeyCode.Space));
+
+            playerIsFastFalling = (!playerIsGrounded && playerRigidbody.velocity.y < 0);
+
+            // if (Input.GetMouseButtonDown(1))
+            // {
+            //     Cursor.lockState = CursorLockMode.Locked;
+            //     isCursorLocked = true;
+            // }
+            // else if (Input.GetMouseButtonUp(1))
+            // {
+            //     Cursor.lockState = CursorLockMode.None;
+            //     isCursorLocked = false;
+            // }
+
+            // if (isCursorLocked)
+            // {
+            //     float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+            //     rotationX += mouseX;
+
+            //     transform.rotation = Quaternion.Euler(0f, rotationX, 0f);
+            // }
+
+            // if (Input.GetMouseButton(1))
+            // {
+            //     transform.rotation = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0);
+            // }
+
             currentState.Execute();
+        }
+
+        void FixedUpdate()
+        {
+            playerRigidbody.MovePosition(transform.position + playerMovement);
+
+            transform.Rotate(Vector3.up, horizontalIntput * rotateSpeed);
+
+            if (playerIsJumping) playerRigidbody.AddForce(Vector3.up * currentJumpForce, ForceMode.Impulse);
+
+            if (playerIsFastFalling) playerRigidbody.AddForce((Vector3.down * gravityMultiplier), ForceMode.Acceleration);
         }
 
         public void TransitionToState(PlayerState newState)
@@ -250,17 +313,17 @@ namespace Player
 
             if (TryGetComponent(out Rigidbody playerRigidbodyTemp)) playerRigidbody = playerRigidbodyTemp;
             else Debug.LogError("The component 'Rigidbody' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
-            
+
             if (TryGetComponent(out Animator playerAnimatorTemp)) playerAnimator = playerAnimatorTemp;
             else Debug.LogError("The component 'Animator' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
-            
+
             if (TryGetComponent(out HealthManager healthManagerTemp)) healthManagerCS = healthManagerTemp;
             else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
 
             if (TryGetComponent(out ShieldManager shieldManagerTemp)) shieldManagerCS = shieldManagerTemp;
             else Debug.LogError("The component 'ShieldManager' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
         }
-        
+
         private void CreateStateInstances()
         {
             idleState = new IdleState(this);
