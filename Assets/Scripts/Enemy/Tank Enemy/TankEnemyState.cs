@@ -1,4 +1,5 @@
-namespace TankEnemy
+
+namespace Enemy.Tank
 {
     public abstract class TankEnemyState
     {

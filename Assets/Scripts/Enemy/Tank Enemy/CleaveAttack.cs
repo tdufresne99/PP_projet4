@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Player;
 
-namespace TankEnemy
+namespace Enemy.Tank
 {
     public class CleaveAttack : MonoBehaviour
     {

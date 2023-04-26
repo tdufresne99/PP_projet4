@@ -350,8 +350,8 @@ namespace Player
         {
             playerDamageDealerCS.OnDamageDealt += OnDamageDealt;
             playerDamageReceiverCS.OnDamageReceived += OnDamageReceived;
-            playerHealingReceiverCS.OnHealingReceived += OnHealingReceived;
             playerHealingDealerCS.OnHealingDealt += OnHealingDealt;
+            playerHealingReceiverCS.OnHealingReceived += OnHealingReceived;
         }
 
         private void OnDamageDealt(float damageDealt)

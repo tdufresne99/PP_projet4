@@ -1,4 +1,4 @@
-namespace RangeEnemy
+namespace Enemy.Range
 {
     public abstract class RangeEnemyState
     {

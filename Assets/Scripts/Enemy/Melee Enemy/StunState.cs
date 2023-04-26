@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace MeleeEnemy
+namespace Enemy.Melee
 {
     public class StunState : MeleeEnemyState
     {

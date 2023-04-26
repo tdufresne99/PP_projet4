@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace RangeEnemy
+namespace Enemy.Range
 {
     public class RangeEnemyStateManager : MonoBehaviour
     {

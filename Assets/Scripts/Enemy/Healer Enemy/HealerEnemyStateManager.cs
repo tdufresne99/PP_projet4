@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace HealerEnemy
+namespace Enemy.Healer
 {
     public class HealerEnemyStateManager : MonoBehaviour
     {

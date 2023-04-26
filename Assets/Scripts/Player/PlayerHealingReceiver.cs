@@ -26,7 +26,9 @@ namespace Player
 
         public void ReceiveHealing(float healing)
         {
-            _healthManagerCS.ReceiveHealing(healing * _healingMultiplier);
+            var calculatedHealing = healing * _healingMultiplier;
+            _healthManagerCS.ReceiveHealing(calculatedHealing);
+            OnHealingReceived?.Invoke(calculatedHealing);
         }
 
         public event Action<float> OnHealingReceived;

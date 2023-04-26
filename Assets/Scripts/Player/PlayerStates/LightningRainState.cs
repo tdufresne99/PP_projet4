@@ -1,6 +1,10 @@
 using System.Collections;
 using UnityEngine;
-
+using Enemy;
+using Enemy.Tank;
+using Enemy.Range;
+using Enemy.Melee;
+using Enemy.Healer;
 
 namespace Player
 {
@@ -85,25 +89,25 @@ namespace Player
                     switch (detectedEnemy.enemyType)
                     {
                         case EnemyTypes.Melee:
-                            var meleeManager = detectedEnemy.GetComponent<MeleeEnemy.MeleeEnemyStateManager>();
+                            var meleeManager = detectedEnemy.GetComponent<MeleeEnemyStateManager>();
                             meleeManager.stunDuration = _manager.lightningRainStunDuration;
                             meleeManager.TransitionToState(meleeManager.stunState);
                             break;
 
                         case EnemyTypes.Range:
-                            var rangeManager = detectedEnemy.GetComponent<RangeEnemy.RangeEnemyStateManager>();
+                            var rangeManager = detectedEnemy.GetComponent<RangeEnemyStateManager>();
                             rangeManager.stunDuration = _manager.lightningRainStunDuration;
                             rangeManager.TransitionToState(rangeManager.stunState);
                             break;
 
                         case EnemyTypes.Tank:
-                            var tankManager = detectedEnemy.GetComponent<TankEnemy.TankEnemyStateManager>();
+                            var tankManager = detectedEnemy.GetComponent<TankEnemyStateManager>();
                             tankManager.currentStunDuration = _manager.lightningRainStunDuration;
                             tankManager.TransitionToState(tankManager.stunState);
                             break;
 
                         case EnemyTypes.Healer:
-                            var healerManager = detectedEnemy.GetComponent<HealerEnemy.HealerEnemyStateManager>();
+                            var healerManager = detectedEnemy.GetComponent<HealerEnemyStateManager>();
                             healerManager.stunDuration = _manager.lightningRainStunDuration;
                             healerManager.TransitionToState(healerManager.stunState);
                             break;

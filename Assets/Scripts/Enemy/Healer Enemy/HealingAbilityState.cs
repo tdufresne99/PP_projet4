@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HealerEnemy
+namespace Enemy.Healer
 {
     public class HealingAbilityState : HealerEnemyState
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using Player;
 
-namespace HealerEnemy
+namespace Enemy.Healer
 {
     public class HealerEnemyProjectile : MonoBehaviour
     {

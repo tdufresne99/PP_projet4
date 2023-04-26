@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RangeEnemy
+namespace Enemy.Range
 {
     public class TeleportLocationFinder : MonoBehaviour
     {

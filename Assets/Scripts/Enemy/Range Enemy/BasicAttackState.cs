@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace RangeEnemy
+namespace Enemy.Range
 {
     public class BasicAttackState : RangeEnemyState
     {

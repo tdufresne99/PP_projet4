@@ -1,7 +1,7 @@
 using UnityEngine;
 using Player;
 
-namespace RangeEnemy
+namespace Enemy.Range
 {
     public class RangeEnemyProjectile : MonoBehaviour
     {

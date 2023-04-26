@@ -1,4 +1,5 @@
-namespace MeleeEnemy
+
+namespace Enemy.Melee
 {
     public abstract class MeleeEnemyState
     {

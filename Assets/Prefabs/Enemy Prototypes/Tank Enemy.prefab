@@ -84,8 +84,8 @@ GameObject:
   - component: {fileID: 5104730304044516172}
   - component: {fileID: 814113789242867003}
   - component: {fileID: 8436481485159562875}
-  - component: {fileID: 1119258062}
   - component: {fileID: 248665630}
+  - component: {fileID: 1119258062}
   m_Layer: 8
   m_Name: Tank Enemy
   m_TagString: Untagged
@@ -108,7 +108,7 @@ Transform:
   - {fileID: 8171570792771196048}
   - {fileID: 479491875}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6564061161486787233
 MeshFilter:
@@ -318,6 +318,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyType: 2
   _damageMultiplier: 1
+--- !u!114 &248665630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6564061161486787236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f016f24913051d45a46ec85ec6e1bee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healingMultiplier: 1
 --- !u!95 &1119258062
 Animator:
   serializedVersion: 5
@@ -338,19 +351,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &248665630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6564061161486787236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f016f24913051d45a46ec85ec6e1bee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _healingMultiplier: 1
 --- !u!1001 &6564061161755197983
 PrefabInstance:
   m_ObjectHideFlags: 0

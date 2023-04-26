@@ -2,25 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyHealingReceiver : MonoBehaviour
+namespace Enemy
 {
-    private HealthManager _healthManagerCS;
-    [SerializeField] private float _healingMultiplier = 1;
-    public float healingMultiplier
+    public class EnemyHealingReceiver : MonoBehaviour
     {
-        get => _healingMultiplier;
-        set
+        private HealthManager _healthManagerCS;
+        [SerializeField] private float _healingMultiplier = 1;
+        public float healingMultiplier
         {
-            _healingMultiplier = value;
+            get => _healingMultiplier;
+            set
+            {
+                _healingMultiplier = value;
+            }
         }
-    }
-    void Awake()
-    {
-        _healthManagerCS = GetComponent<HealthManager>();
-    }
+        void Awake()
+        {
+            _healthManagerCS = GetComponent<HealthManager>();
+        }
 
-    public void OnHealingReceived(float healing)
-    {
-        _healthManagerCS.ReceiveHealing(healing * _healingMultiplier);
+        public void OnHealingReceived(float healing)
+        {
+            _healthManagerCS.ReceiveHealing(healing * _healingMultiplier);
+        }
     }
 }

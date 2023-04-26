@@ -1,4 +1,5 @@
-namespace HealerEnemy
+
+namespace Enemy.Healer
 {
     public abstract class HealerEnemyState
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Player;
 
-namespace RangeEnemy
+namespace Enemy.Range
 {
     public class Meteor : MonoBehaviour
     {

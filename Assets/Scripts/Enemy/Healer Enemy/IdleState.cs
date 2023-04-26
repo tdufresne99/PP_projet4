@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace HealerEnemy
+namespace Enemy.Healer
 {
     public class IdleState : HealerEnemyState
     {
