@@ -9,13 +9,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - Ground
   - Water
   - UI
-  - Ground
+  - Player
   - PlayerHitbox
-  - 
-  - 
+  - Enemy
+  - EnemyHitbox
   - 
   - 
   - 

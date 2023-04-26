@@ -5,7 +5,8 @@ namespace TankEnemy
 {
     public class TankEnemyStateManager : MonoBehaviour
     {
-        // ---- State Test materials ------------------------------
+        // ---------------------------------------------------------
+        #region State Test Materials
         [Header("-- State Test Materials --")]
         public Material idleMat;
         public Material chaseMat;
@@ -15,12 +16,12 @@ namespace TankEnemy
         public Material stunMat;
         public Material resetMat;
         public Material dyingMat;
-        // --------------------------------------------------------
+        #endregion
+        // ---------------------------------------------------------
 
-
-        // ---- Tank Enemy States ---------------------------------
+        // ---------------------------------------------------------
+        #region Tank Enemy States
         public TankEnemyState currentState;
-
         public IdleState idleState;
         public ChaseState chaseState;
         public BasicAttackState basicAttackState;
@@ -29,20 +30,46 @@ namespace TankEnemy
         public StunState stunState;
         public ResetState resetState;
         public DyingState dyingState;
-        // --------------------------------------------------------
-
-
-        // ---- Cooldown states ------------------------------------
-        [Header("-- Cooldown States --")]
-        public bool shieldOnCooldown = false;
-        public bool shieldActive = false;
-
-        public bool cleaveOnCooldown = false;
-        public bool cleaveActive = false;
+        #endregion
         // ---------------------------------------------------------
 
+        // ---------------------------------------------------------
+        #region Cooldown States
+        [Header("-- Cooldown States --")]
+        [SerializeField] private bool _shieldOnCooldown = false;
+        public bool shieldOnCooldown
+        {
+            get => _shieldOnCooldown;
+            set
+            {
+                if (_shieldOnCooldown == value) return;
 
-        // ---- Tank Enemy Components ---------------------------------
+                if (value == true) OnShieldCooldownStart();
+                else OnShieldCooldownEnd();
+
+                _shieldOnCooldown = value;
+            }
+        }
+
+        [SerializeField] private bool _cleaveOnCooldown = false;
+        public bool cleaveOnCooldown
+        {
+            get => _cleaveOnCooldown;
+            set
+            {
+                if (_cleaveOnCooldown == value) return;
+
+                if (value == true) OnCleaveCooldownStart();
+                else OnCleaveCooldownEnd();
+
+                _cleaveOnCooldown = value;
+            }
+        }
+        #endregion
+        // ---------------------------------------------------------
+
+        // ---------------------------------------------------------
+        #region Internal Components
         [Header("-- Internal Components --")]
         [HideInInspector] public MeshRenderer meshRenderer;
         [HideInInspector] public NavMeshAgentManager navMeshAgentManagerCS;
@@ -50,60 +77,100 @@ namespace TankEnemy
         [HideInInspector] public EnemyDamageDealer enemyDamageDealerCS;
         [HideInInspector] public EnemyDamageReceiver enemyDamageReceiverCS;
         [HideInInspector] public Animator tankAnimator;
-        // --------------------------------------------------------
+        #endregion
+        // ---------------------------------------------------------
 
-
-        // ---- External References --------------------------------
+        // ---------------------------------------------------------
+        #region External References
         [Header("-- External References --")]
         public Transform resetTransform;
         public Transform targetTransform;
         public LayerMask targetLayerMask;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Coroutines -----------------------------------------
+        // ---------------------------------------------------------
+        #region Coroutines
         public Coroutine coroutineShieldCooldown;
         public Coroutine coroutineCleaveCooldown;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Ajustable Values -----------------------------------
+        // ---------------------------------------------------------
+        #region Ajustable Values
+        [Header("-- Ajustable Values --")]
+        // ------------------------------------------------->
+        #region Base Attack Settings
         [Header("-- Base Attack Settings --")]
-        public float baseAttackRange = 2.2f;
+        public float baseAttackRange = 4f;
         public float baseAttackDamage = 20f;
-        [Range(0f, 1f)] public float baseLeech = 0f;
+        public float baseLeech = 0f;
         public float baseAttackSpeed = 1.5f;
-        public float detectionRange = 5f;
-
-
+        public float detectionRange = 10f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Base Health Settings
         [Header("-- Base Health Settings --")]
-        public float baseHealthPoints = 200f;
-
-
+        public float baseHealthPoints = 500f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Base Movement Settings
         [Header("-- Base Movement Settings --")]
         public float baseMovementSpeed = 20f;
-
-
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Shield Ability Settings
         [Header("-- Shield Ability Settings --")]
         [Range(0f, 1f)] public float shieldDamageReduction = 0.1f;
-        [Range(0f, 1f)] public float shieldActivationRatio = 0.8f;
-        public float shieldUpTime = 10f;
-        public float shieldCooldown = 20f;
-
-
+        [Range(0f, 1f)] public float shieldActivationRatio = 0.6f; // HP threshold for shield activation
+        public float shieldUpTime = 8f;
+        public float shieldCooldownTime = 60f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Cleave Ability Settings
         [Header("-- Cleave Ability Settings --")]
-        public float cleaveAttackDamage = 80f;
-        [Range(0f, 1f)] public float cleaveActivationChance = 0.3f;
-        public float cleaveCooldown = 20f;
+        [SerializeField] private float _cleaveAttackMultiplier = 8f;
+        public float cleaveAttackDamage => currentAttackDamage * _cleaveAttackMultiplier;
+        [Range(0f, 1f)] public float cleaveActivationChance = 0.333f; // % to activate cleave with each attacks
+        public float cleaveCooldownTime = 40f;
+        #endregion
+        // -------------------------------------------------<
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Calculated Values ----------------------------------
+        // ---------------------------------------------------------
+        #region Calculated Values
         [Header("-- Current Values --")]
         public float currentAttackDamage;
-        public float currentLeech;
+        [SerializeField] private float _currentAttackRange;
+        public float currentAttackRange
+        {
+            get => _currentAttackRange;
+            set
+            {
+                if (_currentAttackRange == value) return;
+                _currentAttackRange = value;
+                navMeshAgentManagerCS.ChangeStopDistance(_currentAttackRange);
+            }
+        }
+        [SerializeField] private float _currentLeech;
+        public float currentLeech
+        {
+            get => _currentLeech;
+            set
+            {
+                if (value == _currentLeech) return;
+                Mathf.Clamp(value, 0, 10);
+                _currentLeech = value;
+                enemyDamageDealerCS.leech = _currentLeech;
+            }
+        }
         public float currentAttackSpeed;
-        public float stunDuration;
+        public float currentStunDuration;
         public bool stunned = false;
         [SerializeField] private float _currentMovementSpeed;
         public float currentMovementSpeed
@@ -115,6 +182,8 @@ namespace TankEnemy
                 navMeshAgentManagerCS.ChangeAgentSpeed(value);
             }
         }
+        public bool abilityLocked = false;
+        #endregion
         // ---------------------------------------------------------
 
         void Awake()
@@ -143,7 +212,7 @@ namespace TankEnemy
         public void TransitionToState(TankEnemyState newState)
         {
             if (stunned) return;
-            
+
             if (currentState != null)
             {
                 currentState.Exit();
@@ -194,6 +263,7 @@ namespace TankEnemy
 
         private void SetBaseValues()
         {
+            currentAttackRange = baseAttackRange;
             currentAttackDamage = baseAttackDamage;
             currentAttackSpeed = baseAttackSpeed;
             currentLeech = baseLeech;
@@ -211,10 +281,15 @@ namespace TankEnemy
         {
             var healthRatio = healthManagerCS.currentHealthPoints / healthManagerCS.maxHealthPoints;
 
-            if (healthRatio <= shieldActivationRatio && !shieldOnCooldown && !shieldActive && !cleaveActive)
+            if (healthRatio <= shieldActivationRatio && !shieldOnCooldown && !abilityLocked)
             {
                 TransitionToState(shieldAbilityState);
             }
+        }
+
+        public void EndCleave()
+        {
+            TransitionToState(chaseState);
         }
 
         public void SelfDestruct()
@@ -259,23 +334,42 @@ namespace TankEnemy
             }
         }
 
+
+        #region Cleave Cooldown
+        public IEnumerator CoroutineCleaveCooldown()
+        {
+            yield return new WaitForSecondsRealtime(cleaveCooldownTime);
+            cleaveOnCooldown = false;
+        }
+
+        private void OnCleaveCooldownStart()
+        {
+            coroutineCleaveCooldown = StartCoroutine(CoroutineCleaveCooldown());
+        }
+
+        private void OnCleaveCooldownEnd()
+        {
+            if (coroutineCleaveCooldown != null) StopCoroutine(coroutineCleaveCooldown);
+        }
+        #endregion
+
+        #region Shield Cooldown
         public IEnumerator CoroutineShieldCooldown()
         {
-            shieldOnCooldown = true;
-            yield return new WaitForSecondsRealtime(shieldCooldown);
+            yield return new WaitForSecondsRealtime(shieldCooldownTime);
             shieldOnCooldown = false;
         }
 
-        public void EndCleave()
+        private void OnShieldCooldownStart()
         {
-            TransitionToState(chaseState);
+            coroutineShieldCooldown = StartCoroutine(CoroutineShieldCooldown());
         }
 
-        public IEnumerator CoroutineCleaveCooldown()
+        private void OnShieldCooldownEnd()
         {
-            cleaveOnCooldown = true;
-            yield return new WaitForSecondsRealtime(cleaveCooldown);
-            cleaveOnCooldown = false;
+            if (coroutineShieldCooldown != null) StopCoroutine(coroutineShieldCooldown);
         }
+        #endregion
+
     }
 }

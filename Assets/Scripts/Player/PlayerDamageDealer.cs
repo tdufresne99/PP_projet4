@@ -1,41 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDamageDealer : MonoBehaviour
+namespace Player
 {
-    [SerializeField] private float _baseDamage = 10;
-    public float baseDamage
+    public class PlayerDamageDealer : MonoBehaviour
     {
-        get => _baseDamage;
-        set
+        private PlayerHealingReceiver _playerHealingReceiver;
+
+        void Awake()
         {
-            _baseDamage = value;
-            AjustDamageValue();
+            _playerHealingReceiver = GetComponent<PlayerHealingReceiver>();
+            if (_playerHealingReceiver == null) Debug.LogWarning("No 'PlayerHealingReceiver' found on " + gameObject.name + " (PlayerDamageDealer.cs)");
         }
-    }
 
-    [SerializeField] private float _damageMultiplier = 1;
-    public float damageMultiplier
-    {
-        get => _damageMultiplier;
-        set
+        public void DealDamage(EnemyDamageReceiver enemyDamageReceiver, float damage, float damageMultiplier, float leech)
         {
-            _damageMultiplier = value;
-            AjustDamageValue();
+            var calculatedDamage = damage * damageMultiplier;
+            enemyDamageReceiver.OnDamageReceived(calculatedDamage);
+            OnDamageDealt?.Invoke(calculatedDamage);
+            if (leech > 0) _playerHealingReceiver.ReceiveHealing(calculatedDamage * leech);
         }
-    }
 
-    [SerializeField] private float _currentDamage;
-    public float currentDamage => _currentDamage;
-
-    void Awake()
-    {
-        AjustDamageValue();
-    }
-
-    private void AjustDamageValue()
-    {
-        _currentDamage = _baseDamage * _damageMultiplier;
+        public event Action<float> OnDamageDealt;
     }
 }

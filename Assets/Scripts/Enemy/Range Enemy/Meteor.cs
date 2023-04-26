@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Player;
 
 namespace RangeEnemy
 {
@@ -36,7 +37,7 @@ namespace RangeEnemy
             var targetDamageReceiver = other.GetComponent<PlayerDamageReceiver>();
             if (targetDamageReceiver != null)
             {
-                targetDamageReceiver.OnDamageReceived(damage);
+                targetDamageReceiver.ReceiveDamage(damage);
                 Destroy(gameObject);
             }
         }

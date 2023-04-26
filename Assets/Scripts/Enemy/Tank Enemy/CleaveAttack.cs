@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Player;
 
 namespace TankEnemy
 {
@@ -23,6 +24,7 @@ namespace TankEnemy
             var playerDamageReceiver = other.GetComponent<PlayerDamageReceiver>();
             if(playerDamageReceiver != null)
             {
+                Debug.Log("cleave on player");
                 _enemyDamageDealerCS.OnDamageDealt(_tankEnemyStateManagerCS.cleaveAttackDamage);
             }
         }

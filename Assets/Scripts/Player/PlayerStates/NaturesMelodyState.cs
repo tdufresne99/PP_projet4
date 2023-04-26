@@ -50,7 +50,7 @@ namespace Player
         {
             for (int i = 0; i < _manager.naturesMelodyMaxTicks; i++)
             {
-                _manager.healthManagerCS.ReceiveHealing(_manager.healthManagerCS.maxHealthPoints / _manager.naturesMelodyMaxTicks);
+                _manager.playerHealingDealerCS.DealHealing(_manager.playerHealingReceiverCS, _manager.healthManagerCS.maxHealthPoints / _manager.naturesMelodyMaxTicks);
                 yield return new WaitForSecondsRealtime(_manager.naturesMelodyTickTime);
             }
             _manager.TransitionToState(_manager.idleState);

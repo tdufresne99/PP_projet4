@@ -28,13 +28,4 @@ public class EnemyDamageReceiver : MonoBehaviour
         var accurateDamageReceived = damage * _damageMultiplier;
         _healthManagerCS.ReceiveDamage(accurateDamageReceived);
     }
-
-    void OnTriggerEnter(Collider other)
-    {
-        var damageDealer = other.GetComponent<PlayerDamageDealer>();
-        if(damageDealer != null)
-        {
-            OnDamageReceived(damageDealer.currentDamage);
-        }
-    }
 }

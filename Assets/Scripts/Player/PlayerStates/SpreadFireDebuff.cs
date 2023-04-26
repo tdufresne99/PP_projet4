@@ -7,6 +7,7 @@ namespace Player
     public class SpreadFireDebuff : MonoBehaviour
     {
         public PlayerStateManager playerStateManagerCS;
+        public PlayerDamageDealer playerDamageDealerCS;
         private EnemyDamageReceiver _enemyDamageReceiverCS;
         private Coroutine _coroutineSpreadFireTick;
         private float _spreadFireDamage;
@@ -37,7 +38,7 @@ namespace Player
             var timeBetweenTicks = _spreadFireDuration / _spreadFireTicks;
             for (int i = 0; i < _spreadFireTicks; i++)
             {
-                _enemyDamageReceiverCS.OnDamageReceived(damagePerTick);
+                playerDamageDealerCS.DealDamage(_enemyDamageReceiverCS, damagePerTick, 1, playerStateManagerCS.currentLeech);
                 yield return new WaitForSecondsRealtime(timeBetweenTicks);
             }
             Destroy(this);

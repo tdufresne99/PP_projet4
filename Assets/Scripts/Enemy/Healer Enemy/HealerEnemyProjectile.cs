@@ -1,4 +1,5 @@
 using UnityEngine;
+using Player;
 
 namespace HealerEnemy
 {
@@ -34,7 +35,7 @@ namespace HealerEnemy
             if (other.transform == targetTransform)
             {
                 var targetDamageReceiver = other.GetComponent<PlayerDamageReceiver>();
-                targetDamageReceiver.OnDamageReceived(damage);
+                targetDamageReceiver.ReceiveDamage(damage);
                 Destroy(gameObject);
             }
         }

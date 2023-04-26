@@ -1,29 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(HealthManager))]
-public class PlayerDamageReceiver : MonoBehaviour
+
+namespace Player
 {
-    private HealthManager _healthManagerCS;
-    [SerializeField] private float _damageMultiplier = 1;
-    public float damageMultiplier
+    [RequireComponent(typeof(HealthManager))]
+    public class PlayerDamageReceiver : MonoBehaviour
     {
-        get => _damageMultiplier;
-        set
+        private HealthManager _healthManagerCS;
+        [SerializeField] private float _damageMultiplier = 1;
+        public float damageMultiplier
         {
-            _damageMultiplier = value;
+            get => _damageMultiplier;
+            set
+            {
+                _damageMultiplier = value;
+            }
         }
-    }
 
-    void Awake()
-    {
-        _healthManagerCS = GetComponent<HealthManager>();
-    }
+        void Awake()
+        {
+            _healthManagerCS = GetComponent<HealthManager>();
+        }
 
-    public void OnDamageReceived(float damage)
-    {
-        var accurateDamageReceived = damage * _damageMultiplier;
-        _healthManagerCS.ReceiveDamage(accurateDamageReceived);
+        public void ReceiveDamage(float damage)
+        {
+            var calculatedDamageReceived = damage * _damageMultiplier;
+            _healthManagerCS.ReceiveDamage(calculatedDamageReceived);
+            OnDamageReceived?.Invoke(calculatedDamageReceived);
+        }
+
+        public event Action<float> OnDamageReceived;
     }
 }

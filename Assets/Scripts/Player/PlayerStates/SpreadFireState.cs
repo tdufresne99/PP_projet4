@@ -48,6 +48,8 @@ namespace Player
                     detectedEnemies.Add(detectedEnemy);
                     var spreadFireDebuff = detectedEnemy.gameObject.AddComponent<SpreadFireDebuff>();
                     spreadFireDebuff.playerStateManagerCS = _manager;
+                    spreadFireDebuff.playerStateManagerCS = _manager;
+                    spreadFireDebuff.playerDamageDealerCS = _manager.playerDamageDealerCS;
 
                     Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.green, 1f);
                 }

@@ -35,7 +35,7 @@ namespace TankEnemy
 
         private IEnumerator CoroutineStun()
         {
-            yield return new WaitForSecondsRealtime(_manager.stunDuration);
+            yield return new WaitForSecondsRealtime(_manager.currentStunDuration);
 
             _manager.stunned = false;
             _manager.TransitionToState(_manager.chaseState);

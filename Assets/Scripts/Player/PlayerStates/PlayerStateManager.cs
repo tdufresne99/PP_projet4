@@ -108,6 +108,10 @@ namespace Player
         [HideInInspector] public Animator playerAnimator;
         [HideInInspector] public HealthManager healthManagerCS;
         [HideInInspector] public ShieldManager shieldManagerCS;
+        [HideInInspector] public PlayerDamageDealer playerDamageDealerCS;
+        [HideInInspector] public PlayerDamageReceiver playerDamageReceiverCS;
+        [HideInInspector] public PlayerHealingDealer playerHealingDealerCS;
+        [HideInInspector] public PlayerHealingReceiver playerHealingReceiverCS;
         #endregion
         // ---------------------------------------------------------
 
@@ -139,6 +143,7 @@ namespace Player
         [Header("Base Attack Settings")]
         public float baseAttackRange = 2.2f;
         public float baseAttackDamage = 20f;
+        public float baseLeech = 0;
         public float baseAttackSpeed = 1.5f;
         #endregion
 
@@ -155,20 +160,22 @@ namespace Player
         #region SpreadFire Ability Settings
         [Header("SpreadFire Ability Settings")]
         public float spreadFireRange = 12f;
-        public float spreadFireDamage = 120f;
+        [SerializeField] private float _spreadFireDamageMultiplier = 6f;
+        public float spreadFireDamage => currentAttackDamage * _spreadFireDamageMultiplier;
+        public int spreadFireTicks = 5;
         public float spreadFireDuration = 8f;
         public float spreadFireCooldownTime = 45f;
-        public int spreadFireTicks = 5;
         #endregion
 
         #region LightningRain Ability Settings
         [Header("LightningRain Ability Settings")]
         public float lightningRainRadius = 8f;
-        public float lightningRainDamagePerCharge = 40f;
+        [SerializeField] private float lightningRainDamagePerChargeMultiplier = 3f;
+        public int lightningRainMaxCharges = 3;
+        public float lightningRainDamagePerCharge => currentAttackDamage * lightningRainDamagePerChargeMultiplier;
         public float lightningRainCooldownTime = 100f;
         public float lightningRainActivationDelay = 3f;
         public float lightningRainStunDuration = 3f;
-        public int lightningRainMaxCharges = 3;
         #endregion
 
         #region IceShield Ability Settings
@@ -192,6 +199,7 @@ namespace Player
         #region Current Values
         [Header("Current values")]
         public float currentAttackDamage;
+        public float currentLeech;
         public float currentAttackSpeed;
         public float currentMovementSpeed;
         public Vector3 playerMovement;
@@ -207,6 +215,7 @@ namespace Player
         void Awake()
         {
             TryGetRequiredComponents();
+            SubscribeToRequiredEvents();
         }
 
         private void Start()
@@ -246,7 +255,7 @@ namespace Player
             float vertical = Input.GetAxis("Vertical");
 
             playerMovement = transform.forward * vertical;
-            playerMovement = playerMovement.normalized * currentMovementSpeed * Time.deltaTime;
+            playerMovement = playerMovement.normalized * currentMovementSpeed;
 
             playerIsGrounded = Physics.CheckSphere(groundCheckTransform.position, 0.2f, groundLayerMask);
             Color debugColor = playerIsGrounded ? Color.green : Color.red;
@@ -302,6 +311,18 @@ namespace Player
 
             if (TryGetComponent(out ShieldManager shieldManagerTemp)) shieldManagerCS = shieldManagerTemp;
             else Debug.LogError("The component 'ShieldManager' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
+
+            if (TryGetComponent(out PlayerDamageDealer playerDamageDealerTemp)) playerDamageDealerCS = playerDamageDealerTemp;
+            else Debug.LogError("The component 'PlayerDamageDealer' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
+
+            if (TryGetComponent(out PlayerDamageReceiver playerDamageReceiverTemp)) playerDamageReceiverCS = playerDamageReceiverTemp;
+            else Debug.LogError("The component 'PlayerDamageReceiver' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
+
+            if (TryGetComponent(out PlayerHealingReceiver playerHealingReceiverTemp)) playerHealingReceiverCS = playerHealingReceiverTemp;
+            else Debug.LogError("The component 'PlayerHealingReceiver' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
+
+            if (TryGetComponent(out PlayerHealingDealer playerHealingDealerTemp)) playerHealingDealerCS = playerHealingDealerTemp;
+            else Debug.LogError("The component 'PlayerHealingDealer' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
         }
 
         private void CreateStateInstances()
@@ -317,12 +338,42 @@ namespace Player
         private void SetBaseValues()
         {
             currentAttackDamage = baseAttackDamage;
+            currentLeech = baseLeech;
             currentAttackSpeed = baseAttackSpeed;
             currentMovementSpeed = baseMovementSpeed;
             currentJumpForce = baseJumpForce;
 
             shieldManagerCS.SetShieldPointsValues(iceShieldHealthPerStack * iceShieldMaxStacks);
         }
+
+        private void SubscribeToRequiredEvents()
+        {
+            playerDamageDealerCS.OnDamageDealt += OnDamageDealt;
+            playerDamageReceiverCS.OnDamageReceived += OnDamageReceived;
+            playerHealingReceiverCS.OnHealingReceived += OnHealingReceived;
+            playerHealingDealerCS.OnHealingDealt += OnHealingDealt;
+        }
+
+        private void OnDamageDealt(float damageDealt)
+        {
+            
+        }
+
+        private void OnDamageReceived(float damageReceived)
+        {
+            Debug.Log("-" + damageReceived);
+        }
+
+        private void OnHealingDealt(float healingDealt)
+        {
+
+        }
+
+        private void OnHealingReceived(float healingreceived)
+        {
+            
+        }
+
 
         // ===================================================================================================
         #region Spread Fire Cooldown

@@ -98,7 +98,7 @@ namespace Player
 
                         case EnemyTypes.Tank:
                             var tankManager = detectedEnemy.GetComponent<TankEnemy.TankEnemyStateManager>();
-                            tankManager.stunDuration = _manager.lightningRainStunDuration;
+                            tankManager.currentStunDuration = _manager.lightningRainStunDuration;
                             tankManager.TransitionToState(tankManager.stunState);
                             break;
 
@@ -112,7 +112,7 @@ namespace Player
                             break;
                     }
 
-                    detectedEnemy.OnDamageReceived(_manager.lightningRainDamagePerCharge * _charges);
+                    _manager.playerDamageDealerCS.DealDamage(detectedEnemy, _manager.lightningRainDamagePerCharge * _charges, 1, _manager.currentLeech);
 
                     Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.green, 1f);
                 }

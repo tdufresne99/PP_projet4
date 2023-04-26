@@ -2,9 +2,14 @@ using UnityEngine;
 
 public class RotateTowards : MonoBehaviour
 {
-    [SerializeField] private GameObject target; // The target GameObject to rotate towards
-    [SerializeField] private float rotationSpeed = 5f; // The speed of rotation
+    private GameObject target; // The target GameObject to rotate towards
+    [SerializeField] private float rotationSpeed = 10f; // The speed of rotation
     [SerializeField] private float yAngleOffset = 90f; // The angle offset in the Y axis
+
+    void Start()
+    {
+        target = Camera.main.gameObject;
+    }
 
     void Update()
     {

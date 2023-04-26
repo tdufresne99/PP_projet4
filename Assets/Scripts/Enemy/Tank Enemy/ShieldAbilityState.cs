@@ -17,9 +17,11 @@ namespace TankEnemy
         {
             // ---- Set state animations ------------------------------
             _manager.meshRenderer.material = _manager.shieldAbilityMat;
+            
+            _manager.abilityLocked = true;
 
             _manager.transform.LookAt(_manager.targetTransform, Vector3.up);
-            _manager.navMeshAgentManagerCS.ChangeAgentSpeed(0);
+            _manager.currentMovementSpeed = 0;
 
             _manager.enemyDamageReceiverCS.damageMultiplier = _manager.shieldDamageReduction;
 
@@ -34,13 +36,12 @@ namespace TankEnemy
         public override void Exit()
         {
             _manager.enemyDamageReceiverCS.damageMultiplier = 1f;
-            _manager.shieldActive = false;
-            _manager.coroutineShieldCooldown = _manager.StartCoroutine(_manager.CoroutineShieldCooldown());
+            _manager.abilityLocked = false;
+            _manager.shieldOnCooldown = true;
         }
 
         private IEnumerator CoroutineShieldUp()
         {
-            _manager.shieldActive = true;
             yield return new WaitForSecondsRealtime(_manager.shieldUpTime);
             _manager.TransitionToState(_manager.chaseState);
         }

@@ -18,6 +18,10 @@ namespace TankEnemy
             // ---- Set state animations ------------------------------
             _manager.meshRenderer.material = _manager.cleaveAbilityMat;
 
+            _manager.abilityLocked = true;
+
+            _manager.transform.LookAt(_manager.targetTransform, Vector3.up);
+
             PerformCleaveAttack();
         }
 
@@ -28,13 +32,12 @@ namespace TankEnemy
 
         public override void Exit()
         {
-            _manager.cleaveActive = false;
-            _manager.coroutineCleaveCooldown = _manager.StartCoroutine(_manager.CoroutineCleaveCooldown());
+            _manager.abilityLocked = false;
+            _manager.cleaveOnCooldown = true;
         }
 
         private void PerformCleaveAttack()
         {
-            _manager.cleaveActive = true;
             _manager.tankAnimator.SetTrigger(_cleaveTrigger);
         }
     }

@@ -44,7 +44,6 @@ namespace TankEnemy
         private void PerformBasicAttack()
         {
             _manager.enemyDamageDealerCS.OnDamageDealt(_manager.currentAttackDamage);
-            _manager.healthManagerCS.ReceiveHealing(_manager.currentAttackDamage * _manager.currentLeech);
 
             if (!_manager.cleaveOnCooldown)
             {

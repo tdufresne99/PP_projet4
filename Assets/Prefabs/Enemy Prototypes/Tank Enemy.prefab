@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 479491875}
   - component: {fileID: 479491876}
   - component: {fileID: 479491877}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CleaveHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 8436481485159562875}
   - component: {fileID: 1119258062}
   - component: {fileID: 248665630}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tank Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
@@ -203,10 +203,8 @@ MonoBehaviour:
   stunMat: {fileID: 2100000, guid: 3b1ef9636eddad24885692716e996e21, type: 2}
   resetMat: {fileID: 2100000, guid: 1635693dd870ca94ba49e9f95d57e6c6, type: 2}
   dyingMat: {fileID: 2100000, guid: 0bc1abef075063e4da014ad6eaa18904, type: 2}
-  shieldOnCooldown: 0
-  shieldActive: 0
-  cleaveOnCooldown: 0
-  cleaveActive: 0
+  _shieldOnCooldown: 0
+  _cleaveOnCooldown: 0
   meshRenderer: {fileID: 6564061161486787234}
   navMeshAgentManagerCS: {fileID: 0}
   healthManagerCS: {fileID: 0}
@@ -218,26 +216,28 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  baseAttackRange: 2.2
-  baseAttackDamage: 10
+  baseAttackRange: 4
+  baseAttackDamage: 20
   baseLeech: 0
   baseAttackSpeed: 1.5
   detectionRange: 5
-  baseHealthPoints: 200
+  baseHealthPoints: 400
   baseMovementSpeed: 4
   shieldDamageReduction: 0.1
-  shieldActivationRatio: 0.8
-  shieldUpTime: 10
-  shieldCooldown: 20
-  cleaveAttackDamage: 80
-  cleaveActivationChance: 1
-  cleaveCooldown: 20
+  shieldActivationRatio: 0.6
+  shieldUpTime: 8
+  shieldCooldownTime: 60
+  _cleaveAttackMultiplier: 6
+  cleaveActivationChance: 0.333
+  cleaveCooldownTime: 40
   currentAttackDamage: 0
-  currentLeech: 0
+  _currentAttackRange: 0
+  _currentLeech: 0
   currentAttackSpeed: 0
-  stunDuration: 0
+  currentStunDuration: 0
   stunned: 0
   _currentMovementSpeed: 0
+  abilityLocked: 0
 --- !u!114 &9191772394128676659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerDamageReceiver: {fileID: 0}
   _damageMultiplier: 1
+  _leech: 0
 --- !u!114 &8436481485159562875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,6 +359,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6564061161486787232}
     m_Modifications:
+    - target: {fileID: 3062301022224588593, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3062301022447654538, guid: d05d39919c124d646819bbb7a1322703, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
@@ -365,6 +370,10 @@ PrefabInstance:
     - target: {fileID: 3062301022447654542, guid: d05d39919c124d646819bbb7a1322703, type: 3}
       propertyPath: m_Name
       value: HealthBar Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062301022447654542, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3062301022447654543, guid: d05d39919c124d646819bbb7a1322703, type: 3}
       propertyPath: m_Pivot.x
@@ -449,6 +458,10 @@ PrefabInstance:
     - target: {fileID: 3062301022447654543, guid: d05d39919c124d646819bbb7a1322703, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062301023839662796, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
