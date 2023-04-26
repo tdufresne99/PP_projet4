@@ -194,13 +194,12 @@ namespace Player
         public float currentAttackDamage;
         public float currentAttackSpeed;
         public float currentMovementSpeed;
-        public float currentJumpForce;
-        public bool playerIsJumping;
-        public bool playerIsFastFalling;
         public Vector3 playerMovement;
-        public bool playerIsGrounded;
         public float horizontalIntput;
-        public bool isCursorLocked = false;
+        public float currentJumpForce;
+        public bool playerHoldingJump = false;
+        public bool playerIsFastFalling = false;
+        public bool playerIsGrounded;
         public bool abilityLocked = false;
         #endregion
         // ---------------------------------------------------------
@@ -249,48 +248,29 @@ namespace Player
             playerMovement = transform.forward * vertical;
             playerMovement = playerMovement.normalized * currentMovementSpeed * Time.deltaTime;
 
-            playerIsGrounded = Physics.CheckSphere(groundCheckTransform.position, 0.1f, groundLayerMask);
+            playerIsGrounded = Physics.CheckSphere(groundCheckTransform.position, 0.2f, groundLayerMask);
             Color debugColor = playerIsGrounded ? Color.green : Color.red;
-            Debug.DrawRay(groundCheckTransform.position, Vector3.down * 0.1f, debugColor);
+            Debug.DrawRay(groundCheckTransform.position, Vector3.down * 0.2f, debugColor);
 
-            playerIsJumping = (playerIsGrounded && Input.GetKeyDown(KeyCode.Space));
+            if (Input.GetKeyDown(KeyCode.Space)) playerHoldingJump = true;
+            if (Input.GetKeyUp(KeyCode.Space)) playerHoldingJump = false;
 
             playerIsFastFalling = (!playerIsGrounded && playerRigidbody.velocity.y < 0);
-
-            // if (Input.GetMouseButtonDown(1))
-            // {
-            //     Cursor.lockState = CursorLockMode.Locked;
-            //     isCursorLocked = true;
-            // }
-            // else if (Input.GetMouseButtonUp(1))
-            // {
-            //     Cursor.lockState = CursorLockMode.None;
-            //     isCursorLocked = false;
-            // }
-
-            // if (isCursorLocked)
-            // {
-            //     float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-            //     rotationX += mouseX;
-
-            //     transform.rotation = Quaternion.Euler(0f, rotationX, 0f);
-            // }
-
-            // if (Input.GetMouseButton(1))
-            // {
-            //     transform.rotation = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0);
-            // }
 
             currentState.Execute();
         }
 
         void FixedUpdate()
         {
-            playerRigidbody.MovePosition(transform.position + playerMovement);
+            if (playerIsGrounded) playerRigidbody.velocity = playerMovement + (transform.up * playerRigidbody.velocity.y);
 
             transform.Rotate(Vector3.up, horizontalIntput * rotateSpeed);
 
-            if (playerIsJumping) playerRigidbody.AddForce(Vector3.up * currentJumpForce, ForceMode.Impulse);
+            if (playerHoldingJump && playerIsGrounded) 
+            {
+                playerRigidbody.AddForce(Vector3.up * currentJumpForce, ForceMode.Impulse);
+                playerHoldingJump = false;
+            }
 
             if (playerIsFastFalling) playerRigidbody.AddForce((Vector3.down * gravityMultiplier), ForceMode.Acceleration);
         }

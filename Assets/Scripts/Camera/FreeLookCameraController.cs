@@ -22,6 +22,7 @@ public class FreeLookCameraController : MonoBehaviour
             freeLookCamera.m_YAxisRecentering.m_enabled = false;
             freeLookCamera.m_XAxis.m_InputAxisName = "Mouse X";
             freeLookCamera.m_YAxis.m_InputAxisName = "Mouse Y";
+            Cursor.lockState = CursorLockMode.Locked;
         }
         else if (Input.GetMouseButtonUp(1))
         {
@@ -30,6 +31,7 @@ public class FreeLookCameraController : MonoBehaviour
             freeLookCamera.m_YAxisRecentering.m_enabled = true;
             freeLookCamera.m_XAxis.m_InputAxisName = "";
             freeLookCamera.m_YAxis.m_InputAxisName = "";
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

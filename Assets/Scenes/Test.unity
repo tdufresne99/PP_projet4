@@ -524,8 +524,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153915222}
-  m_LocalRotation: {x: 0.17626423, y: 8.047397e-16, z: -2.731982e-16, w: 0.98434293}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.17658103, y: 0.000000014667008, z: -0.0000000026312625, w: 0.9842861}
+  m_LocalPosition: {x: 0, y: 0.0043890476, z: 0.0000076293945}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1035,7 +1035,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703034428}
-  m_LocalRotation: {x: 0.119423784, y: 0.000000019223446, z: -0.000000002312285, w: 0.9928434}
+  m_LocalRotation: {x: 0.11942379, y: 0.0000000060553154, z: -7.2836137e-10, w: 0.9928434}
   m_LocalPosition: {x: 0, y: 3.22, z: -20.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2001,7 +2001,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494809690}
-  m_LocalRotation: {x: 0.119423784, y: 0.000000019223446, z: -0.000000002312285, w: 0.9928434}
+  m_LocalRotation: {x: 0.11942379, y: 0.0000000060553154, z: -7.2836137e-10, w: 0.9928434}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2722,7 +2722,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890583035}
-  m_LocalRotation: {x: 0.119423784, y: 0.000000015159213, z: -0.00000000182342, w: 0.9928434}
+  m_LocalRotation: {x: 0.11942379, y: -0.0000000060553154, z: 7.2836137e-10, w: 0.9928434}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3056,6 +3056,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4784034779846718180, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784034779846718180, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4784034779846718181, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -3109,8 +3117,16 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: baseJumpForce
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: baseMovementSpeed
-      value: 40
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: gravityMultiplier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7501647634680246082, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: target
