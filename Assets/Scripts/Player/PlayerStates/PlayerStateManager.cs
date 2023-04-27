@@ -274,24 +274,24 @@ namespace Player
                 }
 
                 // Lightning Rain
-                if (Input.GetKeyDown(KeyCode.Q) && !lightningRainOnCooldown) 
+                if (Input.GetKeyDown(KeyCode.Q) && !lightningRainOnCooldown)
                 {
                     ChangeIconAlpha(lightningRainCDIcon, true);
                     TransitionToState(lightningRainState);
                 }
 
                 // Ice Shield
-                if (Input.GetKeyDown(KeyCode.LeftShift) && !iceShieldOnCooldown) 
+                if (Input.GetKeyDown(KeyCode.LeftShift) && !iceShieldOnCooldown)
                 {
                     ChangeIconAlpha(iceShieldCDIcon, true);
                 }
-                if (Input.GetKeyUp(KeyCode.LeftShift) && !iceShieldOnCooldown) 
+                if (Input.GetKeyUp(KeyCode.LeftShift) && !iceShieldOnCooldown)
                 {
                     TransitionToState(iceShieldState);
                 }
 
                 // Nature's Melody
-                if (Input.GetKeyDown(KeyCode.R) && !naturesMelodyOnCooldown) 
+                if (Input.GetKeyDown(KeyCode.R) && !naturesMelodyOnCooldown)
                 {
                     ChangeIconAlpha(naturesMelodyCDIcon, true);
                     TransitionToState(naturesMelodyState);
@@ -334,6 +334,11 @@ namespace Player
 
         public void TransitionToState(PlayerState newState)
         {
+            if (newState == null)
+            {
+                TransitionToState(idleState);
+                return;
+            }
             if (currentState != null)
             {
                 currentState.Exit();
@@ -377,10 +382,11 @@ namespace Player
         {
             idleState = new IdleState(this);
             basicAttackState = new BasicAttackState(this);
-            lightningRainState = new LightningRainState(this);
-            spreadFireState = new SpreadFireState(this);
-            iceShieldState = new IceShieldState(this);
-            naturesMelodyState = new NaturesMelodyState(this);
+
+            // spreadFireState = new SpreadFireState(this);
+            // iceShieldState = new IceShieldState(this);
+            // naturesMelodyState = new NaturesMelodyState(this);
+            // lightningRainState = new LightningRainState(this);
         }
 
         private void SetBaseValues()
@@ -400,6 +406,27 @@ namespace Player
             playerDamageReceiverCS.OnDamageReceived += OnDamageReceived;
             playerHealingDealerCS.OnHealingDealt += OnHealingDealt;
             playerHealingReceiverCS.OnHealingReceived += OnHealingReceived;
+        }
+
+        public void OnAbilityLearned(PlayerAbilityEnum ability)
+        {
+            switch (ability)
+            {
+                case PlayerAbilityEnum.SpreadFire:
+                    spreadFireState = new SpreadFireState(this);
+                    break;
+                case PlayerAbilityEnum.IceShield:
+                    iceShieldState = new IceShieldState(this);
+                    break;
+                case PlayerAbilityEnum.NaturesMelody:
+                    naturesMelodyState = new NaturesMelodyState(this);
+                    break;
+                case PlayerAbilityEnum.LightningRain:
+                    lightningRainState = new LightningRainState(this);
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void OnDamageDealt(float damageDealt)

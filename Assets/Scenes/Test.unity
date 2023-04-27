@@ -977,14 +977,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.45573044, g: 0, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: b5024ea0c5ae9224583fa48fc8952a26, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1084,14 +1084,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: b6dfe9e33fd50cb4bbd2f09267683973, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1176,8 +1176,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1200,7 +1200,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -2018,14 +2018,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.9896784, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 22751d2b3f9920a4d847157a494278e8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2094,14 +2094,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5975858, g: 1, b: 0.43867922, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 48d9961c76a2bfd44826ae8ddaf3cf3f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2694,8 +2694,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2718,7 +2718,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -2908,8 +2908,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2932,7 +2932,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -3933,7 +3933,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890583035}
-  m_LocalRotation: {x: 0.119423784, y: 0.000000017609004, z: -0.0000000021180928, w: 0.9928434}
+  m_LocalRotation: {x: 0.119423784, y: -0.000000017608997, z: 0.000000002118092, w: 0.9928434}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4009,8 +4009,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4033,7 +4033,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -4443,6 +4443,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 703034432}
     - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: iceShieldCDIcon
+      value: 
+      objectReference: {fileID: 905589672}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: iceShieldCDText
       value: 
       objectReference: {fileID: 1960781065}
@@ -4451,13 +4455,33 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: spreadFireCDIcon
+      value: 
+      objectReference: {fileID: 595531848}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: spreadFireCDText
       value: 
       objectReference: {fileID: 1612461427}
     - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: lightningRainCDIcon
+      value: 
+      objectReference: {fileID: 553479131}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: lightningRainCDText
+      value: 
+      objectReference: {fileID: 625070682}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: naturesMelodyCDIcon
+      value: 
+      objectReference: {fileID: 965430709}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: naturesMelodyCDText
       value: 
       objectReference: {fileID: 1421183304}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: lightningStormCDIcon
+      value: 
+      objectReference: {fileID: 553479131}
     - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: lightningStormCDText
       value: 
