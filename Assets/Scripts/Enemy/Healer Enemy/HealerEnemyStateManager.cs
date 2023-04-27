@@ -231,7 +231,7 @@ namespace Enemy.Healer
 
         public void TransitionToState(HealerEnemyState newState)
         {
-            if (stunned) return;
+            if (stunned && newState != dyingState) return;
             
             if (currentState != null)
             {
@@ -313,6 +313,14 @@ namespace Enemy.Healer
         }
 
         private void OnHealthPointsEmpty()
+        {
+            // Do something...
+
+            // Die
+            Die();
+        }
+
+        private void Die()
         {
             TransitionToState(dyingState);
         }

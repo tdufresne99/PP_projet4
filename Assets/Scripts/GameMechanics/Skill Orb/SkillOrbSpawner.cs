@@ -6,6 +6,6 @@ public class SkillOrbSpawner : MonoBehaviour
 {
     static public void InstantiateSkillOrb(GameObject skillOrb, Vector3 position)
     {
-        Instantiate(skillOrb, position, Quaternion.identity);
+        if (Application.isPlaying) Instantiate(skillOrb, position, Quaternion.identity);
     }
 }

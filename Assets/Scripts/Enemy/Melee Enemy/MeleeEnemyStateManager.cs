@@ -220,7 +220,7 @@ namespace Enemy.Melee
 
         public void TransitionToState(MeleeEnemyState newState)
         {
-            if (stunned) return;
+            if (stunned && newState != dyingState) return;
             
             if (currentState != null)
             {
@@ -292,6 +292,14 @@ namespace Enemy.Melee
         }
 
         private void OnHealthPointsEmpty()
+        {
+            // Do something...
+
+            // Die
+            Die();
+        }
+
+        private void Die()
         {
             TransitionToState(dyingState);
         }

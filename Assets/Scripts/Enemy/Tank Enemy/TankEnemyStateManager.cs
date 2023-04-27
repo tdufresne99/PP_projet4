@@ -223,7 +223,7 @@ namespace Enemy.Tank
 
         public void TransitionToState(TankEnemyState newState)
         {
-            if (stunned) return;
+            if (stunned && newState != dyingState) return;
 
             if (currentState != null)
             {
@@ -296,7 +296,20 @@ namespace Enemy.Tank
 
         private void OnHealthPointsEmpty()
         {
+            // Do something...
+
+            // Die
+            Die();
+        }
+
+        private void Die()
+        {
             TransitionToState(dyingState);
+        }
+
+        public void SelfDestruct()
+        {
+            Destroy(gameObject);
         }
 
         private void OnDamageReceived()
@@ -312,11 +325,6 @@ namespace Enemy.Tank
         public void EndCleave()
         {
             TransitionToState(chaseState);
-        }
-
-        public void SelfDestruct()
-        {
-            Destroy(gameObject);
         }
 
         public bool DetectObject(Transform otherObjectTransform, float distanceThreshold, LayerMask layerMask)

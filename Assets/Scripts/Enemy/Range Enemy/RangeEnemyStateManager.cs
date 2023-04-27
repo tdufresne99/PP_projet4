@@ -238,7 +238,7 @@ namespace Enemy.Range
 
         public void TransitionToState(RangeEnemyState newState)
         {
-            if (stunned) return;
+            if (stunned && newState != dyingState) return;
 
             if (currentState != null)
             {
@@ -319,6 +319,14 @@ namespace Enemy.Range
         }
 
         private void OnHealthPointsEmpty()
+        {
+            // Do something...
+
+            // Die
+            Die();
+        }
+
+        private void Die()
         {
             TransitionToState(dyingState);
         }
