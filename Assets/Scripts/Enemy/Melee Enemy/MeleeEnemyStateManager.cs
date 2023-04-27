@@ -6,7 +6,8 @@ namespace Enemy.Melee
     // *** Idée pour moi du futur: faire des dictionnaires d'anims pour differencier enrage et non enrage anims.
     public class MeleeEnemyStateManager : MonoBehaviour
     {
-        // ---- State Test materials ------------------------------
+        // ----------------------------------------------------------
+        #region State Test Materials
         [Header("-- State Test Materials --")]
         public Material idleMat;
         public Material chaseMat;
@@ -14,87 +15,158 @@ namespace Enemy.Melee
         public Material stunMat;
         public Material resetMat;
         public Material dyingMat;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Cooldown states ------------------------------------
-        [Header("-- Cooldown States --")]
-        public bool enrageOnCooldown = false;
-        public bool enrageActive = false;
         // ---------------------------------------------------------
-
-
-        // ---- Melee Enemy States ---------------------------------
+        #region Melee Enemy States
+        [Header("-- Range Enemy States --")]
         public MeleeEnemyState currentState;
-
         public IdleState idleState;
         public ChaseState chaseState;
         public BasicAttackState basicAttackState;
         public StunState stunState;
         public ResetState resetState;
         public DyingState dyingState;
+        #endregion
         // ---------------------------------------------------------
 
+        // ---------------------------------------------------------
+        #region Cooldown States
+        [Header("-- Cooldown States --")]
+        
+        [SerializeField] private bool _enrageOnCooldown = false;
+        public bool enrageOnCooldown
+        {
+            get => _enrageOnCooldown;
+            set
+            {
+                if (_enrageOnCooldown == value) return;
 
-        // ---- Melee Enemy Components -----------------------------
+                if (value == true) OnEnrageCooldownStart();
+                else OnEnrageCooldownEnd();
+
+                _enrageOnCooldown = value;
+            }
+        }
+        public bool enrageActive = false;
+        #endregion
+        // ---------------------------------------------------------
+
+        // ---------------------------------------------------------
+        #region Internal Components
         [Header("-- Internal Components --")]
         [HideInInspector] public MeshRenderer meshRenderer;
         [HideInInspector] public NavMeshAgentManager navMeshAgentManagerCS;
         [HideInInspector] public HealthManager healthManagerCS;
         [HideInInspector] public EnemyDamageDealer enemyDamageDealerCS;
         [HideInInspector] public EnemyDamageReceiver enemyDamageReceiverCS;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- External References --------------------------------
+        // ---------------------------------------------------------
+        #region External References
         [Header("-- External References --")]
         public Transform resetTransform;
         public Transform targetTransform;
         public LayerMask targetLayerMask;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Coroutines -----------------------------------------
+        // ---------------------------------------------------------
+        #region Coroutines
         public Coroutine coroutineEnrageCooldown;
         public Coroutine coroutineStopEnrage;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Ajustable Values -----------------------------------
-        [Header("-- Base Attack Settings --")]
-        public float baseAttackRange = 2.2f;
-        public float baseAttackDamage = 20f;
+        // ---------------------------------------------------------
+        #region Ajustable Values
+        [Header("-- Ajustable Values --")]
+        // ------------------------------------------------->
+        #region Base Attack Values
+        public float baseAttackRange = 5f;
+        public float baseAttackDamage = 25f;
         public float baseLeech = 0f;
         public float baseAttackSpeed = 1.5f;
-        public float detectionRange = 5f;
-
-
+        public float detectionRange = 12f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Base Health Settings
         [Header("-- Base Attack Settings --")]
-        public float baseHealthPoints = 100f;
-
-
+        public float baseHealthPoints = 225f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Enrage Settings
         [Header("-- Enrage Settings --")]
-        public float enrageCoodldown = 20f;
-        public float enrageDuration = 8f;
-        public float enrageAttackDamageBonus = 5f;
-        public float enrageLeechBonus = 0.3f;
-        public float enrageAttackSpeedBonus = 0.5f;
-        public float enrageMovementSpeedBonus = 20f;
-        public int nbOfAttacksToTriggerEnrage = 3;
-
-
+        public float enrageCooldownTime = 45f;
+        public float enrageDuration = 10f;
+        public float enrageSize = 1.2f;
+        [SerializeField] private float _enrageAttackDamageMultiplier = 1.25f;
+        public float enrageAttackDamage => currentAttackDamage * _enrageAttackDamageMultiplier;
+        [SerializeField] private float _enrageLeech = 0.3f;
+        public float enrageLeech => currentLeech + _enrageLeech;
+        [SerializeField] private float _enrageAttackSpeed = 0.5f;
+        public float enrageAttackSpeed => currentAttackSpeed - _enrageAttackSpeed;
+        [SerializeField] private float _enrageMovementSpeed = 5f;
+        public float enrageMovementSpeed => currentMovementSpeed + _enrageMovementSpeed;
+        public int maxEnrageStacks = 3;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Base Attack Values
         [Header("-- Base Movement Settings --")]
         public float baseMovementSpeed = 20f;
+        #endregion
+        // ---------------------------------------------------------
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Calculated Values ----------------------------------
+        // ---------------------------------------------------------
+        #region Calculated Values
         [Header("-- Current Values --")]
+        [SerializeField] private bool _inCombat = false;
+        public bool inCombat
+        {
+            get => _inCombat;
+            set
+            {
+                if (_inCombat == value) return;
+                if (value == true) OnCombatStart();
+                else OnCombatEnd();
+                _inCombat = value;
+            }
+        }
         public float currentAttackDamage;
-        public float currentLeech;
+        [SerializeField] private float _currentAttackRange;
+        public float currentAttackRange
+        {
+            get => _currentAttackRange;
+            set
+            {
+                if (_currentAttackRange == value) return;
+                _currentAttackRange = value;
+                navMeshAgentManagerCS.ChangeStopDistance(_currentAttackRange);
+            }
+        }
+        [SerializeField] private float _currentLeech;
+        public float currentLeech
+        {
+            get => _currentLeech;
+            set
+            {
+                if (value == _currentLeech) return;
+                Mathf.Clamp(value, 0, 10);
+                _currentLeech = value;
+                enemyDamageDealerCS.leech = _currentLeech;
+            }
+        }
         public float currentAttackSpeed;
         public float stunDuration;
         public bool stunned = false;
+        public bool abilityLocked = false;
         [SerializeField] private float _currentMovementSpeed;
         public float currentMovementSpeed
         {
@@ -113,13 +185,14 @@ namespace Enemy.Melee
             {
                 if (enrageActive || enrageOnCooldown) return;
                 _successiveBasicAttacks = value;
-                if (_successiveBasicAttacks >= nbOfAttacksToTriggerEnrage)
+                if (_successiveBasicAttacks >= maxEnrageStacks)
                 {
                     _successiveBasicAttacks = 0;
                     OnEnrageEnter();
                 }
             }
         }
+        #endregion
         // ---------------------------------------------------------
 
         void Awake()
@@ -161,6 +234,7 @@ namespace Enemy.Melee
         private void SubscribeToRequiredEvents()
         {
             healthManagerCS.OnHealthPointsEmpty += OnHealthPointsEmpty;
+            healthManagerCS.OnDamageReceived += OnDamageReceived;
         }
 
         private void TryGetRequiredComponents()
@@ -196,8 +270,25 @@ namespace Enemy.Melee
             currentAttackDamage = baseAttackDamage;
             currentAttackSpeed = baseAttackSpeed;
             currentMovementSpeed = baseMovementSpeed;
+            currentLeech = baseLeech;
+            currentMovementSpeed = baseMovementSpeed;
 
             healthManagerCS.SetHealthPointsValues(baseHealthPoints);
+        }
+
+        private void OnCombatStart()
+        {
+            
+        }
+
+        private void OnCombatEnd()
+        {
+
+        }
+
+        private void OnDamageReceived()
+        {
+            
         }
 
         private void OnHealthPointsEmpty()
@@ -212,36 +303,26 @@ namespace Enemy.Melee
 
         public bool DetectObject(Transform otherObjectTransform, float distanceThreshold, LayerMask layerMask)
         {
-            // Get the position of the two GameObjects
             Vector3 object1Pos = transform.position;
             Vector3 object2Pos = otherObjectTransform.position;
 
-            // Check if the two objects are within the maximum distance for the line of sight check
             if ((object1Pos - object2Pos).sqrMagnitude > distanceThreshold * distanceThreshold)
             {
-                // The two objects are too far apart for a line of sight check, do not perform raycast
                 return false;
             }
 
-            // Find the direction from object1 to object2
             Vector3 direction = object2Pos - object1Pos;
 
-            // Set up the raycast hit information
             RaycastHit hit;
             bool isHit = Physics.Raycast(object1Pos, direction, out hit, distanceThreshold, layerMask);
 
-            // Check if the raycast hit anything
             if (!isHit || hit.collider.gameObject == otherObjectTransform.gameObject)
             {
-                // There are no obstacles in the way, so the two objects have line of sight
-                // Visualize the check by drawing a line between the two objects
                 Debug.DrawLine(object1Pos, object2Pos, Color.green, 0.1f);
                 return true;
             }
             else
             {
-                // There is an obstacle in the way, so the two objects do not have line of sight
-                // Visualize the check by drawing a line between the two objects up to the point of the hit
                 Debug.DrawLine(object1Pos, hit.point, Color.red, 0.1f);
                 return false;
             }
@@ -249,16 +330,16 @@ namespace Enemy.Melee
 
         public void OnEnrageEnter()
         {
+            // Set enrage animations & model
+            gameObject.transform.localScale = Vector3.one * enrageSize;
+
             enrageActive = true;
 
-            // Set enrage animations & model
-            gameObject.transform.localScale = Vector3.one * 1.2f;
-
             // Set enrage values
-            currentAttackDamage = baseAttackDamage + enrageAttackDamageBonus;
-            currentLeech = baseLeech + enrageLeechBonus;
-            currentAttackSpeed = baseAttackSpeed - enrageAttackSpeedBonus;
-            currentMovementSpeed = baseMovementSpeed + enrageMovementSpeedBonus;
+            currentAttackDamage = enrageAttackDamage;
+            currentLeech = enrageLeech;
+            currentAttackSpeed = enrageAttackSpeed;
+            currentMovementSpeed = enrageMovementSpeed;
 
             coroutineStopEnrage = StartCoroutine(CoroutineStopEnrage());
         }
@@ -275,7 +356,7 @@ namespace Enemy.Melee
             currentMovementSpeed = baseMovementSpeed;
 
             enrageActive = false;
-            coroutineEnrageCooldown = StartCoroutine(CoroutineEnrageCooldown());
+            enrageOnCooldown = true;
         }
 
         public IEnumerator CoroutineStopEnrage()
@@ -284,11 +365,22 @@ namespace Enemy.Melee
             OnEnrageExit();
         }
 
+        #region Enrage Cooldown
         public IEnumerator CoroutineEnrageCooldown()
         {
-            enrageOnCooldown = true;
-            yield return new WaitForSecondsRealtime(enrageCoodldown);
+            yield return new WaitForSecondsRealtime(enrageCooldownTime);
             enrageOnCooldown = false;
         }
+
+        private void OnEnrageCooldownStart()
+        {
+            coroutineEnrageCooldown = StartCoroutine(CoroutineEnrageCooldown());
+        }
+
+        private void OnEnrageCooldownEnd()
+        {
+            if (coroutineEnrageCooldown != null) StopCoroutine(coroutineEnrageCooldown);
+        }
+        #endregion
     }
 }

@@ -79,7 +79,6 @@ namespace Enemy.Range
         #endregion
         // ---------------------------------------------------------
 
-
         // ---------------------------------------------------------
         #region External References
         [Header("-- External References --")]
@@ -93,7 +92,6 @@ namespace Enemy.Range
         #endregion
         // ---------------------------------------------------------
 
-
         // ---------------------------------------------------------
         #region Coroutines
         public Coroutine coroutineTeleportCooldown;
@@ -103,11 +101,11 @@ namespace Enemy.Range
         #endregion
         // ---------------------------------------------------------
 
-
         // ---------------------------------------------------------
         #region Ajustable Values
         [Header("-- Ajustable Values --")]
         // ------------------------------------------------->
+        #region Base Attack Values
         public float baseAttackRange = 20f;
         public float baseAttackDamage = 30f;
         public float baseLeech = 0f;
@@ -146,15 +144,17 @@ namespace Enemy.Range
         public float meteorDamage => currentAttackDamage * _meteorDamageMultiplier;
         public float meteorSpeed = 22f;
         #endregion
-
+        // -------------------------------------------------<
+        // ------------------------------------------------->
         #region Cooldown Reduction Buff 
         [Header("-- Cooldown Reduction Buff --")]
         public float cooldownReductionBuffDuration = 5f;
         public float cooldownReductionBuffValue = 0.1f;
         public float baseCooldownReductionValue = 1;
         #endregion
+        // -------------------------------------------------<
+        #endregion
         // ---------------------------------------------------------
-
 
         // ---------------------------------------------------------
         #region Calculated Values
@@ -253,7 +253,6 @@ namespace Enemy.Range
         {
             healthManagerCS.OnHealthPointsEmpty += OnHealthPointsEmpty;
             healthManagerCS.OnDamageReceived += OnDamageReceived;
-
         }
 
         private void TryGetRequiredComponents()

@@ -524,7 +524,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153915222}
-  m_LocalRotation: {x: 0.17626423, y: -0, z: -0, w: 0.98434293}
+  m_LocalRotation: {x: 0.17626423, y: 0.00000002343003, z: -0.000000004195567, w: 0.98434293}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1035,7 +1035,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703034428}
-  m_LocalRotation: {x: 0.119423784, y: 0.000000017608997, z: -0.000000002118092, w: 0.9928434}
+  m_LocalRotation: {x: 0.119423784, y: -0.000000017609013, z: 0.0000000021180935, w: 0.9928434}
   m_LocalPosition: {x: 0, y: 3.22, z: -20.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2043,7 +2043,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494809690}
-  m_LocalRotation: {x: 0.119423784, y: 0.000000017608997, z: -0.000000002118092, w: 0.9928434}
+  m_LocalRotation: {x: 0.119423784, y: -0.000000017609013, z: 0.0000000021180935, w: 0.9928434}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2639,7 +2639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9069514299499766444, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2821,7 +2821,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890583035}
-  m_LocalRotation: {x: 0.119423784, y: 0.000000017609004, z: -0.0000000021180928, w: 0.9928434}
+  m_LocalRotation: {x: 0.119423784, y: -0.000000017609159, z: 0.0000000021181112, w: 0.9928434}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3343,13 +3343,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4795973796544503315, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+      propertyPath: stunMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 3b1ef9636eddad24885692716e996e21, type: 2}
+    - target: {fileID: 4795973796544503315, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+      propertyPath: detectionRange
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795973796544503315, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
       propertyPath: resetTransform
       value: 
       objectReference: {fileID: 578164975}
     - target: {fileID: 4795973796544503315, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+      propertyPath: baseAttackRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795973796544503315, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
       propertyPath: targetTransform
       value: 
       objectReference: {fileID: 45171554}
+    - target: {fileID: 4795973796544503315, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+      propertyPath: baseAttackDamage
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795973796544503315, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+      propertyPath: baseHealthPoints
+      value: 225
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795973796544503315, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+      propertyPath: baseMovementSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795973796544503315, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+      propertyPath: enrageCooldownTime
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 4795973796544503319, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -3397,6 +3425,10 @@ PrefabInstance:
     - target: {fileID: 4795973796544503326, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
       propertyPath: m_Name
       value: Melee Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795973796544503326, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3465,7 +3497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6564061161486787236, guid: 4845af0050136c74287e0f8962e28361, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6564061161486787247, guid: 4845af0050136c74287e0f8962e28361, type: 3}
       propertyPath: resetTransform
