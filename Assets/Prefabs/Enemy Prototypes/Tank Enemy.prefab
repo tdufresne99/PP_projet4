@@ -92,7 +92,7 @@ GameObject:
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6564061161486787232
 Transform:
   m_ObjectHideFlags: 0
@@ -108,7 +108,7 @@ Transform:
   - {fileID: 8171570792771196048}
   - {fileID: 479491875}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6564061161486787233
 MeshFilter:
@@ -238,6 +238,7 @@ MonoBehaviour:
   stunned: 0
   _currentMovementSpeed: 0
   abilityLocked: 0
+  _inCombat: 0
 --- !u!114 &9191772394128676659
 MonoBehaviour:
   m_ObjectHideFlags: 0

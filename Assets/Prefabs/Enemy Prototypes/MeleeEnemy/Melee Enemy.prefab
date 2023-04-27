@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 1747550998}
   - component: {fileID: 1747550999}
   - component: {fileID: 1806185392}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Melee Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -130,10 +130,10 @@ MonoBehaviour:
   idleMat: {fileID: 2100000, guid: 84d39e3dcb9b2ed478db54456976f186, type: 2}
   chaseMat: {fileID: 2100000, guid: 6840d6f5e4f6e114ca6eb89f2a2e1e0c, type: 2}
   basicAttackMat: {fileID: 2100000, guid: 3acd2e98807a24d4797b825543770700, type: 2}
-  stunMat: {fileID: 0}
+  stunMat: {fileID: 2100000, guid: 3b1ef9636eddad24885692716e996e21, type: 2}
   resetMat: {fileID: 2100000, guid: 1635693dd870ca94ba49e9f95d57e6c6, type: 2}
   dyingMat: {fileID: 2100000, guid: 0bc1abef075063e4da014ad6eaa18904, type: 2}
-  enrageOnCooldown: 0
+  _enrageOnCooldown: 0
   enrageActive: 0
   meshRenderer: {fileID: 0}
   navMeshAgentManagerCS: {fileID: 0}
@@ -145,25 +145,29 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  baseAttackRange: 2.2
-  baseAttackDamage: 10
+  baseAttackRange: 5
+  baseAttackDamage: 25
   baseLeech: 0
   baseAttackSpeed: 1.5
-  detectionRange: 5
-  baseHealthPoints: 100
-  enrageCoodldown: 20
+  detectionRange: 12
+  baseHealthPoints: 225
+  enrageCooldownTime: 45
   enrageDuration: 10
-  enrageAttackDamageBonus: 5
-  enrageLeechBonus: 0.3
-  enrageAttackSpeedBonus: 0.5
-  enrageMovementSpeedBonus: 20
-  nbOfAttacksToTriggerEnrage: 3
-  baseMovementSpeed: 5
+  enrageSize: 1.2
+  _enrageAttackDamageMultiplier: 1.25
+  _enrageLeech: 0.3
+  _enrageAttackSpeed: 0.5
+  _enrageMovementSpeed: 5
+  maxEnrageStacks: 3
+  baseMovementSpeed: 20
+  _inCombat: 0
   currentAttackDamage: 0
-  currentLeech: 0
+  _currentAttackRange: 0
+  _currentLeech: 0
   currentAttackSpeed: 0
   stunDuration: 0
   stunned: 0
+  abilityLocked: 0
   _currentMovementSpeed: 0
   _successiveBasicAttacks: 0
 --- !u!195 &4795973796544503312
@@ -245,6 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerDamageReceiver: {fileID: 0}
   _damageMultiplier: 1
+  _leech: 0
 --- !u!114 &1806185392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,9 +271,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4795973796544503319}
     m_Modifications:
+    - target: {fileID: 3062301022224588593, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3062301022447654542, guid: d05d39919c124d646819bbb7a1322703, type: 3}
       propertyPath: m_Name
       value: HealthBar Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062301022447654542, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3062301022447654543, guid: d05d39919c124d646819bbb7a1322703, type: 3}
       propertyPath: m_Pivot.x
@@ -353,6 +366,10 @@ PrefabInstance:
     - target: {fileID: 3062301022447654543, guid: d05d39919c124d646819bbb7a1322703, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062301023839662796, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

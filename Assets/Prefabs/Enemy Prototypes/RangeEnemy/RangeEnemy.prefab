@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1131925881}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ProjectileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ GameObject:
   - component: {fileID: 4128949216516197774}
   - component: {fileID: 1808402951}
   - component: {fileID: 1808402940}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RangeEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -167,8 +167,8 @@ MonoBehaviour:
   stunMat: {fileID: 0}
   resetMat: {fileID: 2100000, guid: 1635693dd870ca94ba49e9f95d57e6c6, type: 2}
   dyingMat: {fileID: 2100000, guid: 0bc1abef075063e4da014ad6eaa18904, type: 2}
-  teleportOnCooldown: 0
-  meteorOnCooldown: 0
+  _teleportOnCooldown: 0
+  _meteorOnCooldown: 0
   meshRenderer: {fileID: 0}
   navMeshAgentManagerCS: {fileID: 0}
   healthManagerCS: {fileID: 0}
@@ -184,24 +184,32 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  baseAttackRange: 18
-  baseAttackDamage: 20
+  baseAttackRange: 20
+  baseAttackDamage: 30
   baseLeech: 0
-  baseAttackSpeed: 1.5
-  detectionRange: 15
-  baseHealthPoints: 100
+  baseAttackSpeed: 2.2
+  detectionRange: 12
+  baseHealthPoints: 200
   baseMovementSpeed: 5
-  teleportCooldown: 22
-  teleportMaxRange: 20
-  teleportMinRange: 15
-  meteorCooldown: 5
-  inCombat: 0
-  currentAttackRange: 0
+  _teleportCooldownTime: 15
+  teleportMaxRange: 15
+  teleportMinRange: 12
+  _meteorCooldownTime: 30
+  firstMeteorWaitTime: 3
+  _meteorDamageMultiplier: 8
+  meteorSpeed: 22
+  cooldownReductionBuffDuration: 5
+  cooldownReductionBuffValue: 0.1
+  baseCooldownReductionValue: 1
+  _inCombat: 0
   currentAttackDamage: 0
-  currentLeech: 0
+  _currentAttackRange: 0
+  _currentLeech: 0
   currentAttackSpeed: 0
   stunDuration: 0
+  cooldownReduction: 1
   stunned: 0
+  abilityLocked: 0
   _currentMovementSpeed: 0
 --- !u!195 &6465891585305985478
 NavMeshAgent:
@@ -268,6 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerDamageReceiver: {fileID: 0}
   _damageMultiplier: 1
+  _leech: 0
 --- !u!114 &4128949216516197774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,9 +327,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9069514299499766432}
     m_Modifications:
+    - target: {fileID: 3062301022224588593, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3062301022447654542, guid: d05d39919c124d646819bbb7a1322703, type: 3}
       propertyPath: m_Name
       value: HealthBar Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062301022447654542, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3062301022447654543, guid: d05d39919c124d646819bbb7a1322703, type: 3}
       propertyPath: m_Pivot.x
@@ -405,6 +422,10 @@ PrefabInstance:
     - target: {fileID: 3062301022447654543, guid: d05d39919c124d646819bbb7a1322703, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062301023839662796, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -38,8 +38,8 @@ namespace Player
 
         public IEnumerator CoroutineIceShield()
         {
-            int stacks = 0;
-            Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.spreadFireRange);
+            int stacks = 1;
+            Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.iceShieldRange);
             foreach (Collider collider in colliders)
             {
                 var detectedEnemy = collider.GetComponent<EnemyDamageReceiver>();
@@ -58,7 +58,7 @@ namespace Player
                     Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.red, 1f);
                 }
             }
-            if(stacks == 0) stacks = 1;
+            if(stacks > _manager.iceShieldMaxStacks) stacks = _manager.iceShieldMaxStacks;
             _manager.shieldManagerCS.ReceiveShield(_manager.iceShieldHealthPerStack * stacks);
 
             yield return new WaitForSecondsRealtime(0.5f);

@@ -35,11 +35,11 @@ namespace Player
         {
             if(_coroutineSpreadFire != null) _manager.StopCoroutine(_coroutineSpreadFire);
             _manager.abilityLocked = false;
-            _manager.spreadFireOnCooldown = true;
         }
 
         public IEnumerator CoroutineSpreadFire()
         {
+            _manager.spreadFireOnCooldown = true;
             var detectedEnemies = new List<EnemyDamageReceiver>();
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.spreadFireRange);
             foreach (Collider collider in colliders)

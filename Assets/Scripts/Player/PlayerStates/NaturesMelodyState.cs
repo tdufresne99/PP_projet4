@@ -18,6 +18,7 @@ namespace Player
             // ---- Set state animations ------------------------------
             _manager.meshRenderer.material = _manager.naturesMelodyMat;
 
+            _manager.currentMovementSpeed = _manager.naturesMelodyMoveSpeed;
             _manager.abilityLocked = true;
             _coroutineNaturesMelody = _manager.StartCoroutine(CoroutineNaturesMelody());
         }
@@ -42,6 +43,8 @@ namespace Player
         public override void Exit()
         {
             if(_coroutineNaturesMelody != null) _manager.StopCoroutine(_coroutineNaturesMelody);
+            
+            _manager.currentMovementSpeed = _manager.baseMovementSpeed;
             _manager.abilityLocked = false;
             _manager.naturesMelodyOnCooldown = true;
         }

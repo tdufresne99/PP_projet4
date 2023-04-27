@@ -1,6 +1,8 @@
 
 using UnityEngine;
+using TMPro;
 using System.Collections;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -36,7 +38,7 @@ namespace Player
                 _spreadFireOnCooldown = value;
             }
         }
-
+        public float spreadFireRemainingCooldownTime;
 
         [SerializeField] private bool _lightningRainOnCooldown = false;
         public bool lightningRainOnCooldown
@@ -52,7 +54,7 @@ namespace Player
                 _lightningRainOnCooldown = value;
             }
         }
-
+        public float lightningRainRemainingCooldownTime;
 
         [SerializeField] private bool _iceShieldOnCooldown = false;
         public bool iceShieldOnCooldown
@@ -68,7 +70,7 @@ namespace Player
                 _iceShieldOnCooldown = value;
             }
         }
-
+        public float iceShieldRemainingCooldownTime;
 
         [SerializeField] private bool _naturesMelodyOnCooldown = false;
         public bool naturesMelodyOnCooldown
@@ -84,6 +86,7 @@ namespace Player
                 _naturesMelodyOnCooldown = value;
             }
         }
+        public float naturesMelodyRemainingCooldownTime;
         #endregion
         // ---------------------------------------------------------
 
@@ -124,6 +127,14 @@ namespace Player
         public LayerMask targetLayerMask;
         public LayerMask groundLayerMask;
         public Camera mainCamera;
+        public TextMeshProUGUI spreadFireCDText;
+        public TextMeshProUGUI lightningRainCDText;
+        public TextMeshProUGUI iceShieldCDText;
+        public TextMeshProUGUI naturesMelodyCDText;
+        public Image spreadFireCDIcon;
+        public Image lightningRainCDIcon;
+        public Image iceShieldCDIcon;
+        public Image naturesMelodyCDIcon;
         #endregion
         // ---------------------------------------------------------
 
@@ -141,8 +152,7 @@ namespace Player
         // ======================== >>
         #region Base Attack Settings
         [Header("Base Attack Settings")]
-        public float baseAttackRange = 2.2f;
-        public float baseAttackDamage = 20f;
+        public float baseAttackDamage = 30f;
         public float baseLeech = 0;
         public float baseAttackSpeed = 1.5f;
         #endregion
@@ -157,6 +167,10 @@ namespace Player
 
         #endregion
 
+        #region Global Ability Settings
+        public float desaturatedIconAlphaValue = 0.1f;
+        #endregion
+
         #region SpreadFire Ability Settings
         [Header("SpreadFire Ability Settings")]
         public float spreadFireRange = 12f;
@@ -165,6 +179,7 @@ namespace Player
         public int spreadFireTicks = 5;
         public float spreadFireDuration = 8f;
         public float spreadFireCooldownTime = 45f;
+        public string spreadFireKey = "E";
         #endregion
 
         #region LightningRain Ability Settings
@@ -176,6 +191,9 @@ namespace Player
         public float lightningRainCooldownTime = 100f;
         public float lightningRainActivationDelay = 3f;
         public float lightningRainStunDuration = 3f;
+        [SerializeField] private float _lightningRainMoveSpeedMultiplier = 0.25f;
+        public float lightningRainMoveSpeed => currentMovementSpeed * _lightningRainMoveSpeedMultiplier;
+        public string lightningRainKey = "Q";
         #endregion
 
         #region IceShield Ability Settings
@@ -183,13 +201,18 @@ namespace Player
         public int iceShieldMaxStacks = 4;
         public float iceShieldHealthPerStack = 50f;
         public float iceShieldCooldownTime = 100f;
+        public float iceShieldRange = 12f;
+        public string iceShieldKey = "Shift";
         #endregion
 
         #region NaturesMelody Ability Settings
         [Header("NaturesMelody Ability Settings")]
         public float naturesMelodyCooldownTime = 100f;
         public float naturesMelodyTickTime = 0.25f;
+        [SerializeField] private float _naturesMelodyMoveSpeedMultiplier = 0f;
+        public float naturesMelodyMoveSpeed => currentMovementSpeed * _naturesMelodyMoveSpeedMultiplier;
         public int naturesMelodyMaxTicks = 10;
+        public string naturesMelodyKey = "R";
         #endregion
         // << ========================
         #endregion
@@ -235,19 +258,44 @@ namespace Player
             if (abilityLocked == false)
             {
                 // Basic Attack
-                if (Input.GetButtonDown("Fire1")) TransitionToState(basicAttackState);
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    TransitionToState(basicAttackState);
+                }
 
                 // Spread Fire
-                if (Input.GetKeyDown(KeyCode.E) && !spreadFireOnCooldown) TransitionToState(spreadFireState);
+                if (Input.GetKeyDown(KeyCode.E) && !spreadFireOnCooldown)
+                {
+                    ChangeIconAlpha(spreadFireCDIcon, true);
+                }
+                if (Input.GetKeyUp(KeyCode.E) && !spreadFireOnCooldown)
+                {
+                    TransitionToState(spreadFireState);
+                }
 
                 // Lightning Rain
-                else if (Input.GetKeyDown(KeyCode.Q) && !lightningRainOnCooldown) TransitionToState(lightningRainState);
+                if (Input.GetKeyDown(KeyCode.Q) && !lightningRainOnCooldown) 
+                {
+                    ChangeIconAlpha(lightningRainCDIcon, true);
+                    TransitionToState(lightningRainState);
+                }
 
                 // Ice Shield
-                else if (Input.GetKeyDown(KeyCode.LeftShift) && !iceShieldOnCooldown) TransitionToState(iceShieldState);
+                if (Input.GetKeyDown(KeyCode.LeftShift) && !iceShieldOnCooldown) 
+                {
+                    ChangeIconAlpha(iceShieldCDIcon, true);
+                }
+                if (Input.GetKeyUp(KeyCode.LeftShift) && !iceShieldOnCooldown) 
+                {
+                    TransitionToState(iceShieldState);
+                }
 
                 // Nature's Melody
-                else if (Input.GetKeyDown(KeyCode.R) && !naturesMelodyOnCooldown) TransitionToState(naturesMelodyState);
+                if (Input.GetKeyDown(KeyCode.R) && !naturesMelodyOnCooldown) 
+                {
+                    ChangeIconAlpha(naturesMelodyCDIcon, true);
+                    TransitionToState(naturesMelodyState);
+                }
             }
 
             horizontalIntput = Input.GetAxis("Horizontal");
@@ -275,7 +323,7 @@ namespace Player
 
             transform.Rotate(Vector3.up, horizontalIntput * rotateSpeed);
 
-            if (playerHoldingJump && playerIsGrounded) 
+            if (playerHoldingJump && playerIsGrounded)
             {
                 playerRigidbody.AddForce(Vector3.up * currentJumpForce, ForceMode.Impulse);
                 playerHoldingJump = false;
@@ -356,7 +404,7 @@ namespace Player
 
         private void OnDamageDealt(float damageDealt)
         {
-            
+
         }
 
         private void OnDamageReceived(float damageReceived)
@@ -371,26 +419,41 @@ namespace Player
 
         private void OnHealingReceived(float healingreceived)
         {
-            
+
         }
 
+        private void ChangeIconAlpha(Image icon, bool desaturate)
+        {
+            if (desaturate) icon.color = new Color(1f, 1f, 1f, desaturatedIconAlphaValue);
+            else new Color(1f, 1f, 1f, 1f);
+        }
 
         // ===================================================================================================
         #region Spread Fire Cooldown
         public IEnumerator CoroutineSpreadFireCooldown()
         {
-            yield return new WaitForSecondsRealtime(spreadFireCooldownTime);
+            spreadFireCDText.text = spreadFireRemainingCooldownTime + "";
+            while (spreadFireRemainingCooldownTime > 0)
+            {
+                yield return new WaitForSecondsRealtime(1f);
+                spreadFireRemainingCooldownTime -= 1f;
+                spreadFireCDText.text = spreadFireRemainingCooldownTime + "";
+            }
             spreadFireOnCooldown = false;
         }
 
         private void OnSpreadFireCooldownStart()
         {
+            spreadFireRemainingCooldownTime = spreadFireCooldownTime;
+            ChangeIconAlpha(spreadFireCDIcon, true);
             _coroutineSpreadFireCooldown = StartCoroutine(CoroutineSpreadFireCooldown());
         }
 
         private void OnSpreadFireCooldownEnd()
         {
             if (_coroutineSpreadFireCooldown != null) StopCoroutine(_coroutineSpreadFireCooldown);
+            ChangeIconAlpha(spreadFireCDIcon, false);
+            spreadFireCDText.text = spreadFireKey;
         }
         #endregion
 
@@ -398,18 +461,28 @@ namespace Player
         #region Lightning Rain Cooldown
         public IEnumerator CoroutineLightningRainCooldown()
         {
-            yield return new WaitForSecondsRealtime(lightningRainCooldownTime);
+            lightningRainCDText.text = lightningRainRemainingCooldownTime + "";
+            while (lightningRainRemainingCooldownTime > 0)
+            {
+                yield return new WaitForSecondsRealtime(1f);
+                lightningRainRemainingCooldownTime -= 1f;
+                lightningRainCDText.text = lightningRainRemainingCooldownTime + "";
+            }
             lightningRainOnCooldown = false;
         }
 
         private void OnLightningRainCooldownStart()
         {
+            lightningRainRemainingCooldownTime = lightningRainCooldownTime;
+            ChangeIconAlpha(lightningRainCDIcon, true);
             _coroutineLightningRainCooldown = StartCoroutine(CoroutineLightningRainCooldown());
         }
 
         private void OnLightningRainCooldownEnd()
         {
             if (_coroutineLightningRainCooldown != null) StopCoroutine(_coroutineLightningRainCooldown);
+            ChangeIconAlpha(lightningRainCDIcon, false);
+            lightningRainCDText.text = lightningRainKey;
         }
         #endregion
 
@@ -417,18 +490,28 @@ namespace Player
         #region Ice Shield Cooldown
         public IEnumerator CoroutineIceShieldCooldown()
         {
-            yield return new WaitForSecondsRealtime(iceShieldCooldownTime);
+            iceShieldCDText.text = iceShieldRemainingCooldownTime + "";
+            while (iceShieldRemainingCooldownTime > 0)
+            {
+                yield return new WaitForSecondsRealtime(1f);
+                iceShieldRemainingCooldownTime -= 1f;
+                iceShieldCDText.text = iceShieldRemainingCooldownTime + "";
+            }
             iceShieldOnCooldown = false;
         }
 
         private void OnIceShieldCooldownStart()
         {
+            iceShieldRemainingCooldownTime = iceShieldCooldownTime;
+            ChangeIconAlpha(iceShieldCDIcon, true);
             _coroutineIceShieldCooldown = StartCoroutine(CoroutineIceShieldCooldown());
         }
 
         private void OnIceShieldCooldownEnd()
         {
             if (_coroutineIceShieldCooldown != null) StopCoroutine(_coroutineIceShieldCooldown);
+            ChangeIconAlpha(iceShieldCDIcon, false);
+            iceShieldCDText.text = iceShieldKey;
         }
         #endregion
 
@@ -436,18 +519,28 @@ namespace Player
         #region Nature's Melody Cooldown
         public IEnumerator CoroutineNaturesMelodyCooldown()
         {
-            yield return new WaitForSecondsRealtime(naturesMelodyCooldownTime);
+            naturesMelodyCDText.text = naturesMelodyRemainingCooldownTime + "";
+            while (naturesMelodyRemainingCooldownTime > 0)
+            {
+                yield return new WaitForSecondsRealtime(1f);
+                naturesMelodyRemainingCooldownTime -= 1f;
+                naturesMelodyCDText.text = naturesMelodyRemainingCooldownTime + "";
+            }
             naturesMelodyOnCooldown = false;
         }
 
         private void OnNaturesMelodyCooldownStart()
         {
+            naturesMelodyRemainingCooldownTime = naturesMelodyCooldownTime;
+            ChangeIconAlpha(naturesMelodyCDIcon, true);
             _coroutineNaturesMelodyCooldown = StartCoroutine(CoroutineNaturesMelodyCooldown());
         }
 
         private void OnNaturesMelodyCooldownEnd()
         {
             if (_coroutineNaturesMelodyCooldown != null) StopCoroutine(_coroutineNaturesMelodyCooldown);
+            ChangeIconAlpha(naturesMelodyCDIcon, false);
+            naturesMelodyCDText.text = naturesMelodyKey;
         }
         #endregion
     }
