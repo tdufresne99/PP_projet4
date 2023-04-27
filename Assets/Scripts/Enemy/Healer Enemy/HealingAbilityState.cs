@@ -16,15 +16,8 @@ namespace Enemy.Healer
 
         public override void Enter()
         {
-            if (_manager.healOnCooldown)
-            {
-                _manager.TransitionToState(_manager.chaseState);
-                return;
-            }
-
             // ---- Set state animations ------------------------------
             _manager.meshRenderer.material = _manager.idleMat;
-
             _coroutineHealing = _manager.StartCoroutine(CoroutineHealing());
         }
 
@@ -35,8 +28,7 @@ namespace Enemy.Healer
 
         public override void Exit()
         {
-            if (_coroutineHealing != null) _manager.StopCoroutine(_coroutineHealing);
-            _manager.teleportOnCooldown = true;
+            if(_coroutineHealing != null) _manager.StopCoroutine(_coroutineHealing);
         }
 
         public IEnumerator CoroutineHealing()
@@ -69,6 +61,7 @@ namespace Enemy.Healer
 
             _manager.meshRenderer.material = _manager.idleMat;
             yield return new WaitForSecondsRealtime(0.5f);
+            _manager.healOnCooldown = true;
             _manager.TransitionToState(_manager.chaseState);
         }
     }

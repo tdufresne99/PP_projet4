@@ -50,7 +50,15 @@ namespace Enemy.Healer
 
         private void PerformBasicAttack()
         {
-            _manager.InstantiateProjectile();
+            InstantiateProjectile();
+        }
+
+        public void InstantiateProjectile()
+        {
+            var instanciatedProjectile = GameObject.Instantiate(_manager.projectileGO, _manager.projectileSpawnTransform.position, Quaternion.identity);
+            var rangeEnemyProjectileCS = instanciatedProjectile.GetComponent<HealerEnemyProjectile>();
+            rangeEnemyProjectileCS.targetTransform = _manager.targetTransform;
+            rangeEnemyProjectileCS.damage = _manager.currentAttackDamage;
         }
     }
 }

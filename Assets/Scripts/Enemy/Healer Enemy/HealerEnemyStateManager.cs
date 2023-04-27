@@ -6,7 +6,8 @@ namespace Enemy.Healer
 {
     public class HealerEnemyStateManager : MonoBehaviour
     {
-        // ---- State Test materials ------------------------------
+        // ----------------------------------------------------------
+        #region State Test Materials
         [Header("-- State Test Materials --")]
         public Material idleMat;
         public Material chaseMat;
@@ -17,19 +18,13 @@ namespace Enemy.Healer
         public Material stunMat;
         public Material resetMat;
         public Material dyingMat;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Cooldown states ------------------------------------
-        [Header("-- Cooldown States --")]
-        public bool teleportOnCooldown = false;
-        public bool healOnCooldown = false;
         // ---------------------------------------------------------
-
-
-        // ---- Range Enemy States ---------------------------------
+        #region Healer Enemy States
+        [Header("-- Healer Enemy States --")]
         public HealerEnemyState currentState;
-
         public IdleState idleState;
         public ChaseState chaseState;
         public BasicAttackState basicAttackState;
@@ -38,10 +33,45 @@ namespace Enemy.Healer
         public StunState stunState;
         public ResetState resetState;
         public DyingState dyingState;
+        #endregion
         // ---------------------------------------------------------
 
+        // ---------------------------------------------------------
+        #region Cooldown States
+        [Header("-- Cooldown States --")]
+        [SerializeField] private bool _teleportOnCooldown = false;
+        public bool teleportOnCooldown
+        {
+            get => _teleportOnCooldown;
+            set
+            {
+                if (_teleportOnCooldown == value) return;
 
-        // ---- Range Enemy Components -----------------------------
+                if (value == true) OnTeleportCooldownStart();
+                else OnTeleportCooldownEnd();
+
+                _teleportOnCooldown = value;
+            }
+        }
+        [SerializeField] private bool _healOnCooldown = false;
+        public bool healOnCooldown
+        {
+            get => _healOnCooldown;
+            set
+            {
+                if (_healOnCooldown == value) return;
+
+                // if (value == true) OnHealCooldownStart();
+                // else OnHealCooldownEnd();
+
+                _healOnCooldown = value;
+            }
+        }
+        #endregion
+        // ---------------------------------------------------------
+
+        // ---------------------------------------------------------
+        #region Internal Components
         [Header("-- Internal Components --")]
         [HideInInspector] public MeshRenderer meshRenderer;
         [HideInInspector] public NavMeshAgentManager navMeshAgentManagerCS;
@@ -49,10 +79,11 @@ namespace Enemy.Healer
         [HideInInspector] public EnemyDamageDealer enemyDamageDealerCS;
         [HideInInspector] public EnemyDamageReceiver enemyDamageReceiverCS;
         [HideInInspector] public TeleportLocationFinder teleportLocationFinderCS;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- External References --------------------------------
+        // ---------------------------------------------------------
+        #region External References
         [Header("-- External References --")]
         public Transform resetTransform;
         public Transform targetTransform;
@@ -60,54 +91,67 @@ namespace Enemy.Healer
         public GameObject projectileGO;
         public GameObject healingHitboxGO;
         public LayerMask targetLayerMask;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Coroutines -----------------------------------------
+        // ---------------------------------------------------------
+        #region Coroutines
         public Coroutine coroutineTeleportCooldown;
+        public Coroutine coroutineHealCooldown;
         public Coroutine coroutineHealing;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Ajustable Values -----------------------------------
-        [Header("-- Base Attack Settings --")]
-        public float baseAttackRange = 5f;
+        // ---------------------------------------------------------
+        #region Ajustable Values
+        [Header("-- Ajustable Values --")]
+        // ------------------------------------------------->
+        #region Base Attack Values
+        public float baseAttackRange = 20f;
         public float baseAttackDamage = 20f;
         public float baseLeech = 0f;
-        public float baseAttackSpeed = 2.2f;
-        public float detectionRange = 5f;
-
-
-        [Header("-- Base Defense Settings --")]
-        public float baseHealthPoints = 100f;
-
-
+        public float baseAttackSpeed = 2f;
+        public float detectionRange = 12f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Base Health Settings
+        [Header("-- Base Health Settings --")]
+        public float baseHealthPoints = 175f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Base Movement Settings
         [Header("-- Base Movement Settings --")]
-        public float baseMovementSpeed = 5f;
-
-
+        public float baseMovementSpeed = 20f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Teleport Ability Settings
         [Header("-- Teleport Ability Settings --")]
-        public float teleportCooldownTime = 12f;
-        public float teleportMaxRange = 20f;
-        public float teleportMinRange = 15f;
-
+        public float teleportCooldownTime = 20f;
+        public float teleportMaxRange = 15f;
+        public float teleportMinRange = 10f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Heal Ability Settings
         [Header("-- Heal Ability Settings --")]
         public float healValue = 100f;
         public float healCastTime = 3f;
-        public float healCooldownTime = 15f;
-        public float healRange = 8f;
+        public float healCooldownTime = 25f;
+        public float healRange = 20f;
+        public float firstHealWaitTime = 8f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Calculated Values ----------------------------------
+        // ---------------------------------------------------------
+        #region Calculated Values
         [Header("-- Current Values --")]
-        public float currentAttackRange;
-        public float currentAttackDamage;
-        public float currentLeech;
-        public float currentAttackSpeed;
-        public float stunDuration;
-        public bool stunned = false;
-        private bool _inCombat = false;
+        [SerializeField] private bool _inCombat = false;
         public bool inCombat
         {
             get => _inCombat;
@@ -121,6 +165,34 @@ namespace Enemy.Healer
                 _inCombat = value;
             }
         }
+        public float currentAttackDamage;
+        [SerializeField] private float _currentAttackRange;
+        public float currentAttackRange
+        {
+            get => _currentAttackRange;
+            set
+            {
+                if (_currentAttackRange == value) return;
+                _currentAttackRange = value;
+                navMeshAgentManagerCS.ChangeStopDistance(_currentAttackRange);
+            }
+        }
+        [SerializeField] private float _currentLeech;
+        public float currentLeech
+        {
+            get => _currentLeech;
+            set
+            {
+                if (value == _currentLeech) return;
+                Mathf.Clamp(value, 0, 10);
+                _currentLeech = value;
+                enemyDamageDealerCS.leech = _currentLeech;
+            }
+        }
+        public float currentAttackSpeed;
+        public float stunDuration;
+        public bool stunned = false;
+        public bool abilityLocked = false;
         [SerializeField] private float _currentMovementSpeed;
         public float currentMovementSpeed
         {
@@ -131,6 +203,8 @@ namespace Enemy.Healer
                 navMeshAgentManagerCS.ChangeAgentSpeed(value);
             }
         }
+        #endregion
+        // ---------------------------------------------------------
 
         void Awake()
         {
@@ -172,7 +246,6 @@ namespace Enemy.Healer
         {
             healthManagerCS.OnHealthPointsEmpty += OnHealthPointsEmpty;
             healthManagerCS.OnDamageReceived += OnDamageReceived;
-
         }
 
         private void TryGetRequiredComponents()
@@ -216,8 +289,6 @@ namespace Enemy.Healer
             currentMovementSpeed = baseMovementSpeed;
 
             healthManagerCS.SetHealthPointsValues(baseHealthPoints);
-
-            navMeshAgentManagerCS.ChangeStopDistance(currentAttackRange);
 
             teleportLocationFinderCS.radius = teleportMaxRange;
             teleportLocationFinderCS.minRadius = teleportMinRange;
@@ -278,35 +349,55 @@ namespace Enemy.Healer
             }
         }
 
-        public void InstantiateProjectile()
+        public IEnumerator CoroutineHealing()
         {
-            var instanciatedProjectile = Instantiate(projectileGO, projectileSpawnTransform.position, Quaternion.identity);
-            var rangeEnemyProjectileCS = instanciatedProjectile.GetComponent<HealerEnemyProjectile>();
-            rangeEnemyProjectileCS.targetTransform = targetTransform;
-            rangeEnemyProjectileCS.damage = currentAttackDamage;
+            var waitTime = Random.Range(firstHealWaitTime - 2f, firstHealWaitTime + 2f);
+            yield return new WaitForSecondsRealtime(waitTime);
+
+            while (true)
+            {
+                TransitionToState(healingAbilityState);
+                yield return new WaitForSecondsRealtime(healCooldownTime);
+                healOnCooldown = false;
+            }
         }
 
-        public void TeleportRangeEnemy(Vector3 teleportPosition)
+        // ===================================================================================================
+        #region Heal Cooldown
+        public IEnumerator CoroutineHealCooldown()
         {
-            transform.position = teleportPosition;
-            transform.LookAt(targetTransform);
+            yield return new WaitForSecondsRealtime(healCooldownTime);
+            healOnCooldown = false;
         }
 
+        private void OnHealCooldownStart()
+        {
+            coroutineHealCooldown = StartCoroutine(CoroutineHealCooldown());
+        }
+
+        private void OnHealCooldownEnd()
+        {
+            if (coroutineHealCooldown != null) StopCoroutine(coroutineHealCooldown);
+        }
+        #endregion
+
+        // ===================================================================================================
+        #region Teleport Cooldown
         public IEnumerator CoroutineTeleportCooldown()
         {
-            teleportOnCooldown = true;
             yield return new WaitForSecondsRealtime(teleportCooldownTime);
             teleportOnCooldown = false;
         }
 
-        public IEnumerator CoroutineHealing()
+        private void OnTeleportCooldownStart()
         {
-            while (true)
-            {
-                yield return new WaitForSecondsRealtime(healCooldownTime);
-                healOnCooldown = false;
-                TransitionToState(healingAbilityState);
-            }
+            coroutineTeleportCooldown = StartCoroutine(CoroutineTeleportCooldown());
         }
+
+        private void OnTeleportCooldownEnd()
+        {
+            if (coroutineTeleportCooldown != null) StopCoroutine(coroutineTeleportCooldown);
+        }
+        #endregion
     }
 }
