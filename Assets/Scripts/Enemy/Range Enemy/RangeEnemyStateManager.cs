@@ -5,7 +5,8 @@ namespace Enemy.Range
 {
     public class RangeEnemyStateManager : MonoBehaviour
     {
-        // ---- State Test materials ------------------------------
+        // ----------------------------------------------------------
+        #region State Test Materials
         [Header("-- State Test Materials --")]
         public Material idleMat;
         public Material chaseMat;
@@ -14,19 +15,13 @@ namespace Enemy.Range
         public Material stunMat;
         public Material resetMat;
         public Material dyingMat;
+        #endregion
         // ---------------------------------------------------------
 
-
-        // ---- Cooldown states ------------------------------------
-        [Header("-- Cooldown States --")]
-        public bool teleportOnCooldown = false;
-        public bool meteorOnCooldown = false;
         // ---------------------------------------------------------
-
-
-        // ---- Range Enemy States ---------------------------------
+        #region Range Enemy States
+        [Header("-- Range Enemy States --")]
         public RangeEnemyState currentState;
-
         public IdleState idleState;
         public ChaseState chaseState;
         public BasicAttackState basicAttackState;
@@ -35,10 +30,45 @@ namespace Enemy.Range
         public StunState stunState;
         public ResetState resetState;
         public DyingState dyingState;
+        #endregion
         // ---------------------------------------------------------
 
+        // ---------------------------------------------------------
+        #region Cooldown States
+        [Header("-- Cooldown States --")]
+        [SerializeField] private bool _teleportOnCooldown = false;
+        public bool teleportOnCooldown
+        {
+            get => _teleportOnCooldown;
+            set
+            {
+                if (_teleportOnCooldown == value) return;
 
-        // ---- Range Enemy Components -----------------------------
+                if (value == true) OnTeleportCooldownStart();
+                else OnTeleportCooldownEnd();
+
+                _teleportOnCooldown = value;
+            }
+        }
+        [SerializeField] private bool _meteorOnCooldown = false;
+        public bool meteorOnCooldown
+        {
+            get => _meteorOnCooldown;
+            set
+            {
+                if (_meteorOnCooldown == value) return;
+
+                if (value == true) OnMeteorCooldownStart();
+                else OnMeteorCooldownEnd();
+
+                _meteorOnCooldown = value;
+            }
+        }
+        #endregion
+        // ---------------------------------------------------------
+
+        // ---------------------------------------------------------
+        #region Internal Components
         [Header("-- Internal Components --")]
         [HideInInspector] public MeshRenderer meshRenderer;
         [HideInInspector] public NavMeshAgentManager navMeshAgentManagerCS;
@@ -46,10 +76,12 @@ namespace Enemy.Range
         [HideInInspector] public EnemyDamageDealer enemyDamageDealerCS;
         [HideInInspector] public EnemyDamageReceiver enemyDamageReceiverCS;
         [HideInInspector] public TeleportLocationFinder teleportLocationFinderCS;
+        #endregion
         // ---------------------------------------------------------
 
 
-        // ---- External References --------------------------------
+        // ---------------------------------------------------------
+        #region External References
         [Header("-- External References --")]
         public Transform resetTransform;
         public Transform targetTransform;
@@ -58,51 +90,116 @@ namespace Enemy.Range
         public GameObject meteorOverlayGO;
         public GameObject meteorGO;
         public LayerMask targetLayerMask;
+        #endregion
         // ---------------------------------------------------------
 
 
-        // ---- Coroutines -----------------------------------------
+        // ---------------------------------------------------------
+        #region Coroutines
         public Coroutine coroutineTeleportCooldown;
+        public Coroutine coroutineMeteorCooldown;
         public Coroutine coroutineMeteor;
+        public Coroutine coroutineDamageReduction;
+        #endregion
         // ---------------------------------------------------------
 
 
-        // ---- Ajustable Values -----------------------------------
-        [Header("-- Base Attack Settings --")]
-        public float baseAttackRange = 5f;
-        public float baseAttackDamage = 20f;
+        // ---------------------------------------------------------
+        #region Ajustable Values
+        [Header("-- Ajustable Values --")]
+        // ------------------------------------------------->
+        public float baseAttackRange = 20f;
+        public float baseAttackDamage = 30f;
         public float baseLeech = 0f;
         public float baseAttackSpeed = 2.2f;
-        public float detectionRange = 5f;
-
-
-        [Header("-- Base Defense Settings --")]
+        public float detectionRange = 12f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Base Health Settings
+        [Header("-- Base Health Settings --")]
         public float baseHealthPoints = 100f;
-
-
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Base Movement Settings
         [Header("-- Base Movement Settings --")]
-        public float baseMovementSpeed = 5f;
-
-
+        public float baseMovementSpeed = 20f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Teleport Ability Settings
         [Header("-- Teleport Ability Settings --")]
-        public float teleportCooldown = 12f;
+        [SerializeField] private float _teleportCooldownTime = 15f;
+        public float teleportCooldownTime => _teleportCooldownTime * cooldownReduction;
         public float teleportMaxRange = 20f;
         public float teleportMinRange = 15f;
-
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        #region Meteor Ability Settings
         [Header("-- Meteor Ability Settings --")]
-        public float meteorCooldown = 5f;
+        [SerializeField] private float _meteorCooldownTime = 30f;
+        public float meteorCooldownTime => _meteorCooldownTime * cooldownReduction;
+        public float firstMeteorWaitTime = 3f;
+        [SerializeField] private float _meteorDamageMultiplier = 8f;
+        public float meteorDamage => currentAttackDamage * _meteorDamageMultiplier;
+        public float meteorSpeed = 22f;
+        #endregion
+
+        #region Cooldown Reduction Buff 
+        [Header("-- Cooldown Reduction Buff --")]
+        public float cooldownReductionBuffDuration = 5f;
+        public float cooldownReductionBuffValue = 0.1f;
+        public float baseCooldownReductionValue = 1;
+        #endregion
         // ---------------------------------------------------------
 
 
-        // ---- Calculated Values ----------------------------------
+        // ---------------------------------------------------------
+        #region Calculated Values
         [Header("-- Current Values --")]
-        public bool inCombat;
-        public float currentAttackRange;
+        [SerializeField] private bool _inCombat = false;
+        public bool inCombat
+        {
+            get => _inCombat;
+            set
+            {
+                if (_inCombat == value) return;
+                if (value == true) OnCombatStart();
+                else OnCombatEnd();
+                _inCombat = value;
+            }
+        }
         public float currentAttackDamage;
-        public float currentLeech;
+        [SerializeField] private float _currentAttackRange;
+        public float currentAttackRange
+        {
+            get => _currentAttackRange;
+            set
+            {
+                if (_currentAttackRange == value) return;
+                _currentAttackRange = value;
+                navMeshAgentManagerCS.ChangeStopDistance(_currentAttackRange);
+            }
+        }
+        [SerializeField] private float _currentLeech;
+        public float currentLeech
+        {
+            get => _currentLeech;
+            set
+            {
+                if (value == _currentLeech) return;
+                Mathf.Clamp(value, 0, 10);
+                _currentLeech = value;
+                enemyDamageDealerCS.leech = _currentLeech;
+            }
+        }
         public float currentAttackSpeed;
         public float stunDuration;
+        public float cooldownReduction = 1f;
         public bool stunned = false;
+        public bool abilityLocked = false;
         [SerializeField] private float _currentMovementSpeed;
         public float currentMovementSpeed
         {
@@ -113,6 +210,7 @@ namespace Enemy.Range
                 navMeshAgentManagerCS.ChangeAgentSpeed(value);
             }
         }
+        #endregion
         // ---------------------------------------------------------
 
         void Awake()
@@ -141,7 +239,7 @@ namespace Enemy.Range
         public void TransitionToState(RangeEnemyState newState)
         {
             if (stunned) return;
-            
+
             if (currentState != null)
             {
                 currentState.Exit();
@@ -205,10 +303,19 @@ namespace Enemy.Range
             teleportLocationFinderCS.radius = teleportMaxRange;
             teleportLocationFinderCS.minRadius = teleportMinRange;
         }
+        private void OnCombatStart()
+        {
+            coroutineMeteor = StartCoroutine(CoroutineMeteor());
+        }
+
+        private void OnCombatEnd()
+        {
+            if (coroutineMeteor != null) StopCoroutine(coroutineMeteor);
+        }
 
         private void OnDamageReceived()
         {
-            if (!teleportOnCooldown)
+            if (!teleportOnCooldown && !abilityLocked)
             {
                 TransitionToState(teleportAbilityState);
             }
@@ -261,53 +368,62 @@ namespace Enemy.Range
             }
         }
 
-        public void InstantiateProjectile()
-        {
-            var instanciatedProjectile = Instantiate(projectileGO, projectileSpawnTransform.position, Quaternion.identity);
-            var rangeEnemyProjectileCS = instanciatedProjectile.GetComponent<RangeEnemyProjectile>();
-            rangeEnemyProjectileCS.targetTransform = targetTransform;
-            rangeEnemyProjectileCS.damage = currentAttackDamage;
-        }
-
-        public void TeleportRangeEnemy(Vector3 teleportPosition)
-        {
-            transform.position = teleportPosition;
-            transform.LookAt(targetTransform);
-        }
-
+        // ===================================================================================================
+        #region Teleport Cooldown
         public IEnumerator CoroutineTeleportCooldown()
         {
-            teleportOnCooldown = true;
-            yield return new WaitForSecondsRealtime(teleportCooldown);
+            yield return new WaitForSecondsRealtime(teleportCooldownTime);
             teleportOnCooldown = false;
         }
 
-
-
-        public GameObject InstantiateMeteorOverlay()
+        private void OnTeleportCooldownStart()
         {
-            var instanciatedMeteorOverlay = Instantiate(meteorOverlayGO, new Vector3(targetTransform.position.x, 0.01f, targetTransform.position.z), Quaternion.identity);
-            return instanciatedMeteorOverlay;
+            coroutineTeleportCooldown = StartCoroutine(CoroutineTeleportCooldown());
         }
 
-        public GameObject InstantiateMeteor(Vector3 meteorHitLocation)
+        private void OnTeleportCooldownEnd()
         {
-            var instanciatedMeteor = Instantiate(meteorGO, new Vector3(meteorHitLocation.x + Random.Range(-5f, 5f), 5f, meteorHitLocation.z + Random.Range(-5f, 5f)), Quaternion.identity);
-
-            Meteor meteorCS = instanciatedMeteor.GetComponent<Meteor>();
-
-            if (meteorCS != null)
-            {
-                meteorCS.targetPosition = meteorHitLocation;
-            }
-            return instanciatedMeteor;
+            if (coroutineTeleportCooldown != null) StopCoroutine(coroutineTeleportCooldown);
         }
+        #endregion
+
+        // ===================================================================================================
+        #region Meteor Cooldown
+        public IEnumerator CoroutineMeteorCooldown()
+        {
+            yield return new WaitForSecondsRealtime(meteorCooldownTime);
+            meteorOnCooldown = false;
+        }
+
+        private void OnMeteorCooldownStart()
+        {
+            coroutineMeteorCooldown = StartCoroutine(CoroutineMeteorCooldown());
+        }
+
+        private void OnMeteorCooldownEnd()
+        {
+            if (coroutineMeteorCooldown != null) StopCoroutine(coroutineMeteorCooldown);
+        }
+        #endregion
+
+        // ===================================================================================================
+
+        public IEnumerator CoroutineStartCooldownReduction()
+        {
+            cooldownReduction = cooldownReductionBuffValue;
+            yield return new WaitForSecondsRealtime(cooldownReductionBuffDuration);
+            cooldownReduction = baseCooldownReductionValue;
+        }
+
         public IEnumerator CoroutineMeteor()
         {
+            var waitTime = Random.Range(firstMeteorWaitTime - 2f, firstMeteorWaitTime + 2f);
+            yield return new WaitForSecondsRealtime(waitTime);
+
             while (true)
             {
-                yield return new WaitForSecondsRealtime(meteorCooldown);
                 TransitionToState(meteorAbilityState);
+                yield return new WaitForSecondsRealtime(meteorCooldownTime);
             }
         }
     }

@@ -17,7 +17,7 @@ namespace Enemy.Range
             // ---- Set state animations ------------------------------
             _manager.meshRenderer.material = _manager.teleportMat;
 
-            _manager.TeleportRangeEnemy(_manager.teleportLocationFinderCS.GetRandomPosition(_manager.transform));
+            TeleportRangeEnemy(_manager.teleportLocationFinderCS.GetRandomPosition(_manager.transform));
             _manager.TransitionToState(_manager.chaseState);
         }
 
@@ -28,7 +28,13 @@ namespace Enemy.Range
 
         public override void Exit()
         {
-            _manager.coroutineTeleportCooldown = _manager.StartCoroutine(_manager.CoroutineTeleportCooldown());
+            _manager.teleportOnCooldown = true;
+        }
+
+         public void TeleportRangeEnemy(Vector3 teleportPosition)
+        {
+            _manager.transform.position = teleportPosition;
+            _manager.transform.LookAt(_manager.targetTransform);
         }
     }
 }

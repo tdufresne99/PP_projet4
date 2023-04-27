@@ -23,7 +23,6 @@ namespace Enemy.Range
             if (_manager.DetectObject(_manager.targetTransform, _manager.detectionRange, _manager.targetLayerMask))
             {
                 _manager.inCombat = true;
-                _manager.coroutineMeteor = _manager.StartCoroutine(_manager.CoroutineMeteor());
                 _manager.TransitionToState(_manager.chaseState);
             }
         }

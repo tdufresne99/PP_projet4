@@ -102,11 +102,11 @@ namespace Enemy.Tank
         // ------------------------------------------------->
         #region Base Attack Settings
         [Header("-- Base Attack Settings --")]
-        public float baseAttackRange = 4f;
+        public float baseAttackRange = 5f;
         public float baseAttackDamage = 20f;
         public float baseLeech = 0f;
-        public float baseAttackSpeed = 1.5f;
-        public float detectionRange = 10f;
+        public float baseAttackSpeed = 1.8f;
+        public float detectionRange = 12f;
         #endregion
         // -------------------------------------------------<
         // ------------------------------------------------->
@@ -183,6 +183,18 @@ namespace Enemy.Tank
             }
         }
         public bool abilityLocked = false;
+        [SerializeField] private bool _inCombat = false;
+        public bool inCombat
+        {
+            get => _inCombat;
+            set
+            {
+                if (_inCombat == value) return;
+                if(value == true) OnCombatStart();
+                else OnCombatEnd();
+                _inCombat = value;
+            }
+        }
         #endregion
         // ---------------------------------------------------------
 
@@ -272,6 +284,16 @@ namespace Enemy.Tank
             healthManagerCS.SetHealthPointsValues(baseHealthPoints);
         }
 
+        private void OnCombatStart()
+        {
+
+        }
+        
+        private void OnCombatEnd()
+        {
+
+        }
+
         private void OnHealthPointsEmpty()
         {
             TransitionToState(dyingState);
@@ -299,36 +321,26 @@ namespace Enemy.Tank
 
         public bool DetectObject(Transform otherObjectTransform, float distanceThreshold, LayerMask layerMask)
         {
-            // Get the position of the two GameObjects
             Vector3 object1Pos = transform.position;
             Vector3 object2Pos = otherObjectTransform.position;
 
-            // Check if the two objects are within the maximum distance for the line of sight check
             if ((object1Pos - object2Pos).sqrMagnitude > distanceThreshold * distanceThreshold)
             {
-                // The two objects are too far apart for a line of sight check, do not perform raycast
                 return false;
             }
 
-            // Find the direction from object1 to object2
             Vector3 direction = object2Pos - object1Pos;
 
-            // Set up the raycast hit information
             RaycastHit hit;
             bool isHit = Physics.Raycast(object1Pos, direction, out hit, distanceThreshold, layerMask);
 
-            // Check if the raycast hit anything
             if (!isHit || hit.collider.gameObject == otherObjectTransform.gameObject)
             {
-                // There are no obstacles in the way, so the two objects have line of sight
-                // Visualize the check by drawing a line between the two objects
                 Debug.DrawLine(object1Pos, object2Pos, Color.green, 0.1f);
                 return true;
             }
             else
             {
-                // There is an obstacle in the way, so the two objects do not have line of sight
-                // Visualize the check by drawing a line between the two objects up to the point of the hit
                 Debug.DrawLine(object1Pos, hit.point, Color.red, 0.1f);
                 return false;
             }

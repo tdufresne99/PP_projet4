@@ -21,6 +21,8 @@ namespace Enemy.Range
             // ---- Set state animations ------------------------------
             _manager.meshRenderer.material = _manager.idleMat;
 
+            _manager.abilityLocked = true;
+
             _meteorCoroutine = _manager.StartCoroutine(CoroutineMeteorCast());
         }
 
@@ -31,19 +33,42 @@ namespace Enemy.Range
 
         public override void Exit()
         {
-            
+            _manager.meteorOnCooldown = true;
+            _manager.abilityLocked = false;
         }
 
         private IEnumerator CoroutineMeteorCast()
         {
-            _meteorOverlayGO = _manager.InstantiateMeteorOverlay();
+            _meteorOverlayGO = InstantiateMeteorOverlay();
             var meteorHitLocation = _meteorOverlayGO.transform.position;
 
             yield return new WaitForSecondsRealtime(2f);
 
             GameObject.Destroy(_meteorOverlayGO);
-            _manager.InstantiateMeteor(meteorHitLocation);
+            InstantiateMeteor(meteorHitLocation);
             _manager.TransitionToState(_manager.chaseState);
         }
+
+        public GameObject InstantiateMeteorOverlay()
+        {
+            var instanciatedMeteorOverlay = GameObject.Instantiate(_manager.meteorOverlayGO, new Vector3(_manager.targetTransform.position.x, 0.01f, _manager.targetTransform.position.z), Quaternion.identity);
+            return instanciatedMeteorOverlay;
+        }
+
+        public GameObject InstantiateMeteor(Vector3 meteorHitLocation)
+        {
+            var instanciatedMeteor = GameObject.Instantiate(_manager.meteorGO, new Vector3(meteorHitLocation.x + Random.Range(-5f, 5f), 5f, meteorHitLocation.z + Random.Range(-5f, 5f)), Quaternion.identity);
+
+            Meteor meteorCS = instanciatedMeteor.GetComponent<Meteor>();
+
+            if (meteorCS != null)
+            {
+                meteorCS.targetPosition = meteorHitLocation;
+                meteorCS.rangeEnemyStateManagerCS = _manager;
+            }
+            return instanciatedMeteor;
+        }
+
+        
     }
 }

@@ -7,23 +7,34 @@ namespace Enemy.Range
 {
     public class Meteor : MonoBehaviour
     {
+        public RangeEnemyStateManager rangeEnemyStateManagerCS;
         public Vector3 targetPosition;
-        public float damage;
-        public float speed = 25f;
-        private bool isMoving = true;
+        private float _speed = 25f;
+        private float _damage = 150f;
+        private bool _isMoving = true;
+
+        void Start()
+        {
+            if(rangeEnemyStateManagerCS != null)
+            {
+                _speed = rangeEnemyStateManagerCS.meteorSpeed;
+                _damage = rangeEnemyStateManagerCS.meteorDamage;
+            }
+            else Debug.LogWarning("No RangeEnemyStateManager assigned, default values will be used (Meteor.cs)");
+        }
 
         private void Update()
         {
             if (targetPosition == null) return;
-            if (isMoving)
+            if (_isMoving)
             {
                 float distance = Vector3.Distance(transform.position, targetPosition);
-                float step = speed * Time.deltaTime;
+                float step = _speed * Time.deltaTime;
 
                 if (distance <= step)
                 {
                     transform.position = targetPosition;
-                    isMoving = false;
+                    _isMoving = false;
                     Destroy(gameObject);
                 }
                 else
@@ -32,12 +43,13 @@ namespace Enemy.Range
                 }
             }
         }
+        
         void OnTriggerEnter(Collider other)
         {
             var targetDamageReceiver = other.GetComponent<PlayerDamageReceiver>();
             if (targetDamageReceiver != null)
             {
-                targetDamageReceiver.ReceiveDamage(damage);
+                targetDamageReceiver.ReceiveDamage(_damage);
                 Destroy(gameObject);
             }
         }
