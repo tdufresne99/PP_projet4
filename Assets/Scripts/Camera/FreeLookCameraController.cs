@@ -27,6 +27,8 @@ public class FreeLookCameraController : MonoBehaviour
             freeLookCamera.m_YAxisRecentering.m_enabled = true;
             freeLookCamera.m_XAxis.m_InputAxisName = "";
             freeLookCamera.m_YAxis.m_InputAxisName = "";
+            freeLookCamera.m_XAxis.m_InputAxisValue = 0;
+            freeLookCamera.m_YAxis.m_InputAxisValue = 0;
             Cursor.lockState = CursorLockMode.None;
         }
     }
