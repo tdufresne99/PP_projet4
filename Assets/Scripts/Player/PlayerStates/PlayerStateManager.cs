@@ -222,6 +222,7 @@ namespace Player
         #region Current Values
         [Header("Current values")]
         public float currentAttackDamage;
+        public float currentDamageMultiplier = 1f;
         public float currentLeech;
         public float currentAttackSpeed;
         public float currentMovementSpeed;
@@ -232,6 +233,11 @@ namespace Player
         public bool playerIsFastFalling = false;
         public bool playerIsGrounded;
         public bool abilityLocked = false;
+        public bool spreadFirePressed = false;
+        public bool lightningRainPressed = false;
+        public bool iceShieldPressed = false;
+        public bool naturesMelodyPressed = false;
+        public bool abilityPressed => (spreadFirePressed || lightningRainPressed ||  iceShieldPressed || naturesMelodyPressed);
         #endregion
         // ---------------------------------------------------------
 
@@ -264,34 +270,38 @@ namespace Player
                 }
 
                 // Spread Fire
-                if (Input.GetKeyDown(KeyCode.E) && !spreadFireOnCooldown)
+                if (Input.GetKeyDown(KeyCode.E) && !spreadFireOnCooldown && !abilityPressed)
                 {
+                    spreadFirePressed = true;
                     ChangeIconAlpha(spreadFireCDIcon, true);
                 }
-                if (Input.GetKeyUp(KeyCode.E) && !spreadFireOnCooldown)
+                if (Input.GetKeyUp(KeyCode.E) && !spreadFireOnCooldown && spreadFirePressed)
                 {
+                    spreadFirePressed = false;
                     TransitionToState(spreadFireState);
                 }
 
                 // Lightning Rain
-                if (Input.GetKeyDown(KeyCode.Q) && !lightningRainOnCooldown)
+                if (Input.GetKeyDown(KeyCode.Q) && !lightningRainOnCooldown && !abilityPressed)
                 {
                     ChangeIconAlpha(lightningRainCDIcon, true);
                     TransitionToState(lightningRainState);
                 }
 
                 // Ice Shield
-                if (Input.GetKeyDown(KeyCode.LeftShift) && !iceShieldOnCooldown)
+                if (Input.GetKeyDown(KeyCode.LeftShift) && !iceShieldOnCooldown && !abilityPressed)
                 {
+                    iceShieldPressed = true;
                     ChangeIconAlpha(iceShieldCDIcon, true);
                 }
-                if (Input.GetKeyUp(KeyCode.LeftShift) && !iceShieldOnCooldown)
+                if (Input.GetKeyUp(KeyCode.LeftShift) && !iceShieldOnCooldown && iceShieldPressed)
                 {
+                    iceShieldPressed = false;
                     TransitionToState(iceShieldState);
                 }
 
                 // Nature's Melody
-                if (Input.GetKeyDown(KeyCode.R) && !naturesMelodyOnCooldown)
+                if (Input.GetKeyDown(KeyCode.R) && !naturesMelodyOnCooldown && !abilityPressed)
                 {
                     ChangeIconAlpha(naturesMelodyCDIcon, true);
                     TransitionToState(naturesMelodyState);
@@ -435,6 +445,7 @@ namespace Player
         {
 
         }
+
         private void OnDamageDealt(float damageDealt)
         {
 
@@ -457,8 +468,16 @@ namespace Player
 
         private void ChangeIconAlpha(Image icon, bool desaturate)
         {
-            if (desaturate) icon.color = new Color(1f, 1f, 1f, desaturatedIconAlphaValue);
-            else new Color(1f, 1f, 1f, 1f);
+            if (desaturate) 
+            {
+                Debug.Log("desaturate");
+                icon.color = new Color(1f, 1f, 1f, desaturatedIconAlphaValue);
+            }
+            else 
+            {
+                Debug.Log("cancel desaturate");
+                icon.color = new Color(1f, 1f, 1f, 1f);
+            }
         }
 
         // ===================================================================================================
@@ -477,6 +496,7 @@ namespace Player
 
         private void OnSpreadFireCooldownStart()
         {
+            Debug.Log("Spread cd start");
             spreadFireRemainingCooldownTime = spreadFireCooldownTime;
             ChangeIconAlpha(spreadFireCDIcon, true);
             _coroutineSpreadFireCooldown = StartCoroutine(CoroutineSpreadFireCooldown());
@@ -484,6 +504,7 @@ namespace Player
 
         private void OnSpreadFireCooldownEnd()
         {
+            Debug.Log("Spread cd start");
             if (_coroutineSpreadFireCooldown != null) StopCoroutine(_coroutineSpreadFireCooldown);
             ChangeIconAlpha(spreadFireCDIcon, false);
             spreadFireCDText.text = spreadFireKey;
