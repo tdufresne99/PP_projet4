@@ -402,6 +402,8 @@ namespace Player
 
         private void SubscribeToRequiredEvents()
         {
+            healthManagerCS.OnHealthPointsEmpty += OnHealthPointsEmpty;
+
             playerDamageDealerCS.OnDamageDealt += OnDamageDealt;
             playerDamageReceiverCS.OnDamageReceived += OnDamageReceived;
             playerHealingDealerCS.OnHealingDealt += OnHealingDealt;
@@ -429,6 +431,10 @@ namespace Player
             }
         }
 
+        private void OnHealthPointsEmpty()
+        {
+
+        }
         private void OnDamageDealt(float damageDealt)
         {
 

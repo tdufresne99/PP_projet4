@@ -19,7 +19,7 @@ namespace Player
         public void DealDamage(EnemyDamageReceiver enemyDamageReceiver, float damage, float damageMultiplier, float leech)
         {
             var calculatedDamage = damage * damageMultiplier;
-            enemyDamageReceiver.OnDamageReceived(calculatedDamage);
+            enemyDamageReceiver.DamageReceived(calculatedDamage);
             OnDamageDealt?.Invoke(calculatedDamage);
             if (leech > 0) _playerHealingReceiver.ReceiveHealing(calculatedDamage * leech);
         }

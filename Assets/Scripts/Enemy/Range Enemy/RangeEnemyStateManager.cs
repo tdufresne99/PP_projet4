@@ -105,6 +105,15 @@ namespace Enemy.Range
         #region Ajustable Values
         [Header("-- Ajustable Values --")]
         // ------------------------------------------------->
+        [Header("-- Level Settings --")]
+        #region Level Settings
+        [SerializeField] private int _level = 0;
+        public int level => _level + 1;
+        public float statsBuffPerLevel = 0.2f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        [Header("-- Base Attack Values --")]
         #region Base Attack Values
         public float baseAttackRange = 20f;
         public float baseAttackDamage = 30f;
@@ -171,6 +180,7 @@ namespace Enemy.Range
                 _inCombat = value;
             }
         }
+        public float currentMaxHealthPoints;
         public float currentAttackDamage;
         [SerializeField] private float _currentAttackRange;
         public float currentAttackRange
@@ -252,7 +262,7 @@ namespace Enemy.Range
         private void SubscribeToRequiredEvents()
         {
             healthManagerCS.OnHealthPointsEmpty += OnHealthPointsEmpty;
-            healthManagerCS.OnDamageReceived += OnDamageReceived;
+            enemyDamageReceiverCS.OnDamageReceived += OnDamageReceived;
         }
 
         private void TryGetRequiredComponents()
@@ -290,12 +300,14 @@ namespace Enemy.Range
 
         private void SetBaseValues()
         {
+            currentMaxHealthPoints = baseHealthPoints + (baseHealthPoints * _level * statsBuffPerLevel);
+            currentAttackDamage = baseAttackDamage + (baseAttackDamage * _level * statsBuffPerLevel);
+
             currentAttackRange = baseAttackRange;
-            currentAttackDamage = baseAttackDamage;
             currentAttackSpeed = baseAttackSpeed;
             currentMovementSpeed = baseMovementSpeed;
 
-            healthManagerCS.SetHealthPointsValues(baseHealthPoints);
+            healthManagerCS.SetHealthPointsValues(currentMaxHealthPoints);
 
             teleportLocationFinderCS.radius = teleportMaxRange;
             teleportLocationFinderCS.minRadius = teleportMinRange;
@@ -310,7 +322,7 @@ namespace Enemy.Range
             if (coroutineMeteor != null) StopCoroutine(coroutineMeteor);
         }
 
-        private void OnDamageReceived()
+        private void OnDamageReceived(float damageReceived)
         {
             if (!teleportOnCooldown && !abilityLocked)
             {

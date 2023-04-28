@@ -84,6 +84,15 @@ namespace Enemy.Melee
         #region Ajustable Values
         [Header("-- Ajustable Values --")]
         // ------------------------------------------------->
+        [Header("-- Level Settings --")]
+        #region Level Settings
+        [SerializeField] private int _level = 0;
+        public int level => _level + 1;
+        public float statsBuffPerLevel = 0.2f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
+        [Header("-- Base Attack Values --")]
         #region Base Attack Values
         public float baseAttackRange = 5f;
         public float baseAttackDamage = 25f;
@@ -94,7 +103,7 @@ namespace Enemy.Melee
         // -------------------------------------------------<
         // ------------------------------------------------->
         #region Base Health Settings
-        [Header("-- Base Attack Settings --")]
+        [Header("-- Base Health Settings --")]
         public float baseHealthPoints = 225f;
         #endregion
         // -------------------------------------------------<
@@ -139,6 +148,7 @@ namespace Enemy.Melee
                 _inCombat = value;
             }
         }
+        public float currentMaxHealthPoints;
         public float currentAttackDamage;
         [SerializeField] private float _currentAttackRange;
         public float currentAttackRange
@@ -234,7 +244,7 @@ namespace Enemy.Melee
         private void SubscribeToRequiredEvents()
         {
             healthManagerCS.OnHealthPointsEmpty += OnHealthPointsEmpty;
-            healthManagerCS.OnDamageReceived += OnDamageReceived;
+            enemyDamageReceiverCS.OnDamageReceived += OnDamageReceived;
         }
 
         private void TryGetRequiredComponents()
@@ -267,13 +277,15 @@ namespace Enemy.Melee
 
         private void SetBaseValues()
         {
-            currentAttackDamage = baseAttackDamage;
+            currentMaxHealthPoints = baseHealthPoints + (baseHealthPoints * _level * statsBuffPerLevel);
+            currentAttackDamage = baseAttackDamage + (baseAttackDamage * _level * statsBuffPerLevel);
+
             currentAttackSpeed = baseAttackSpeed;
             currentMovementSpeed = baseMovementSpeed;
             currentLeech = baseLeech;
             currentMovementSpeed = baseMovementSpeed;
 
-            healthManagerCS.SetHealthPointsValues(baseHealthPoints);
+            healthManagerCS.SetHealthPointsValues(currentMaxHealthPoints);
         }
 
         private void OnCombatStart()
@@ -286,7 +298,7 @@ namespace Enemy.Melee
 
         }
 
-        private void OnDamageReceived()
+        private void OnDamageReceived(float damageReceived)
         {
             
         }

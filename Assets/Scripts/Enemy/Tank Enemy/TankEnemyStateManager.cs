@@ -100,6 +100,14 @@ namespace Enemy.Tank
         #region Ajustable Values
         [Header("-- Ajustable Values --")]
         // ------------------------------------------------->
+        #region Level Settings
+        [Header("-- Level Settings --")]
+        [SerializeField] private int _level = 0;
+        public int level => _level + 1;
+        public float statsBuffPerLevel = 0.2f;
+        #endregion
+        // -------------------------------------------------<
+        // ------------------------------------------------->
         #region Base Attack Settings
         [Header("-- Base Attack Settings --")]
         public float baseAttackRange = 5f;
@@ -145,6 +153,7 @@ namespace Enemy.Tank
         // ---------------------------------------------------------
         #region Calculated Values
         [Header("-- Current Values --")]
+        public float currentMaxHealthPoints;
         public float currentAttackDamage;
         [SerializeField] private float _currentAttackRange;
         public float currentAttackRange
@@ -237,7 +246,7 @@ namespace Enemy.Tank
         private void SubscribeToRequiredEvents()
         {
             healthManagerCS.OnHealthPointsEmpty += OnHealthPointsEmpty;
-            healthManagerCS.OnDamageReceived += OnDamageReceived;
+            enemyDamageReceiverCS.OnDamageReceived += OnDamageReceived;
         }
 
         private void TryGetRequiredComponents()
@@ -275,13 +284,15 @@ namespace Enemy.Tank
 
         private void SetBaseValues()
         {
+            currentMaxHealthPoints = baseHealthPoints + (baseHealthPoints * _level * statsBuffPerLevel);
+            currentAttackDamage = baseAttackDamage + (baseAttackDamage * _level * statsBuffPerLevel);
+
             currentAttackRange = baseAttackRange;
-            currentAttackDamage = baseAttackDamage;
             currentAttackSpeed = baseAttackSpeed;
             currentLeech = baseLeech;
             currentMovementSpeed = baseMovementSpeed;
 
-            healthManagerCS.SetHealthPointsValues(baseHealthPoints);
+            healthManagerCS.SetHealthPointsValues(currentMaxHealthPoints);
         }
 
         private void OnCombatStart()
@@ -312,7 +323,7 @@ namespace Enemy.Tank
             Destroy(gameObject);
         }
 
-        private void OnDamageReceived()
+        private void OnDamageReceived(float damageReceived)
         {
             var healthRatio = healthManagerCS.currentHealthPoints / healthManagerCS.maxHealthPoints;
 

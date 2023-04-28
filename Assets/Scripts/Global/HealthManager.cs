@@ -60,7 +60,6 @@ public class HealthManager : MonoBehaviour
         }
 
         currentHealthPoints -= damageReceived;
-        OnDamageReceived?.Invoke();
     }
 
     public void ReceiveHealing(float healingReceived)
@@ -74,5 +73,4 @@ public class HealthManager : MonoBehaviour
     }
 
     public event Action OnHealthPointsEmpty;
-    public event Action OnDamageReceived;
 }

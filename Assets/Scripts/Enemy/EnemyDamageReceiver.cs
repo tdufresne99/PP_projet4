@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,10 +27,12 @@ namespace Enemy
             _healthManagerCS = GetComponent<HealthManager>();
         }
 
-        public void OnDamageReceived(float damage)
+        public void DamageReceived(float damage)
         {
             var accurateDamageReceived = damage * _damageMultiplier;
             _healthManagerCS.ReceiveDamage(accurateDamageReceived);
+            OnDamageReceived.Invoke(accurateDamageReceived);
         }
+        public event Action<float> OnDamageReceived;
     }
 }
