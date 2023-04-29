@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using TMPro;
 using System.Collections;
@@ -93,13 +92,13 @@ namespace Player
         // ---------------------------------------------------------
         #region Player States
         public PlayerState currentState;
-
         public IdleState idleState;
         public BasicAttackState basicAttackState;
         public LightningRainState lightningRainState;
         public SpreadFireState spreadFireState;
         public IceShieldState iceShieldState;
         public NaturesMelodyState naturesMelodyState;
+        public DyingState dyingStateState;
         #endregion
         // ---------------------------------------------------------
 

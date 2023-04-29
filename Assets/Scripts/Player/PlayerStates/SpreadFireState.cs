@@ -40,7 +40,6 @@ namespace Player
         public IEnumerator CoroutineSpreadFire()
         {
             _manager.spreadFireOnCooldown = true;
-            var detectedEnemies = new List<EnemyDamageReceiver>();
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.spreadFireRange);
             foreach (Collider collider in colliders)
             {
@@ -48,7 +47,9 @@ namespace Player
 
                 if (detectedEnemy != null)
                 {
-                    detectedEnemies.Add(detectedEnemy);
+                    var activeSpreadFireDebuff = detectedEnemy.GetComponent<SpreadFireDebuff>();
+                    if(activeSpreadFireDebuff != null) Object.Destroy(activeSpreadFireDebuff);
+
                     var spreadFireDebuff = detectedEnemy.gameObject.AddComponent<SpreadFireDebuff>();
                     spreadFireDebuff.playerStateManagerCS = _manager;
                     spreadFireDebuff.playerDamageDealerCS = _manager.playerDamageDealerCS;

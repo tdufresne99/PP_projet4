@@ -3,7 +3,6 @@ using System.Collections;
 
 namespace Enemy.Melee
 {
-    // *** Idée pour moi du futur: faire des dictionnaires d'anims pour differencier enrage et non enrage anims.
     public class MeleeEnemyStateManager : MonoBehaviour
     {
         // ----------------------------------------------------------

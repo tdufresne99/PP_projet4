@@ -312,6 +312,7 @@ namespace Enemy.Range
             teleportLocationFinderCS.radius = teleportMaxRange;
             teleportLocationFinderCS.minRadius = teleportMinRange;
         }
+        
         private void OnCombatStart()
         {
             coroutineMeteor = StartCoroutine(CoroutineMeteor());

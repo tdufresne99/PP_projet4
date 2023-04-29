@@ -24,7 +24,7 @@ namespace Player
             var enemyDamageReceiver = other.GetComponent<EnemyDamageReceiver>();
             if (enemyDamageReceiver != null)
             {
-                _playerDamageDealer.DealDamage(enemyDamageReceiver, _playerStateManagerCS.currentAttackDamage, 1, _playerStateManagerCS.currentLeech);
+                _playerDamageDealer.DealDamage(enemyDamageReceiver, _playerStateManagerCS.currentAttackDamage, _playerStateManagerCS.currentLeech);
             }
         }
     }

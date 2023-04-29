@@ -118,7 +118,7 @@ namespace Player
                             break;
                     }
 
-                    _manager.playerDamageDealerCS.DealDamage(detectedEnemy, _manager.lightningRainDamagePerCharge * _charges, 1, _manager.currentLeech);
+                    _manager.playerDamageDealerCS.DealDamage(detectedEnemy, _manager.lightningRainDamagePerCharge * _charges, _manager.currentLeech);
 
                     Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.green, 1f);
                 }

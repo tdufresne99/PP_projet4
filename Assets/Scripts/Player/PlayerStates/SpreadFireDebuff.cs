@@ -23,13 +23,16 @@ namespace Player
                 Debug.LogWarning(gameObject.name + " does not have the 'EnemyDamageReceiver' component. (SpreadFireDebuff.cs)");
                 Destroy(this);
             }
+
+            var activeSpreadFireDebuff = GetComponent<SpreadFireDebuff>();
+            if (activeSpreadFireDebuff != null && activeSpreadFireDebuff != this) Destroy(activeSpreadFireDebuff);
         }
         void Start()
         {
             _spreadFireTicks = playerStateManagerCS.spreadFireTicks;
             _spreadFireDuration = playerStateManagerCS.spreadFireDuration;
             _spreadFireDamage = playerStateManagerCS.spreadFireDamage;
-            
+
             _coroutineSpreadFireTick = StartCoroutine(CoroutineSpreadFireTick());
         }
 
@@ -39,7 +42,7 @@ namespace Player
             var timeBetweenTicks = _spreadFireDuration / _spreadFireTicks;
             for (int i = 0; i < _spreadFireTicks; i++)
             {
-                playerDamageDealerCS.DealDamage(_enemyDamageReceiverCS, damagePerTick, 1, playerStateManagerCS.currentLeech);
+                playerDamageDealerCS.DealDamage(_enemyDamageReceiverCS, damagePerTick, playerStateManagerCS.currentLeech);
                 yield return new WaitForSecondsRealtime(timeBetweenTicks);
             }
             Destroy(this);
