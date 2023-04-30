@@ -248,6 +248,8 @@ namespace Player
 
         private void Start()
         {
+            if(TrialsManager.instance != null) TrialsManager.instance.playerStateManagerCS = this;
+
             CreateStateInstances();
             SetBaseValues();
             TransitionToState(idleState);
@@ -469,12 +471,10 @@ namespace Player
         {
             if (desaturate) 
             {
-                Debug.Log("desaturate");
                 icon.color = new Color(1f, 1f, 1f, desaturatedIconAlphaValue);
             }
             else 
             {
-                Debug.Log("cancel desaturate");
                 icon.color = new Color(1f, 1f, 1f, 1f);
             }
         }

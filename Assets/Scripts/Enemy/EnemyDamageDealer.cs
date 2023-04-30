@@ -8,6 +8,7 @@ namespace Enemy
     public class EnemyDamageDealer : MonoBehaviour
     {
         [SerializeField] private PlayerDamageReceiver _playerDamageReceiver;
+        public PlayerDamageReceiver playerDamageReceiver { get => _playerDamageReceiver; set => _playerDamageReceiver = value; }
         private EnemyHealingReceiver _enemyHealingReceiver;
         [SerializeField] private float _damageMultiplier = 1;
         [SerializeField] private float _leech = 0;

@@ -13,6 +13,7 @@ public class SkillOrb : MonoBehaviour
         if(playerStateManagerCS != null)
         {
             playerStateManagerCS.OnAbilityLearned(orbAbility);
+            TrialsManager.instance?.OnSkillOrbPickUp();
             Destroy(gameObject);
         }
     }

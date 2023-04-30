@@ -212,6 +212,10 @@ namespace Enemy.Melee
 
         private void Start()
         {
+            var trialsEnemy = GetComponent<TrialsEnemy>();
+            if (trialsEnemy != null && TrialsManager.instance != null) targetTransform = TrialsManager.instance.playerStateManagerCS.transform;
+            enemyDamageDealerCS.playerDamageReceiver = targetTransform.GetComponent<Player.PlayerDamageReceiver>();
+            if(trialsEnemy == null) Debug.Log("trialsEnemy not found");
             CreateStateInstances();
             SetBaseValues();
             TransitionToState(idleState);

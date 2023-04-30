@@ -199,7 +199,7 @@ namespace Enemy.Tank
             set
             {
                 if (_inCombat == value) return;
-                if(value == true) OnCombatStart();
+                if (value == true) OnCombatStart();
                 else OnCombatEnd();
                 _inCombat = value;
             }
@@ -215,6 +215,10 @@ namespace Enemy.Tank
 
         private void Start()
         {
+            var trialsEnemy = GetComponent<TrialsEnemy>();
+            if (trialsEnemy != null && TrialsManager.instance != null) targetTransform = TrialsManager.instance.playerStateManagerCS.transform;
+            enemyDamageDealerCS.playerDamageReceiver = targetTransform.GetComponent<Player.PlayerDamageReceiver>();
+            if(trialsEnemy == null) Debug.Log("trialsEnemy not found");
             CreateStateInstances();
             SetBaseValues();
             TransitionToState(idleState);
@@ -299,7 +303,7 @@ namespace Enemy.Tank
         {
 
         }
-        
+
         private void OnCombatEnd()
         {
 

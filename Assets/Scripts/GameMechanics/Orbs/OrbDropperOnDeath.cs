@@ -5,7 +5,7 @@ using UnityEngine;
 public class OrbDropperOnDeath : MonoBehaviour
 {
     private HealthManager _healthManagerCS;
-    [SerializeField] private GameObject _orbGO;
+    public GameObject orbGO;
 
     void Start()
     {
@@ -23,6 +23,6 @@ public class OrbDropperOnDeath : MonoBehaviour
 
     void InstanciateOrb()
     {
-        Instantiate(_orbGO, transform.position, Quaternion.identity);
+        Instantiate(orbGO, transform.position, Quaternion.identity);
     }
 }

@@ -231,6 +231,13 @@ namespace Enemy.Range
 
         private void Start()
         {
+            var trialsEnemy = this.GetComponent<TrialsEnemy>();
+            Debug.Log(trialsEnemy);
+            Debug.Log(TrialsManager.instance);
+            Debug.Log(TrialsManager.instance.playerStateManagerCS.transform);
+            if (trialsEnemy != null && TrialsManager.instance != null) targetTransform = TrialsManager.instance.playerStateManagerCS.transform;
+            enemyDamageDealerCS.playerDamageReceiver = targetTransform.GetComponent<Player.PlayerDamageReceiver>();
+            if(trialsEnemy == null) Debug.Log("trialsEnemy not found");
             CreateStateInstances();
             SetBaseValues();
             TransitionToState(idleState);
