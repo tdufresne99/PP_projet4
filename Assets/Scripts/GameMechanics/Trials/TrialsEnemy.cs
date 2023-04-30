@@ -4,13 +4,26 @@ using UnityEngine;
 
 public class TrialsEnemy : MonoBehaviour
 {
+    private HealthManager _healthManagerCS;
+    void Start()
+    {
+        _healthManagerCS = GetComponent<HealthManager>();
+        if(_healthManagerCS != null)
+        {
+            _healthManagerCS.OnHealthPointsEmpty += OnTrialEnemyEliminated;
+        }
+        else Debug.LogWarning("No HealthManager component found on " + gameObject.name + " (TrialsEnemy.cs)");
+    }
     public void ToggleActivity(bool active)
     {
-        Debug.Log("SetActiveFalse");
         gameObject.SetActive(active);
+    }
+    void OnTrialEnemyEliminated()
+    {
+        TrialsManager.instance?.OnTrialSuccess();
     }
     void OnDestroy()
     {
-        TrialsManager.instance?.OnTrialCompleted();
+        if(_healthManagerCS != null) _healthManagerCS.OnHealthPointsEmpty -= OnTrialEnemyEliminated;
     }
 }

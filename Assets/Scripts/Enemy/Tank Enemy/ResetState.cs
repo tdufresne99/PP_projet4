@@ -17,12 +17,12 @@ namespace Enemy.Tank
             // ---- Set state animations ------------------------------
             _manager.meshRenderer.material = _manager.resetMat;
 
-            _manager.navMeshAgentManagerCS.ChangeDestination(_manager.resetTransform.position);
+            // _manager.navMeshAgentManagerCS.ChangeDestination(_manager.resetTransform.position);
         }
 
         public override void Execute()
         {
-            if(Vector3.Distance(_manager.transform.position, _manager.resetTransform.position) < 2f) _manager.TransitionToState(_manager.idleState);
+            
         }
 
         public override void Exit()

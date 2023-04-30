@@ -73,7 +73,7 @@ Transform:
   - {fileID: 1829295514063738211}
   - {fileID: 1131925881}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9069514299499766435
 MeshFilter:
@@ -164,7 +164,7 @@ MonoBehaviour:
   chaseMat: {fileID: 2100000, guid: 6840d6f5e4f6e114ca6eb89f2a2e1e0c, type: 2}
   basicAttackMat: {fileID: 2100000, guid: 3acd2e98807a24d4797b825543770700, type: 2}
   teleportMat: {fileID: 2100000, guid: be2ece84f1b7d3d4987c49ea321e9d8c, type: 2}
-  stunMat: {fileID: 0}
+  stunMat: {fileID: 2100000, guid: 3b1ef9636eddad24885692716e996e21, type: 2}
   resetMat: {fileID: 2100000, guid: 1635693dd870ca94ba49e9f95d57e6c6, type: 2}
   dyingMat: {fileID: 2100000, guid: 0bc1abef075063e4da014ad6eaa18904, type: 2}
   _teleportOnCooldown: 0
@@ -184,6 +184,8 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  _level: 0
+  statsBuffPerLevel: 0.2
   baseAttackRange: 20
   baseAttackDamage: 30
   baseLeech: 0
@@ -202,6 +204,7 @@ MonoBehaviour:
   cooldownReductionBuffValue: 0.1
   baseCooldownReductionValue: 1
   _inCombat: 0
+  currentMaxHealthPoints: 0
   currentAttackDamage: 0
   _currentAttackRange: 0
   _currentLeech: 0

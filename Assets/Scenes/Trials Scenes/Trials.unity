@@ -97,8 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 1e9f813b77a3ad04d91fa6ba624822a8, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 485a4b63af948b34f86a09403b3b364e, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -198,7 +198,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153915222}
-  m_LocalRotation: {x: 0.41973302, y: 0.000000048076487, z: -0.000000022232513, w: 0.90764767}
+  m_LocalRotation: {x: 0.41973302, y: 0.0000000145158285, z: -0.000000006712707, w: 0.90764767}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -310,7 +310,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-363040
+  m_Name: pb_Mesh29364
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -1272,7 +1272,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703034428}
-  m_LocalRotation: {x: 0.3142539, y: -0.000000032669384, z: 0.000000010814345, w: 0.94933903}
+  m_LocalRotation: {x: 0.3142539, y: 0.00000003266938, z: -0.000000010814344, w: 0.94933903}
   m_LocalPosition: {x: 0, y: 11, z: -38.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2178,7 +2178,7 @@ MonoBehaviour:
   playerStateManagerCS: {fileID: 0}
   _trialsGOs:
   - {fileID: 179980931640839630, guid: a67718b9546b31f4397167e27c4005e7, type: 3}
-  - {fileID: 2165307289152692624, guid: 80d9ef0679c75164abb987b7c7b4b98b, type: 3}
+  - {fileID: 6551864348643440860, guid: 7da0a635393a5934898b40aff4518daf, type: 3}
   - {fileID: 2122042572784327750, guid: 1983339888324b34b8e133b308a2250e, type: 3}
   - {fileID: 3511069194792479075, guid: 379ea9d586252834f9d10c76ef7a9785, type: 3}
   _currentTrialGO: {fileID: 0}
@@ -2187,6 +2187,7 @@ MonoBehaviour:
   _currentTrialsEnemyCS: {fileID: 0}
   _currentTrialIndex: 0
   _origin: {x: 0, y: 0, z: 0}
+  _playerReset: {fileID: 578164975}
   _fadeOut: {fileID: 332827082}
   _fadeIn: {fileID: 203051733}
   _maxTutorialIndex: 0
@@ -2472,7 +2473,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494809690}
-  m_LocalRotation: {x: 0.31425384, y: -0.00000001633469, z: 0.0000000054071725, w: 0.94933903}
+  m_LocalRotation: {x: 0.31425384, y: 0.000000016334688, z: -0.000000005407172, w: 0.94933903}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3036,7 +3037,7 @@ GameObject:
   - component: {fileID: 1661886949}
   - component: {fileID: 1661886948}
   - component: {fileID: 1661886947}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4830,7 +4831,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890583035}
-  m_LocalRotation: {x: 0.36689648, y: 0.000000016006439, z: -0.0000000063129604, w: 0.9302618}
+  m_LocalRotation: {x: 0.3668965, y: -0.00000001600644, z: 0.0000000063129613, w: 0.9302618}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

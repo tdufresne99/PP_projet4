@@ -40,7 +40,6 @@ namespace Player
                 if (_coroutineLightningRain != null) 
                 {
                     _manager.StopCoroutine(_coroutineLightningRain);
-                    Debug.Log("Stopped coroutine lightning rain");
                 }
                 else
                 {
@@ -65,7 +64,6 @@ namespace Player
             for (int i = 0; i < _manager.lightningRainMaxCharges; i++)
             {
                 _charges++;
-                Debug.Log("Charging... (" + _charges + ")");
                 yield return new WaitForSecondsRealtime(activationDelayPerCharge);
             }
             PerformLightningRain();
@@ -78,7 +76,6 @@ namespace Player
                 Debug.LogWarning("lightning rain already performed...");
                 return;
             }
-            Debug.Log("Performing lightning rain ability");
             _lightRainPerformed = true;
 
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.spreadFireRange);

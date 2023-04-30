@@ -83,6 +83,7 @@ namespace Enemy.Tank
         // ---------------------------------------------------------
         #region External References
         [Header("-- External References --")]
+        public Player.PlayerStateManager playerStateManagerCS;
         public Transform resetTransform;
         public Transform targetTransform;
         public LayerMask targetLayerMask;
@@ -216,9 +217,8 @@ namespace Enemy.Tank
         private void Start()
         {
             var trialsEnemy = GetComponent<TrialsEnemy>();
-            if (trialsEnemy != null && TrialsManager.instance != null) targetTransform = TrialsManager.instance.playerStateManagerCS.transform;
-            enemyDamageDealerCS.playerDamageReceiver = targetTransform.GetComponent<Player.PlayerDamageReceiver>();
-            if(trialsEnemy == null) Debug.Log("trialsEnemy not found");
+            if (trialsEnemy != null && TrialsManager.instance != null) GetTrialsRequiredLinks();
+
             CreateStateInstances();
             SetBaseValues();
             TransitionToState(idleState);
@@ -274,6 +274,16 @@ namespace Enemy.Tank
             else Debug.LogError("The component 'Animator' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
 
+        private void GetTrialsRequiredLinks()
+        {
+            if(playerStateManagerCS == null) playerStateManagerCS = TrialsManager.instance.playerStateManagerCS;
+
+            targetTransform = playerStateManagerCS.transform;
+            enemyDamageDealerCS.playerDamageReceiver = targetTransform.GetComponent<Player.PlayerDamageReceiver>();
+
+            playerStateManagerCS.OnPlayerDeath += OnPlayerDeath;
+        }
+
         private void CreateStateInstances()
         {
             idleState = new IdleState(this);
@@ -306,7 +316,12 @@ namespace Enemy.Tank
 
         private void OnCombatEnd()
         {
+            TransitionToState(resetState);
+        }
 
+        private void OnPlayerDeath()
+        {
+            inCombat = false;
         }
 
         private void OnHealthPointsEmpty()
@@ -406,5 +421,12 @@ namespace Enemy.Tank
         }
         #endregion
 
+        void OnDestroy()
+        {
+            if(playerStateManagerCS != null) playerStateManagerCS.OnPlayerDeath -= OnPlayerDeath;
+
+            if(healthManagerCS != null) healthManagerCS.OnHealthPointsEmpty -= OnHealthPointsEmpty;
+            if(enemyDamageReceiverCS != null) enemyDamageReceiverCS.OnDamageReceived -= OnDamageReceived;
+        }
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 namespace Player
 {
@@ -94,11 +95,11 @@ namespace Player
         public PlayerState currentState;
         public IdleState idleState;
         public BasicAttackState basicAttackState;
+        public DyingState dyingState;
         public LightningRainState lightningRainState;
         public SpreadFireState spreadFireState;
         public IceShieldState iceShieldState;
         public NaturesMelodyState naturesMelodyState;
-        public DyingState dyingStateState;
         #endregion
         // ---------------------------------------------------------
 
@@ -154,6 +155,11 @@ namespace Player
         public float baseAttackDamage = 30f;
         public float baseLeech = 0;
         public float baseAttackSpeed = 1.5f;
+        #endregion
+
+        #region Base Health Settings
+        [Header("Base Health Settings")]
+        public float maxHealthPoints = 400f;
         #endregion
 
         #region Base Movement Settings
@@ -393,6 +399,7 @@ namespace Player
         {
             idleState = new IdleState(this);
             basicAttackState = new BasicAttackState(this);
+            dyingState = new DyingState(this);
 
             // spreadFireState = new SpreadFireState(this);
             // iceShieldState = new IceShieldState(this);
@@ -409,6 +416,9 @@ namespace Player
             currentJumpForce = baseJumpForce;
 
             shieldManagerCS.SetShieldPointsValues(iceShieldHealthPerStack * iceShieldMaxStacks);
+            shieldManagerCS.currentShieldPoints = 0;
+
+            healthManagerCS.SetHealthPointsValues(maxHealthPoints);
         }
 
         private void SubscribeToRequiredEvents()
@@ -419,6 +429,21 @@ namespace Player
             playerDamageReceiverCS.OnDamageReceived += OnDamageReceived;
             playerHealingDealerCS.OnHealingDealt += OnHealingDealt;
             playerHealingReceiverCS.OnHealingReceived += OnHealingReceived;
+        }
+
+        public void ResetPlayer(Transform resetPosition)
+        {
+            transform.position = resetPosition.position;
+            transform.rotation = resetPosition.rotation;
+
+            spreadFireRemainingCooldownTime = 0;
+            lightningRainRemainingCooldownTime = 0;
+            iceShieldRemainingCooldownTime = 0;
+            naturesMelodyRemainingCooldownTime = 0;
+
+            SetBaseValues();
+
+            TransitionToState(idleState);
         }
 
         public void OnAbilityLearned(PlayerAbilityEnum ability)
@@ -444,7 +469,8 @@ namespace Player
 
         private void OnHealthPointsEmpty()
         {
-
+            TransitionToState(dyingState);
+            OnPlayerDeath?.Invoke();
         }
 
         private void OnDamageDealt(float damageDealt)
@@ -495,7 +521,6 @@ namespace Player
 
         private void OnSpreadFireCooldownStart()
         {
-            Debug.Log("Spread cd start");
             spreadFireRemainingCooldownTime = spreadFireCooldownTime;
             ChangeIconAlpha(spreadFireCDIcon, true);
             _coroutineSpreadFireCooldown = StartCoroutine(CoroutineSpreadFireCooldown());
@@ -503,7 +528,6 @@ namespace Player
 
         private void OnSpreadFireCooldownEnd()
         {
-            Debug.Log("Spread cd start");
             if (_coroutineSpreadFireCooldown != null) StopCoroutine(_coroutineSpreadFireCooldown);
             ChangeIconAlpha(spreadFireCDIcon, false);
             spreadFireCDText.text = spreadFireKey;
@@ -596,5 +620,7 @@ namespace Player
             naturesMelodyCDText.text = naturesMelodyKey;
         }
         #endregion
+    
+        public event Action OnPlayerDeath;
     }
 }

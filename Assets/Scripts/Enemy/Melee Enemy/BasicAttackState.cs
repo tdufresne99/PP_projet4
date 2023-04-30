@@ -53,7 +53,6 @@ namespace Enemy.Melee
             if(!_manager.enrageActive && !_manager.enrageOnCooldown)
             {
                 _manager.successiveBasicAttacks++;
-                Debug.Log(_manager.gameObject.name + " consecutive attack #" + _manager.successiveBasicAttacks);
             }
         }
     }

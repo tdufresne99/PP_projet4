@@ -82,6 +82,7 @@ namespace Enemy.Range
         // ---------------------------------------------------------
         #region External References
         [Header("-- External References --")]
+        public Player.PlayerStateManager playerStateManagerCS;
         public Transform resetTransform;
         public Transform targetTransform;
         public Transform projectileSpawnTransform;
@@ -231,13 +232,9 @@ namespace Enemy.Range
 
         private void Start()
         {
-            var trialsEnemy = this.GetComponent<TrialsEnemy>();
-            Debug.Log(trialsEnemy);
-            Debug.Log(TrialsManager.instance);
-            Debug.Log(TrialsManager.instance.playerStateManagerCS.transform);
-            if (trialsEnemy != null && TrialsManager.instance != null) targetTransform = TrialsManager.instance.playerStateManagerCS.transform;
-            enemyDamageDealerCS.playerDamageReceiver = targetTransform.GetComponent<Player.PlayerDamageReceiver>();
-            if(trialsEnemy == null) Debug.Log("trialsEnemy not found");
+            var trialsEnemy = GetComponent<TrialsEnemy>();
+            if (trialsEnemy != null && TrialsManager.instance != null) GetTrialsRequiredLinks();
+
             CreateStateInstances();
             SetBaseValues();
             TransitionToState(idleState);
@@ -293,6 +290,16 @@ namespace Enemy.Range
             else Debug.LogError("The component 'TeleportLocationFinder' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
 
+        private void GetTrialsRequiredLinks()
+        {
+            if(playerStateManagerCS == null) playerStateManagerCS = TrialsManager.instance.playerStateManagerCS;
+
+            targetTransform = playerStateManagerCS.transform;
+            enemyDamageDealerCS.playerDamageReceiver = targetTransform.GetComponent<Player.PlayerDamageReceiver>();
+
+            playerStateManagerCS.OnPlayerDeath += OnPlayerDeath;
+        }
+
         private void CreateStateInstances()
         {
             idleState = new IdleState(this);
@@ -328,6 +335,12 @@ namespace Enemy.Range
         private void OnCombatEnd()
         {
             if (coroutineMeteor != null) StopCoroutine(coroutineMeteor);
+            TransitionToState(resetState);
+        }
+
+        private void OnPlayerDeath()
+        {
+            inCombat = false;
         }
 
         private void OnDamageReceived(float damageReceived)
@@ -440,6 +453,14 @@ namespace Enemy.Range
                 TransitionToState(meteorAbilityState);
                 yield return new WaitForSecondsRealtime(meteorCooldownTime);
             }
+        }
+    
+        void OnDestroy()
+        {
+            if(playerStateManagerCS != null) playerStateManagerCS.OnPlayerDeath -= OnPlayerDeath;
+
+            if(healthManagerCS != null) healthManagerCS.OnHealthPointsEmpty -= OnHealthPointsEmpty;
+            if(enemyDamageReceiverCS != null) enemyDamageReceiverCS.OnDamageReceived -= OnDamageReceived;
         }
     }
 }

@@ -16,12 +16,15 @@ public class TrialsManager : MonoBehaviour
     [SerializeField] private int _currentTrialIndex = 0;
 
     [SerializeField] private Vector3 _origin = Vector3.zero;
+    [SerializeField] private Transform _playerReset;
 
     [SerializeField] private GameObject _fadeOut;
     [SerializeField] private GameObject _fadeIn;
 
     [SerializeField] private int _maxTutorialIndex;
 
+    private Coroutine _couroutineNextTrial;
+    private float _fadeOutTime = 3.2f;
     private static TrialsManager _instance;
     public static TrialsManager instance => _instance;
 
@@ -33,6 +36,8 @@ public class TrialsManager : MonoBehaviour
 
     void Start()
     {
+        playerStateManagerCS.healthManagerCS.OnHealthPointsEmpty += OnTrialFailed;
+
         _maxTutorialIndex = _trialsGOs.Length;
         OnBlockPlayerActions?.Invoke(true);
         StartTrial();
@@ -41,6 +46,7 @@ public class TrialsManager : MonoBehaviour
     public void StartTrial()
     {
         FadeCanvasToggle(true);
+        playerStateManagerCS.ResetPlayer(_playerReset);
         InstanciateTrial();
         _currentTrialsIntroCS.ToggleActivity(true);
         OnTrialStart?.Invoke();
@@ -77,34 +83,63 @@ public class TrialsManager : MonoBehaviour
     public void OnContinue()
     {
         OnBlockPlayerActions?.Invoke(false);
-        _currentTrialsEnemyCS.gameObject.SetActive(true);
+        _currentTrialsEnemyCS.gameObject?.SetActive(true);
     }
 
     public void OnTrialFailed()
     {
+        Debug.Log("Trial Failed");
+        _couroutineNextTrial = StartCoroutine(CoroutinResetTrial());
+    }
+
+    private IEnumerator CoroutinResetTrial()
+    {
+        FadeCanvasToggle(false);
+        yield return new WaitForSecondsRealtime(_fadeOutTime);
         Destroy(_currentTrialGO);
         StartTrial();
     }
 
-    public void OnTrialCompleted()
+    public void OnTrialSuccess()
     {
-        FadeCanvasToggle(false);
-
+        Debug.Log("Trial success");
         if(_currentTrialIndex >= _maxTutorialIndex - 1)
         {
             // Start Lvl 1...
-            Debug.Log("Trials completed");
+            OnTrialsCompleted();
             return;
         }
+        _couroutineNextTrial = StartCoroutine(CoroutineNextTrial());
+    }
+
+    private IEnumerator CoroutineNextTrial()
+    {
+        FadeCanvasToggle(false);
+        yield return new WaitForSecondsRealtime(_fadeOutTime);
         Destroy(_currentTrialGO);
         _currentTrialIndex++;
         StartTrial();
     }
 
+    private void OnTrialsCompleted()
+    {
+        Debug.Log("Trials completed");
+    } 
+
     public void FadeCanvasToggle(bool fadeIn)
     {
-        _fadeIn.SetActive(fadeIn);
-        _fadeOut.SetActive(!fadeIn);
+        if(_fadeIn == null)
+        {
+            Debug.LogWarning(_fadeIn.name + "is null (TrialsManager.cs)");
+            return;
+        }
+        if(_fadeOut == null)
+        {
+            Debug.LogWarning(_fadeOut.name + "is null (TrialsManager.cs)");
+            return;
+        }
+        _fadeIn?.SetActive(fadeIn);
+        _fadeOut?.SetActive(!fadeIn);
     }
 
     public event Action OnTrialStart;
