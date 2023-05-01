@@ -51,7 +51,7 @@ namespace Enemy.Range
 
         public GameObject InstantiateMeteorOverlay()
         {
-            var instanciatedMeteorOverlay = GameObject.Instantiate(_manager.meteorOverlayGO, new Vector3(_manager.targetTransform.position.x, 0.01f, _manager.targetTransform.position.z), Quaternion.identity);
+            var instanciatedMeteorOverlay = GameObject.Instantiate(_manager.meteorOverlayGO, new Vector3(_manager.targetTransform.position.x, 0.22f, _manager.targetTransform.position.z), Quaternion.identity);
             return instanciatedMeteorOverlay;
         }
 

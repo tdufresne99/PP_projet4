@@ -16,7 +16,7 @@ namespace Enemy.Tank
         {
             // ---- Set state animations ------------------------------
             _manager.enemyAnimator.SetTrigger("die");
-            _manager.Invoke("DestroyEnemy", 2f);
+            _manager.Invoke("SelfDestruct", 2f);
         }
 
         public override void Execute()
@@ -27,10 +27,6 @@ namespace Enemy.Tank
         public override void Exit()
         {
             
-        }
-        private void DestroyEnemy()
-        {
-            _manager.SelfDestruct();
         }
     }
 }

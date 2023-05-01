@@ -4,6 +4,7 @@ using UnityEngine;
 using Player;
 using Enemy;
 using System.Collections;
+using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class LevelManager : MonoBehaviour
 
     public PlayerStateManager playerStateManagerCS;
     [SerializeField] private GameObject[] _levelsGOs;
+    [SerializeField] private TextMeshProUGUI _level;
     [SerializeField] private Vector3 _origin = Vector3.zero;
     [SerializeField] private Transform _playerReset;
     [SerializeField] private GameObject _fadeOutGo;

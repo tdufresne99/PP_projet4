@@ -96,9 +96,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _level: 0
-  statsBuffPerLevel: 0.2
+  statsBuffPerLevel: 0.1
   baseAttackRange: 5
-  baseAttackDamage: 25
+  baseAttackDamage: 20
   baseLeech: 0
   baseAttackSpeed: 1.5
   detectionRange: 12
