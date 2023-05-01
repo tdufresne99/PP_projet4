@@ -14,10 +14,7 @@ namespace Enemy.Melee
 
         public override void Enter()
         {
-            // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.resetMat;
-
-            _manager.navMeshAgentManagerCS.ChangeDestination(_manager.resetTransform.position);
+            
         }
 
         public override void Execute()

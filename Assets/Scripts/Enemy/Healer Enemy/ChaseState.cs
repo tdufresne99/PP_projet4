@@ -15,13 +15,16 @@ namespace Enemy.Healer
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.chaseMat;
+            _manager.enemyAnimator.SetBool("isRunning", true);
 
             _manager.currentMovementSpeed = _manager.baseMovementSpeed;
         }
 
         public override void Execute()
         {
+            Vector3 direction = _manager.playerStateManagerCS.transform.position - _manager.transform.position;
+            direction.y = 0f;
+            _manager.transform.rotation = Quaternion.LookRotation(direction);
             if (_manager.DetectObject(_manager.targetTransform, _manager.currentAttackRange, _manager.targetLayerMask)) 
             {
                 _manager.TransitionToState(_manager.basicAttackState);
@@ -34,7 +37,7 @@ namespace Enemy.Healer
 
         public override void Exit()
         {
-            
+            _manager.enemyAnimator.SetBool("isRunning", false);
         }
     }
 }

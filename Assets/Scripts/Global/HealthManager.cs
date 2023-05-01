@@ -22,7 +22,7 @@ public class HealthManager : MonoBehaviour
             if (value <= 0)
             {
                 _currentHealthPoints = 0;
-                OnHealthPointsEmpty?.Invoke();
+                OnHealthPointsEmpty?.Invoke(this);
             }
             else if (value >= _maxHealthPoints)
             {
@@ -72,5 +72,5 @@ public class HealthManager : MonoBehaviour
         _healthBar.localScale = new Vector3(_currentHealthPoints / _maxHealthPoints, 1, 1);
     }
 
-    public event Action OnHealthPointsEmpty;
+    public event Action<HealthManager> OnHealthPointsEmpty;
 }

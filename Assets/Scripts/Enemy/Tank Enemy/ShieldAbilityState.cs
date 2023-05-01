@@ -16,7 +16,7 @@ namespace Enemy.Tank
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.shieldAbilityMat;
+            _manager.enemyAnimator.SetBool("iceShield", true);
             
             _manager.abilityLocked = true;
 
@@ -35,6 +35,7 @@ namespace Enemy.Tank
 
         public override void Exit()
         {
+            _manager.enemyAnimator.SetBool("iceShield", false);
             _manager.enemyDamageReceiverCS.damageMultiplier = 1f;
             _manager.abilityLocked = false;
             _manager.shieldOnCooldown = true;

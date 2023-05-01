@@ -19,7 +19,7 @@ namespace Enemy.Range
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.idleMat;
+            _manager.enemyAnimator.SetTrigger("meteor");
 
             _manager.abilityLocked = true;
 

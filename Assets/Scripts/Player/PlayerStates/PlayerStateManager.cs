@@ -9,8 +9,8 @@ namespace Player
     public class PlayerStateManager : MonoBehaviour
     {
         // ---------------------------------------------------------
-        #region State Test Materials
-        [Header("State Test Materials")]
+        #region State Test Animations
+        [Header("State Test Animations")]
         public Material idleMat;
         public Material basicAttackMat;
         public Material spreadFireMat;
@@ -18,7 +18,7 @@ namespace Player
         public Material iceShieldMat;
         public Material naturesMelodyMat;
         public Material dyingMat;
-        #endregion State Test Materials
+        #endregion
         // ---------------------------------------------------------
 
         // ---------------------------------------------------------
@@ -106,7 +106,6 @@ namespace Player
         // ---------------------------------------------------------
         #region Internal Components
         [Header("Internal Components")]
-        [HideInInspector] public MeshRenderer meshRenderer;
         [HideInInspector] public Rigidbody playerRigidbody;
         [HideInInspector] public Animator playerAnimator;
         [HideInInspector] public HealthManager healthManagerCS;
@@ -121,6 +120,7 @@ namespace Player
         // ---------------------------------------------------------
         #region External References
         [Header("External references")]
+        public GameObject meleeHitboxGO;
         public Transform spawnTransform;
         public Transform targetTransform;
         public Transform groundCheckTransform;
@@ -226,6 +226,8 @@ namespace Player
         // ---------------------------------------------------------
         #region Current Values
         [Header("Current values")]
+        public bool playerCompletedTrials = false;
+        public int currentLifes = 3;
         public float currentAttackDamage;
         public float currentDamageMultiplier = 1f;
         public float currentLeech;
@@ -242,7 +244,8 @@ namespace Player
         public bool lightningRainPressed = false;
         public bool iceShieldPressed = false;
         public bool naturesMelodyPressed = false;
-        public bool abilityPressed => (spreadFirePressed || lightningRainPressed ||  iceShieldPressed || naturesMelodyPressed);
+        public bool abilityPressed => (spreadFirePressed || lightningRainPressed || iceShieldPressed || naturesMelodyPressed);
+        public bool isDead = false;
         #endregion
         // ---------------------------------------------------------
 
@@ -254,10 +257,8 @@ namespace Player
 
         private void Start()
         {
-            if(TrialsManager.instance != null) TrialsManager.instance.playerStateManagerCS = this;
-
-            CreateStateInstances();
             SetBaseValues();
+            CreateStateInstances();
             TransitionToState(idleState);
         }
 
@@ -317,10 +318,13 @@ namespace Player
 
             horizontalIntput = Input.GetAxis("Horizontal");
 
-            float vertical = Input.GetAxis("Vertical");
+            float verticalIntput = Input.GetAxis("Vertical");
 
-            playerMovement = transform.forward * vertical;
+            playerMovement = transform.forward * verticalIntput;
             playerMovement = playerMovement.normalized * currentMovementSpeed;
+
+            playerAnimator.SetFloat("horizontal", horizontalIntput);
+            playerAnimator.SetFloat("vertical", verticalIntput);
 
             playerIsGrounded = Physics.CheckSphere(groundCheckTransform.position, 0.2f, groundLayerMask);
             Color debugColor = playerIsGrounded ? Color.green : Color.red;
@@ -336,7 +340,11 @@ namespace Player
 
         void FixedUpdate()
         {
-            if (playerIsGrounded) playerRigidbody.velocity = playerMovement + (transform.up * playerRigidbody.velocity.y);
+            if (playerIsGrounded) 
+            {
+                playerRigidbody.velocity = playerMovement + (transform.up * playerRigidbody.velocity.y);
+                bool isRunning = (Mathf.Abs(playerRigidbody.velocity.x) > 0.1f || Mathf.Abs(playerRigidbody.velocity.z) > 0.1f);
+            }
 
             transform.Rotate(Vector3.up, horizontalIntput * rotateSpeed);
 
@@ -353,7 +361,7 @@ namespace Player
         {
             if (newState == null)
             {
-                TransitionToState(idleState);
+                // TransitionToState(idleState);
                 return;
             }
             if (currentState != null)
@@ -367,14 +375,12 @@ namespace Player
 
         private void TryGetRequiredComponents()
         {
-            if (TryGetComponent(out MeshRenderer meshRendererTemp)) meshRenderer = meshRendererTemp;
-            else Debug.LogError("The component 'MeshRenderer' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
-
             if (TryGetComponent(out Rigidbody playerRigidbodyTemp)) playerRigidbody = playerRigidbodyTemp;
             else Debug.LogError("The component 'Rigidbody' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
 
-            if (TryGetComponent(out Animator playerAnimatorTemp)) playerAnimator = playerAnimatorTemp;
-            else Debug.LogError("The component 'Animator' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
+            var animator = GetComponentInChildren<Animator>();
+            if (animator != null) playerAnimator = animator;
+            else Debug.LogError("The component 'Animator' does not exist on object " + gameObject.name + "'s children (PlayerStateManager.cs)");
 
             if (TryGetComponent(out HealthManager healthManagerTemp)) healthManagerCS = healthManagerTemp;
             else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
@@ -401,10 +407,13 @@ namespace Player
             basicAttackState = new BasicAttackState(this);
             dyingState = new DyingState(this);
 
-            // spreadFireState = new SpreadFireState(this);
-            // iceShieldState = new IceShieldState(this);
-            // naturesMelodyState = new NaturesMelodyState(this);
-            // lightningRainState = new LightningRainState(this);
+            if (playerCompletedTrials)
+            {
+                spreadFireState = new SpreadFireState(this);
+                iceShieldState = new IceShieldState(this);
+                naturesMelodyState = new NaturesMelodyState(this);
+                lightningRainState = new LightningRainState(this);
+            }
         }
 
         private void SetBaseValues()
@@ -419,6 +428,8 @@ namespace Player
             shieldManagerCS.currentShieldPoints = 0;
 
             healthManagerCS.SetHealthPointsValues(maxHealthPoints);
+
+            if(LevelManager.instance != null) playerCompletedTrials = true;
         }
 
         private void SubscribeToRequiredEvents()
@@ -452,22 +463,30 @@ namespace Player
             {
                 case PlayerAbilityEnum.SpreadFire:
                     spreadFireState = new SpreadFireState(this);
+                    ChangeIconAlpha(spreadFireCDIcon, false);
                     break;
+
                 case PlayerAbilityEnum.IceShield:
                     iceShieldState = new IceShieldState(this);
+                    ChangeIconAlpha(iceShieldCDIcon, false);
                     break;
+
                 case PlayerAbilityEnum.NaturesMelody:
                     naturesMelodyState = new NaturesMelodyState(this);
+                    ChangeIconAlpha( naturesMelodyCDIcon, false);
                     break;
+
                 case PlayerAbilityEnum.LightningRain:
                     lightningRainState = new LightningRainState(this);
+                    ChangeIconAlpha( lightningRainCDIcon, false);
                     break;
+
                 default:
                     break;
             }
         }
 
-        private void OnHealthPointsEmpty()
+        private void OnHealthPointsEmpty(HealthManager hm)
         {
             TransitionToState(dyingState);
             OnPlayerDeath?.Invoke();
@@ -495,11 +514,11 @@ namespace Player
 
         private void ChangeIconAlpha(Image icon, bool desaturate)
         {
-            if (desaturate) 
+            if (desaturate)
             {
                 icon.color = new Color(1f, 1f, 1f, desaturatedIconAlphaValue);
             }
-            else 
+            else
             {
                 icon.color = new Color(1f, 1f, 1f, 1f);
             }
@@ -620,7 +639,7 @@ namespace Player
             naturesMelodyCDText.text = naturesMelodyKey;
         }
         #endregion
-    
+
         public event Action OnPlayerDeath;
     }
 }

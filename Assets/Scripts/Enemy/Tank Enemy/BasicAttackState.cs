@@ -17,18 +17,22 @@ namespace Enemy.Tank
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.basicAttackMat;
+            _manager.enemyAnimator.SetBool("isAttacking", true);
 
             coroutineBasicAttack = _manager.StartCoroutine(CoroutineBasicAttack());
         }
 
         public override void Execute()
         {
+            Vector3 direction = _manager.playerStateManagerCS.transform.position - _manager.transform.position;
+            direction.y = 0f;
+            _manager.transform.rotation = Quaternion.LookRotation(direction);
             if (!_manager.DetectObject(_manager.targetTransform, _manager.baseAttackRange, _manager.targetLayerMask)) _manager.TransitionToState(_manager.chaseState);
         }
 
         public override void Exit()
         {
+            _manager.enemyAnimator.SetBool("isAttacking", false);
             _manager.StopCoroutine(coroutineBasicAttack);
         }
         private IEnumerator CoroutineBasicAttack()

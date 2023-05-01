@@ -21,7 +21,7 @@ public class OrbDropperOnDeath : MonoBehaviour
         }
     }
 
-    void InstanciateOrb()
+    void InstanciateOrb(HealthManager hm)
     {
         Instantiate(orbGO, transform.position, Quaternion.identity);
     }

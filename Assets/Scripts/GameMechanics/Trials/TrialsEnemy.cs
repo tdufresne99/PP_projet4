@@ -18,7 +18,7 @@ public class TrialsEnemy : MonoBehaviour
     {
         gameObject.SetActive(active);
     }
-    void OnTrialEnemyEliminated()
+    void OnTrialEnemyEliminated(HealthManager hm)
     {
         TrialsManager.instance?.OnTrialSuccess();
     }

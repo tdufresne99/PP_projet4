@@ -71,7 +71,7 @@ namespace Enemy.Tank
         // ---------------------------------------------------------
         #region Internal Components
         [Header("-- Internal Components --")]
-        [HideInInspector] public MeshRenderer meshRenderer;
+        [HideInInspector] public Animator enemyAnimator;
         [HideInInspector] public NavMeshAgentManager navMeshAgentManagerCS;
         [HideInInspector] public HealthManager healthManagerCS;
         [HideInInspector] public EnemyDamageDealer enemyDamageDealerCS;
@@ -84,6 +84,7 @@ namespace Enemy.Tank
         #region External References
         [Header("-- External References --")]
         public Player.PlayerStateManager playerStateManagerCS;
+        public GameObject cleaveHitboxGO;
         public Transform resetTransform;
         public Transform targetTransform;
         public LayerMask targetLayerMask;
@@ -104,7 +105,7 @@ namespace Enemy.Tank
         #region Level Settings
         [Header("-- Level Settings --")]
         [SerializeField] private int _level = 0;
-        public int level => _level + 1;
+        public int level { get => _level; set => _level = value - 1; }
         public float statsBuffPerLevel = 0.2f;
         #endregion
         // -------------------------------------------------<
@@ -219,6 +220,8 @@ namespace Enemy.Tank
             var trialsEnemy = GetComponent<TrialsEnemy>();
             if (trialsEnemy != null && TrialsManager.instance != null) GetTrialsRequiredLinks();
 
+            if (LevelManager.instance != null) GetLevelRequiredLinks();
+
             CreateStateInstances();
             SetBaseValues();
             TransitionToState(idleState);
@@ -255,8 +258,9 @@ namespace Enemy.Tank
 
         private void TryGetRequiredComponents()
         {
-            if (TryGetComponent(out MeshRenderer meshRendererTemp)) meshRenderer = meshRendererTemp;
-            else Debug.LogError("The component 'MeshRenderer' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+            var animator = GetComponentInChildren<Animator>();
+            if (animator != null) enemyAnimator = animator;
+            else Debug.LogError("The component 'Animator' does not exist on object " + gameObject.name + " (HealerEnemyStateManager.cs)");
 
             if (TryGetComponent(out NavMeshAgentManager navMeshAgentManagerTemp)) navMeshAgentManagerCS = navMeshAgentManagerTemp;
             else Debug.LogError("The component 'NavMeshAgentManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
@@ -269,14 +273,21 @@ namespace Enemy.Tank
 
             if (TryGetComponent(out HealthManager healthManagerTemp)) healthManagerCS = healthManagerTemp;
             else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
-
-            if (TryGetComponent(out Animator tankAnimatorTemp)) tankAnimator = tankAnimatorTemp;
-            else Debug.LogError("The component 'Animator' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
 
         private void GetTrialsRequiredLinks()
         {
             if(playerStateManagerCS == null) playerStateManagerCS = TrialsManager.instance.playerStateManagerCS;
+
+            targetTransform = playerStateManagerCS.transform;
+            enemyDamageDealerCS.playerDamageReceiver = targetTransform.GetComponent<Player.PlayerDamageReceiver>();
+
+            playerStateManagerCS.OnPlayerDeath += OnPlayerDeath;
+        }
+
+        private void GetLevelRequiredLinks()
+        {
+            if(playerStateManagerCS == null) playerStateManagerCS = LevelManager.instance.playerStateManagerCS;
 
             targetTransform = playerStateManagerCS.transform;
             enemyDamageDealerCS.playerDamageReceiver = targetTransform.GetComponent<Player.PlayerDamageReceiver>();
@@ -298,8 +309,10 @@ namespace Enemy.Tank
 
         private void SetBaseValues()
         {
-            currentMaxHealthPoints = baseHealthPoints + (baseHealthPoints * _level * statsBuffPerLevel);
-            currentAttackDamage = baseAttackDamage + (baseAttackDamage * _level * statsBuffPerLevel);
+            if(LevelManager.instance != null) level = LevelManager.instance.currentLevel;
+
+            currentMaxHealthPoints = baseHealthPoints + (baseHealthPoints * level * statsBuffPerLevel);
+            currentAttackDamage = baseAttackDamage + (baseAttackDamage * level * statsBuffPerLevel);
 
             currentAttackRange = baseAttackRange;
             currentAttackSpeed = baseAttackSpeed;
@@ -324,7 +337,7 @@ namespace Enemy.Tank
             inCombat = false;
         }
 
-        private void OnHealthPointsEmpty()
+        private void OnHealthPointsEmpty(HealthManager hm)
         {
             // Do something...
 

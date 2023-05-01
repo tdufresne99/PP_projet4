@@ -16,7 +16,7 @@ namespace Player
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.naturesMelodyMat;
+            _manager.playerAnimator.SetTrigger("naturesMelody");
 
             _manager.currentMovementSpeed = _manager.naturesMelodyMoveSpeed;
             _manager.abilityLocked = true;

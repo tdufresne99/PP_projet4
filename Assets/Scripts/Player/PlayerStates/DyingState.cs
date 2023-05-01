@@ -15,9 +15,9 @@ namespace Player
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.dyingMat;
+            _manager.playerAnimator.SetBool("isDead", true);
 
-            OnDeath();
+            _manager.isDead = true;
         }
 
         public override void Execute()
@@ -27,7 +27,8 @@ namespace Player
 
         public override void Exit()
         {
-            
+            _manager.playerAnimator.SetBool("isDead", false);
+            _manager.isDead = false;
         }
 
         private void OnDeath()

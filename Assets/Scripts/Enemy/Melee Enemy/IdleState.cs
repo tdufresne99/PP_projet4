@@ -15,7 +15,7 @@ namespace Enemy.Melee
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.idleMat;
+            _manager.enemyAnimator.SetBool("isRunning", false);
         }
 
         public override void Execute()

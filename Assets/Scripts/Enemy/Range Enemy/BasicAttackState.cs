@@ -19,7 +19,7 @@ namespace Enemy.Range
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.basicAttackMat;
+            _manager.enemyAnimator.SetBool("isAttacking", true);
 
             _manager.currentMovementSpeed = 0;
 
@@ -28,11 +28,13 @@ namespace Enemy.Range
 
         public override void Execute()
         {
+            _manager.transform.LookAt(_manager.playerStateManagerCS.transform);
             if (!_manager.DetectObject(_manager.targetTransform, _manager.currentAttackRange, _manager.targetLayerMask)) _manager.TransitionToState(_manager.chaseState);
         }
 
         public override void Exit()
         {
+            _manager.enemyAnimator.SetBool("isAttacking", false);
             _manager.StopCoroutine(_coroutineBasicAttack);
         }
 

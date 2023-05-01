@@ -15,13 +15,14 @@ namespace Enemy.Range
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.chaseMat;
+            _manager.enemyAnimator.SetBool("isRunning", true);
 
             _manager.currentMovementSpeed = _manager.baseMovementSpeed;
         }
 
         public override void Execute()
         {
+            _manager.transform.LookAt(_manager.playerStateManagerCS.transform);
             if (_manager.DetectObject(_manager.targetTransform, _manager.currentAttackRange, _manager.targetLayerMask)) 
             {
                 _manager.TransitionToState(_manager.basicAttackState);
@@ -34,7 +35,7 @@ namespace Enemy.Range
 
         public override void Exit()
         {
-            
+            _manager.enemyAnimator.SetBool("isRunning", false);
         }
     }
 }

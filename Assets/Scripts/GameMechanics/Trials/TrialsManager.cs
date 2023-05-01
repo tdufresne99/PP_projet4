@@ -1,30 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Player;
 using System;
 
 public class TrialsManager : MonoBehaviour
 {
+    #region Calculated Values
+    private GameObject _currentTrialGO;
+    private TrialsIntro _currentTrialsIntroCS;
+    private TrialsSkillDescription _currentTrialsSkillDescriptionCS;
+    private TrialsEnemy _currentTrialsEnemyCS;
+    private int _currentTrialIndex = 0;
+    private int _maxTrialIndex;
+    #endregion
+
+    #region External Values
+    [Header("Links")]
     public PlayerStateManager playerStateManagerCS;
     [SerializeField] private GameObject[] _trialsGOs;
-
-    [SerializeField] private GameObject _currentTrialGO;
-    [SerializeField] private TrialsIntro _currentTrialsIntroCS;
-    [SerializeField] private TrialsSkillDescription _currentTrialsSkillDescriptionCS;
-    [SerializeField] private TrialsEnemy _currentTrialsEnemyCS;
-    [SerializeField] private int _currentTrialIndex = 0;
-
     [SerializeField] private Vector3 _origin = Vector3.zero;
     [SerializeField] private Transform _playerReset;
 
-    [SerializeField] private GameObject _fadeOut;
-    [SerializeField] private GameObject _fadeIn;
-
-    [SerializeField] private int _maxTutorialIndex;
+    [SerializeField] private GameObject _fadeOutGo;
+    [SerializeField] private GameObject _fadeInGo;
+    #endregion
 
     private Coroutine _couroutineNextTrial;
     private float _fadeOutTime = 3.2f;
+
     private static TrialsManager _instance;
     public static TrialsManager instance => _instance;
 
@@ -38,8 +43,7 @@ public class TrialsManager : MonoBehaviour
     {
         playerStateManagerCS.healthManagerCS.OnHealthPointsEmpty += OnTrialFailed;
 
-        _maxTutorialIndex = _trialsGOs.Length;
-        OnBlockPlayerActions?.Invoke(true);
+        _maxTrialIndex = _trialsGOs.Length;
         StartTrial();
     }
 
@@ -50,7 +54,6 @@ public class TrialsManager : MonoBehaviour
         InstanciateTrial();
         _currentTrialsIntroCS.ToggleActivity(true);
         OnTrialStart?.Invoke();
-        OnBlockPlayerActions?.Invoke(false);
     }
 
     private void InstanciateTrial()
@@ -77,16 +80,14 @@ public class TrialsManager : MonoBehaviour
     public void OnSkillOrbPickUp()
     {
         _currentTrialsSkillDescriptionCS.gameObject.SetActive(true);
-        OnBlockPlayerActions?.Invoke(true);
     }
 
     public void OnContinue()
     {
-        OnBlockPlayerActions?.Invoke(false);
         _currentTrialsEnemyCS.gameObject?.SetActive(true);
     }
 
-    public void OnTrialFailed()
+    public void OnTrialFailed(HealthManager hm)
     {
         Debug.Log("Trial Failed");
         _couroutineNextTrial = StartCoroutine(CoroutinResetTrial());
@@ -103,7 +104,7 @@ public class TrialsManager : MonoBehaviour
     public void OnTrialSuccess()
     {
         Debug.Log("Trial success");
-        if(_currentTrialIndex >= _maxTutorialIndex - 1)
+        if(_currentTrialIndex >= _maxTrialIndex - 1)
         {
             // Start Lvl 1...
             OnTrialsCompleted();
@@ -124,22 +125,29 @@ public class TrialsManager : MonoBehaviour
     private void OnTrialsCompleted()
     {
         Debug.Log("Trials completed");
+        FadeCanvasToggle(false);
+        Invoke("LoadLevelScene", _fadeOutTime);
     } 
+
+    private void LoadLevelScene()
+    {
+        SceneManager.LoadScene("Levels");
+    }
 
     public void FadeCanvasToggle(bool fadeIn)
     {
-        if(_fadeIn == null)
+        if(_fadeInGo == null)
         {
-            Debug.LogWarning(_fadeIn.name + "is null (TrialsManager.cs)");
+            Debug.LogWarning("FadeInGO is null (TrialsManager.cs)");
             return;
         }
-        if(_fadeOut == null)
+        if(_fadeOutGo == null)
         {
-            Debug.LogWarning(_fadeOut.name + "is null (TrialsManager.cs)");
+            Debug.LogWarning("FadeOutGO is null (TrialsManager.cs)");
             return;
         }
-        _fadeIn?.SetActive(fadeIn);
-        _fadeOut?.SetActive(!fadeIn);
+        _fadeInGo?.SetActive(fadeIn);
+        _fadeOutGo?.SetActive(!fadeIn);
     }
 
     public event Action OnTrialStart;

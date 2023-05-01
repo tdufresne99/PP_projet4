@@ -15,7 +15,6 @@ namespace Enemy.Tank
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.idleMat;
         }
 
         public override void Execute()

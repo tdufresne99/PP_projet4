@@ -17,7 +17,7 @@ namespace Enemy.Healer
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.idleMat;
+            _manager.enemyAnimator.SetTrigger("heal");
             _coroutineHealing = _manager.StartCoroutine(CoroutineHealing());
         }
 
@@ -58,9 +58,7 @@ namespace Enemy.Healer
                     Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.red, 1f);
                 }
             }
-
-            _manager.meshRenderer.material = _manager.idleMat;
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSecondsRealtime(1.5f);
             _manager.healOnCooldown = true;
             _manager.TransitionToState(_manager.chaseState);
         }

@@ -7,6 +7,7 @@ namespace Enemy.Tank
     {
         private string _cleaveTrigger = "cleave";
         private TankEnemyStateManager _manager;
+        private Coroutine _coroutineCleave;
 
         public CleaveAbilityState(TankEnemyStateManager manager)
         {
@@ -16,13 +17,13 @@ namespace Enemy.Tank
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.cleaveAbilityMat;
+            _manager.enemyAnimator.SetTrigger("cleaveCast");
 
             _manager.abilityLocked = true;
 
             _manager.transform.LookAt(_manager.targetTransform, Vector3.up);
 
-            PerformCleaveAttack();
+            _coroutineCleave = _manager.StartCoroutine(PerformCleaveAttack());
         }
 
         public override void Execute()
@@ -36,9 +37,13 @@ namespace Enemy.Tank
             _manager.cleaveOnCooldown = true;
         }
 
-        private void PerformCleaveAttack()
+        private IEnumerator PerformCleaveAttack()
         {
-            _manager.tankAnimator.SetTrigger(_cleaveTrigger);
+            yield return new WaitForSecondsRealtime(2f);
+            _manager.cleaveHitboxGO.SetActive(true);
+            _manager.enemyAnimator.SetTrigger("cleaveCast");
+            yield return new WaitForSecondsRealtime(0.5f);
+            _manager.TransitionToState(_manager.idleState);
         }
     }
 }

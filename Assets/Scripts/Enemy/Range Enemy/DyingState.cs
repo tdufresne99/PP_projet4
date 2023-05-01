@@ -15,8 +15,8 @@ namespace Enemy.Range
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.dyingMat;
-            _manager.SelfDestruct();
+            _manager.enemyAnimator.SetTrigger("die");
+            _manager.Invoke("DestroyEnemy", 2f);
         }
 
         public override void Execute()
@@ -27,6 +27,10 @@ namespace Enemy.Range
         public override void Exit()
         {
             
+        }
+        private void DestroyEnemy()
+        {
+            _manager.SelfDestruct();
         }
     }
 }

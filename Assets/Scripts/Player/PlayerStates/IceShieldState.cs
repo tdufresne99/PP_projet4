@@ -18,7 +18,8 @@ namespace Player
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.iceShieldMat;
+            _manager.playerAnimator.SetTrigger("iceShield");
+
 
             _manager.abilityLocked = true;
             _coroutineIceShield = _manager.StartCoroutine(CoroutineIceShield());
@@ -38,6 +39,9 @@ namespace Player
 
         public IEnumerator CoroutineIceShield()
         {
+            var moveSpeed = _manager.currentMovementSpeed;
+            _manager.currentMovementSpeed = 0;
+            
             int stacks = 1;
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.iceShieldRange);
             foreach (Collider collider in colliders)
@@ -61,7 +65,8 @@ namespace Player
             if(stacks > _manager.iceShieldMaxStacks) stacks = _manager.iceShieldMaxStacks;
             _manager.shieldManagerCS.ReceiveShield(_manager.iceShieldHealthPerStack * stacks);
 
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSecondsRealtime(1.2f);
+            _manager.currentMovementSpeed = moveSpeed;
             _manager.TransitionToState(_manager.idleState);
         }
     }

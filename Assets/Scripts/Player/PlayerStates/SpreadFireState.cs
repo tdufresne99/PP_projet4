@@ -20,7 +20,7 @@ namespace Player
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.spreadFireMat;
+            _manager.playerAnimator.SetTrigger("spreadFire");
 
             _manager.abilityLocked = true;
             _coroutineSpreadFire = _manager.StartCoroutine(CoroutineSpreadFire());
@@ -39,6 +39,8 @@ namespace Player
 
         public IEnumerator CoroutineSpreadFire()
         {
+            var moveSpeed = _manager.currentMovementSpeed;
+            _manager.currentMovementSpeed = 0;
             _manager.spreadFireOnCooldown = true;
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.spreadFireRange);
             foreach (Collider collider in colliders)
@@ -62,7 +64,8 @@ namespace Player
                 }
             }
 
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSecondsRealtime(1.2f);
+            _manager.currentMovementSpeed = moveSpeed;
             _manager.TransitionToState(_manager.idleState);
         }
     }

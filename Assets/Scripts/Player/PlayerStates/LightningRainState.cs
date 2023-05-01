@@ -23,7 +23,7 @@ namespace Player
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.lightningRainMat;
+            _manager.playerAnimator.SetTrigger("lightningRainCast");
 
             _lightRainPerformed = false;
             _charges = 0;
@@ -77,6 +77,7 @@ namespace Player
                 return;
             }
             _lightRainPerformed = true;
+            _manager.playerAnimator.SetTrigger("lightningRain");
 
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.spreadFireRange);
             foreach (Collider collider in colliders)

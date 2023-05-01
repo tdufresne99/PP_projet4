@@ -16,7 +16,7 @@ namespace Enemy.Healer
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.stunMat;
+            _manager.enemyAnimator.SetBool("isStunned", true);
             _manager.stunned = true;
             _manager.currentMovementSpeed = 0;
             _coroutineStun = _manager.StartCoroutine(CoroutineStun());
@@ -29,6 +29,7 @@ namespace Enemy.Healer
 
         public override void Exit()
         {
+            _manager.enemyAnimator.SetBool("isStunned", false);
             if (_coroutineStun != null) _manager.StopCoroutine(_coroutineStun);
         }
 

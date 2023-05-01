@@ -15,7 +15,6 @@ namespace Enemy.Range
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
-            _manager.meshRenderer.material = _manager.teleportMat;
 
             TeleportRangeEnemy(_manager.teleportLocationFinderCS.GetRandomPosition(_manager.transform));
             _manager.TransitionToState(_manager.chaseState);
