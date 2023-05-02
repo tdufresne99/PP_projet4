@@ -159,10 +159,9 @@ MonoBehaviour:
   rotateSpeed: 2
   mouseSensitivity: 100
   desaturatedIconAlphaValue: 0.1
+  spreadFireLevel: 0
   spreadFireRange: 12
   _spreadFireDamageMultiplier: 6
-  spreadFireTicks: 5
-  spreadFireDuration: 8
   spreadFireCooldownTime: 5
   spreadFireKey: E
   lightningRainRadius: 8

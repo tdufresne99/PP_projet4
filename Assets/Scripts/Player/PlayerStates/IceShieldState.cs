@@ -7,6 +7,7 @@ namespace Player
 {
     public class IceShieldState : PlayerState
     {
+        private int _stacks = 0;
         private PlayerStateManager _manager;
         private Coroutine _coroutineIceShield;
 
@@ -22,6 +23,8 @@ namespace Player
 
 
             _manager.abilityLocked = true;
+            _stacks = 0;
+            _manager.iceShieldStacks = _stacks;
             _coroutineIceShield = _manager.StartCoroutine(CoroutineIceShield());
         }
 
@@ -40,9 +43,8 @@ namespace Player
         public IEnumerator CoroutineIceShield()
         {
             var moveSpeed = _manager.currentMovementSpeed;
-            _manager.currentMovementSpeed = 0;
+            _manager.currentMovementSpeed *= 0.01f;
             
-            int stacks = 1;
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.iceShieldRange);
             foreach (Collider collider in colliders)
             {
@@ -50,11 +52,18 @@ namespace Player
 
                 if (detectedEnemy != null)
                 {
-                    stacks++;
-                    if (stacks > _manager.iceShieldMaxStacks)
+                    _stacks++;
+                    if (_stacks > _manager.iceShieldMaxStacks)
                     {
-                        stacks = _manager.iceShieldMaxStacks;
+                        _stacks = _manager.iceShieldMaxStacks;
                     }
+
+                    if(_manager.iceShieldLevel > 2) 
+                    {
+                        var debuff = detectedEnemy.gameObject.AddComponent<IceShieldDamageReductionDebuff>();
+                        debuff.GetDebuffValues(_manager.iceShieldDebuffDuration, _manager.iceShieldDebuffDamageReduction);
+                    }
+
                     Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.green, 1f);
                 }
                 else
@@ -62,11 +71,13 @@ namespace Player
                     Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.red, 1f);
                 }
             }
-            if(stacks > _manager.iceShieldMaxStacks) stacks = _manager.iceShieldMaxStacks;
-            _manager.shieldManagerCS.ReceiveShield(_manager.iceShieldHealthPerStack * stacks);
+            if(_stacks > _manager.iceShieldMaxStacks) _stacks = _manager.iceShieldMaxStacks;
+            if(_manager.iceShieldLevel > 1) _manager.iceShieldStacks = _stacks;
+            if(_stacks == 0) _stacks++;
+            _manager.shieldManagerCS.ReceiveShield(_manager.iceShieldHealthPerStack * _stacks);
 
             yield return new WaitForSecondsRealtime(1.2f);
-            _manager.currentMovementSpeed = moveSpeed;
+            _manager.currentMovementSpeed /= 0.01f;
             _manager.TransitionToState(_manager.idleState);
         }
     }

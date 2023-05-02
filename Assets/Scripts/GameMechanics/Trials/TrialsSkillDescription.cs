@@ -10,6 +10,9 @@ public class TrialsSkillDescription : MonoBehaviour
     {
         Debug.Log(orbAbility);
         gameObject.SetActive(active);
-        if(orbAbility != PlayerAbilityEnum.None) _descriptionText.text = SkillsDescription.instance.GetSkillDescription(orbAbility, 0);
+        if(orbAbility != PlayerAbilityEnum.None) 
+        {
+            if(_descriptionText.text == "") _descriptionText.text = SkillsDescription.instance.GetSkillDescription(orbAbility, 0);
+        }
     }
 }

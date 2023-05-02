@@ -198,7 +198,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153915222}
-  m_LocalRotation: {x: 0.41973302, y: 0.0000000054157168, z: -0.0000000025044473, w: 0.90764767}
+  m_LocalRotation: {x: 0.41973302, y: 0.000000048085745, z: -0.000000022236796, w: 0.90764767}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -310,7 +310,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh51196
+  m_Name: pb_Mesh78276
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -2184,6 +2184,7 @@ MonoBehaviour:
   _playerReset: {fileID: 578164975}
   _fadeOutGo: {fileID: 332827082}
   _fadeInGo: {fileID: 203051733}
+  _currentLevel: 5
 --- !u!1 &1421183302
 GameObject:
   m_ObjectHideFlags: 0
@@ -4792,7 +4793,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890583035}
-  m_LocalRotation: {x: 0.3668965, y: -0.000000016006439, z: 0.000000006312961, w: 0.9302618}
+  m_LocalRotation: {x: 0.36689648, y: 0.000000016006437, z: -0.00000000631296, w: 0.9302618}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5476,6 +5477,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: iceShieldLevel
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: iceShieldCDIcon
       value: 
       objectReference: {fileID: 905589672}
@@ -5484,6 +5489,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1960781065}
     - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: spreadFireLevel
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: spreadFireCDIcon
       value: 
       objectReference: {fileID: 595531848}
@@ -5491,6 +5500,10 @@ PrefabInstance:
       propertyPath: spreadFireCDText
       value: 
       objectReference: {fileID: 1612461427}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: lightningRainLevel
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: lightningRainCDIcon
       value: 
@@ -5507,6 +5520,10 @@ PrefabInstance:
       propertyPath: naturesMelodyCDText
       value: 
       objectReference: {fileID: 1421183304}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: _spreadFireDamageMultiplier
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4784034779846718191, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: _healthBar
       value: 

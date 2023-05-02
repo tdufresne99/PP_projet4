@@ -112,15 +112,11 @@ namespace Enemy.Melee
         [Header("-- Enrage Settings --")]
         public float enrageCooldownTime = 45f;
         public float enrageDuration = 10f;
-        public float enrageSize = 1.2f;
+        public float enrageSizeMultiplier = 1.4f;
         [SerializeField] private float _enrageAttackDamageMultiplier = 1.25f;
-        public float enrageAttackDamage => currentAttackDamage * _enrageAttackDamageMultiplier;
-        [SerializeField] private float _enrageLeech = 0.3f;
-        public float enrageLeech => currentLeech + _enrageLeech;
-        [SerializeField] private float _enrageAttackSpeed = 0.5f;
-        public float enrageAttackSpeed => currentAttackSpeed - _enrageAttackSpeed;
-        [SerializeField] private float _enrageMovementSpeed = 5f;
-        public float enrageMovementSpeed => currentMovementSpeed + _enrageMovementSpeed;
+        public float _enrageLeechMultiplier = 0.5f;
+        [SerializeField] private float _enrageAttackSpeedMultiplier = 1.5f;
+        [SerializeField] private float _enrageMovementSpeedMultiplier = 1.5f;
         public int maxEnrageStacks = 3;
         #endregion
         // -------------------------------------------------<
@@ -168,7 +164,7 @@ namespace Enemy.Melee
             set
             {
                 if (value == _currentLeech) return;
-                Mathf.Clamp(value, 0, 10);
+                Mathf.Clamp(value, 0, 1f);
                 _currentLeech = value;
                 enemyDamageDealerCS.leech = _currentLeech;
             }
@@ -384,15 +380,15 @@ namespace Enemy.Melee
         public void OnEnrageEnter()
         {
             // Set enrage animations & model
-            gameObject.transform.localScale = Vector3.one * enrageSize;
+            gameObject.transform.localScale *= enrageSizeMultiplier;
 
             enrageActive = true;
 
             // Set enrage values
-            currentAttackDamage = enrageAttackDamage;
-            currentLeech = enrageLeech;
-            currentAttackSpeed = enrageAttackSpeed;
-            currentMovementSpeed = enrageMovementSpeed;
+            currentAttackDamage *= _enrageAttackDamageMultiplier;
+            currentLeech += _enrageLeechMultiplier;
+            currentAttackSpeed *= _enrageAttackSpeedMultiplier;
+            currentMovementSpeed *= _enrageMovementSpeedMultiplier;
 
             coroutineStopEnrage = StartCoroutine(CoroutineStopEnrage());
         }
@@ -403,10 +399,10 @@ namespace Enemy.Melee
             gameObject.transform.localScale = Vector3.one;
 
             // Set base values
-            currentAttackDamage = baseAttackDamage;
-            currentLeech = baseLeech;
-            currentAttackSpeed = baseAttackSpeed;
-            currentMovementSpeed = baseMovementSpeed;
+            currentAttackDamage /= _enrageAttackDamageMultiplier;
+            currentLeech -= _enrageLeechMultiplier;
+            currentAttackSpeed /= baseAttackSpeed;
+            currentMovementSpeed /= baseMovementSpeed;
 
             enrageActive = false;
             enrageOnCooldown = true;

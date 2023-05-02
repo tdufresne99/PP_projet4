@@ -30,12 +30,12 @@ RectTransform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 6727292523283902667}
+  m_Father: {fileID: 2345942864434249434}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 960.5, y: 272.4}
+  m_AnchoredPosition: {x: 50.499878, y: 272.4}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7175836377845134873
@@ -228,8 +228,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2345942864434249434}
-  - {fileID: 1227916895240240453}
-  - {fileID: 584359101918731750}
   m_Father: {fileID: 3511069194792479072}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -312,6 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b916222eee191b243945578cdc6fabb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _descriptionText: {fileID: 3983761505517891864}
 --- !u!95 &1502723997428022476
 Animator:
   serializedVersion: 5
@@ -828,7 +827,7 @@ Transform:
   - {fileID: 8027567881564382386}
   - {fileID: 6442115467270047662}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3511069194929173632
 GameObject:
@@ -1433,6 +1432,8 @@ RectTransform:
   - {fileID: 3759945337701137388}
   - {fileID: 7057103222024321401}
   - {fileID: 4365570779091569152}
+  - {fileID: 1227916895240240453}
+  - {fileID: 584359101918731750}
   - {fileID: 2951681368731652775}
   m_Father: {fileID: 6727292523283902667}
   m_RootOrder: -1
@@ -2057,10 +2058,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Description : Vous invoquez la m\xE9lodie de la nature. Cette derni\xE8re
     vous soigne progressivement jusqu'\xE0 ce que vous ayez r\xE9cup\xE9r\xE9 l'\xE9quivalent
-    de l'enti\xE8ret\xE9 de vos points de vies.\r\n\r\nInstructions : Appuyer sur
-    [R] pour d\xE9clancher M\xE9lodie de la Nature et appuyer de nouveau pour l'arr\xEAter.
-    Cette capacit\xE9 a une p\xE9riode de r\xE9cup\xE9ration avant de pouvoir \xEAtre
-    utilis\xE9e \xE0 nouveau."
+    de l'enti\xE8ret\xE9 de vos points de vies.\r\n\r\nComment l'utiliser : Appuyer
+    sur [R] pour d\xE9clancher M\xE9lodie de la Nature et appuyer de nouveau pour
+    l'arr\xEAter. Cette capacit\xE9 a une p\xE9riode de r\xE9cup\xE9ration avant
+    de pouvoir \xEAtre utilis\xE9e \xE0 nouveau."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
   m_sharedMaterial: {fileID: -1756470839720027593, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
@@ -4985,7 +4986,7 @@ RectTransform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 6727292523283902667}
+  m_Father: {fileID: 2345942864434249434}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5368,6 +5369,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3511069194792479072}
     m_Modifications:
+    - target: {fileID: 5527145339503038811, guid: bd53ae5cf3bf9204ca057b82794ed814, type: 3}
+      propertyPath: orbAbility
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5527145339503038814, guid: bd53ae5cf3bf9204ca057b82794ed814, type: 3}
       propertyPath: m_RootOrder
       value: 18

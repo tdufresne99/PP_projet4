@@ -17,7 +17,6 @@ namespace Player
         {
             // ---- Set state animations ------------------------------
             _manager.playerAnimator.SetBool("isAttacking", true);
-            Debug.Log("melee attack");
             _coroutineMeleeAttack = _manager.StartCoroutine(CoroutineMelee());
         }
 
@@ -39,10 +38,8 @@ namespace Player
             while(true)
             {
                 yield return new WaitForSecondsRealtime(0.2f);
-                Debug.Log("active");
                 _manager.meleeHitboxGO.SetActive(true);
                 yield return new WaitForSecondsRealtime(0.6f);
-                Debug.Log("inactive");
                 _manager.meleeHitboxGO.SetActive(false);
             }
         } 

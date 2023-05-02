@@ -49,9 +49,6 @@ namespace Player
 
                 if (detectedEnemy != null)
                 {
-                    var activeSpreadFireDebuff = detectedEnemy.GetComponent<SpreadFireDebuff>();
-                    if(activeSpreadFireDebuff != null) Object.Destroy(activeSpreadFireDebuff);
-
                     var spreadFireDebuff = detectedEnemy.gameObject.AddComponent<SpreadFireDebuff>();
                     spreadFireDebuff.playerStateManagerCS = _manager;
                     spreadFireDebuff.playerDamageDealerCS = _manager.playerDamageDealerCS;

@@ -524,7 +524,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153915222}
-  m_LocalRotation: {x: 0.41973302, y: -5.7354116e-10, z: 2.652285e-10, w: 0.90764767}
+  m_LocalRotation: {x: 0.41973302, y: 0.000000048085745, z: -0.000000022236796, w: 0.90764767}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -638,6 +638,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190042297}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &270025782 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+  m_PrefabInstance: {fileID: 4784034779870916999}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21f08133a7b68b24ea5102b1e150f284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &335176621
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,7 +925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18fc168ead50ed4facdc7af614d3289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _orbGO: {fileID: 7178678036873775959, guid: bc52606469b1e454ea236254b66ae715, type: 3}
+  orbGO: {fileID: 0}
 --- !u!1 &550568218
 GameObject:
   m_ObjectHideFlags: 0
@@ -1572,7 +1583,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703034428}
-  m_LocalRotation: {x: 0.3142539, y: 0.00000003266938, z: -0.000000010814344, w: 0.94933903}
+  m_LocalRotation: {x: 0.3142539, y: -0.000000032669384, z: 0.000000010814345, w: 0.94933903}
   m_LocalPosition: {x: 0, y: 11, z: -22.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3313,7 +3324,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494809690}
-  m_LocalRotation: {x: 0.31425384, y: 0.000000016334688, z: -0.000000005407172, w: 0.94933903}
+  m_LocalRotation: {x: 0.31425384, y: -0.00000001633469, z: 0.0000000054071725, w: 0.94933903}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4387,6 +4398,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RangeEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 9069514299499766444, guid: 4d0b5849de7f72143a296c632ae16478, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4720,7 +4735,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890583035}
-  m_LocalRotation: {x: 0.36689648, y: 0.000000016006437, z: -0.00000000631296, w: 0.9302618}
+  m_LocalRotation: {x: 0.3668965, y: -0.000000016006439, z: 0.000000006312961, w: 0.9302618}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4787,7 +4802,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7198308682028891880, guid: 2ef9876472094724e8b68add6905aa6b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7361740992320121962, guid: 2ef9876472094724e8b68add6905aa6b, type: 3}
       propertyPath: _playerDamageReceiver
@@ -5530,6 +5545,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealerEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7198308682028891880, guid: 2ef9876472094724e8b68add6905aa6b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7361740992320121962, guid: 2ef9876472094724e8b68add6905aa6b, type: 3}
       propertyPath: _playerDamageReceiver
       value: 
@@ -5914,6 +5933,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Melee Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4795973796544503326, guid: d992168b41a139c4b98fd5583000d3c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6045,6 +6068,10 @@ PrefabInstance:
       value: Tank Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 6564061161486787247, guid: 4845af0050136c74287e0f8962e28361, type: 3}
+      propertyPath: _level
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564061161486787247, guid: 4845af0050136c74287e0f8962e28361, type: 3}
       propertyPath: resetTransform
       value: 
       objectReference: {fileID: 578164975}
@@ -6052,6 +6079,10 @@ PrefabInstance:
       propertyPath: targetTransform
       value: 
       objectReference: {fileID: 45171554}
+    - target: {fileID: 6564061161486787247, guid: 4845af0050136c74287e0f8962e28361, type: 3}
+      propertyPath: playerStateManagerCS
+      value: 
+      objectReference: {fileID: 270025782}
     - target: {fileID: 8171570792771196052, guid: 4845af0050136c74287e0f8962e28361, type: 3}
       propertyPath: m_Camera
       value: 

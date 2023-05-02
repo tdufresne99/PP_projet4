@@ -30,12 +30,12 @@ RectTransform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 2122042573093666509}
+  m_Father: {fileID: 2122042574007392251}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 958.6, y: 260.22}
+  m_AnchoredPosition: {x: 48.599792, y: 260.22}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1326829302541452741
@@ -781,7 +781,7 @@ Transform:
   - {fileID: 5746606048211617603}
   - {fileID: 430083149243266260}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2122042572788378207
 GameObject:
@@ -1089,8 +1089,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2122042574007392251}
-  - {fileID: 7952406728604128649}
-  - {fileID: 3457010984145236409}
   m_Father: {fileID: 2122042572784327749}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1173,6 +1171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b916222eee191b243945578cdc6fabb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _descriptionText: {fileID: 2122042573958022895}
 --- !u!95 &6141610069925680674
 Animator:
   serializedVersion: 5
@@ -1339,11 +1338,11 @@ MonoBehaviour:
     se charge au fil du temps. Une fois que toutes les charges sont accumul\xE9es,
     rel\xE2chez la capacit\xE9 pour que des \xE9clairs frappent le sol autour de
     votre personnage, infligeant des d\xE9g\xE2ts aux ennemis et les \xE9tourdissant
-    pendant un court laps de temps.\n\r\nInstructions : Appuyez la touche de chargement
-    de la capacit\xE9 pour activer la temp\xEAte de foudre et maintenez la le plus
-    longtemps possible pour accumuler les d\xE9g\xE2ts. Rel\xE2chez la touche pour
-    lancer la Pluie de Foudre. Cette capacit\xE9 a une p\xE9riode de r\xE9cup\xE9ration
-    avant de pouvoir \xEAtre utilis\xE9e \xE0 nouveau."
+    pendant un court laps de temps. \n\nComment l'utiliser : Appuyez la touche de
+    chargement de la capacit\xE9 pour activer la temp\xEAte de foudre et maintenez
+    la le plus longtemps possible pour accumuler les d\xE9g\xE2ts. Rel\xE2chez la
+    touche pour lancer la Pluie de Foudre. Cette capacit\xE9 a une p\xE9riode de
+    r\xE9cup\xE9ration avant de pouvoir \xEAtre utilis\xE9e \xE0 nouveau."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
   m_sharedMaterial: {fileID: -1756470839720027593, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
@@ -1443,6 +1442,8 @@ RectTransform:
   - {fileID: 2122042572631526008}
   - {fileID: 2122042572720684485}
   - {fileID: 2122042573958022880}
+  - {fileID: 7952406728604128649}
+  - {fileID: 3457010984145236409}
   - {fileID: 2122042574515033682}
   m_Father: {fileID: 2122042573093666509}
   m_RootOrder: -1
@@ -4816,7 +4817,7 @@ RectTransform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 2122042573093666509}
+  m_Father: {fileID: 2122042574007392251}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5508,6 +5509,10 @@ PrefabInstance:
     - target: {fileID: 2383480616322644264, guid: 1c07b859337fc184aa1e7c180b5f2cc4, type: 3}
       propertyPath: m_Name
       value: LightningOrb
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383480616322644265, guid: 1c07b859337fc184aa1e7c180b5f2cc4, type: 3}
+      propertyPath: orbAbility
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

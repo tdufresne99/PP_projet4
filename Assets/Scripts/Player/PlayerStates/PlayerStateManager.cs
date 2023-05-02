@@ -178,36 +178,47 @@ namespace Player
 
         #region SpreadFire Ability Settings
         [Header("SpreadFire Ability Settings")]
-        public int spreadFireLevel = 1;
+        public int spreadFireLevel = 0;
         public float spreadFireRange = 12f;
         [SerializeField] private float _spreadFireDamageMultiplier = 6f;
         public float spreadFireDamage => currentAttackDamage * _spreadFireDamageMultiplier;
-        public float spreadFireDamageIncreaseDebuff => (spreadFireLevel > 1) ? 0.15f : 0;
-        public int spreadFireTicks => (spreadFireLevel > 2) ? 9 : 5;
-        public float spreadFireDuration => (spreadFireLevel > 2) ? 15 : 8;
         public float spreadFireCooldownTime = 12f;
         public string spreadFireKey = "E";
+        // lvl 2
+        public float spreadFireDamageIntakeMultiplier => (spreadFireLevel > 1) ? 1.3f : 1f;
+        // lvl 3
+        public int spreadFireTicksPerStack => (spreadFireLevel > 2) ? 16 : 8;
+        public float spreadFireDuration => (spreadFireLevel > 2) ? 16 : 8;
+        public int spreadFireMaxStacks => (spreadFireLevel > 2) ? 3 : 1;
         #endregion
 
         #region LightningRain Ability Settings
         [Header("LightningRain Ability Settings")]
+        public int lightningRainLevel = 0;
+        public float lightningRainDamageBuffPerStacks = 0.1f;
+        public float lightningRainDamageBuffDuration = 10f;
         public float lightningRainRadius = 8f;
         [SerializeField] private float lightningRainDamagePerChargeMultiplier = 3f;
         public int lightningRainMaxCharges = 3;
         public float lightningRainDamagePerCharge => currentAttackDamage * lightningRainDamagePerChargeMultiplier;
         public float lightningRainCooldownTime = 100f;
         public float lightningRainActivationDelay = 3f;
-        public float lightningRainStunDuration = 3f;
-        [SerializeField] private float _lightningRainMoveSpeedMultiplier = 0.25f;
+        public float lightningRainStunDuration => (lightningRainLevel > 2) ? 5f : 3f;
+        [SerializeField] private float _lightningRainMoveSpeedMultiplier = 1.25f;
         public float lightningRainMoveSpeed => currentMovementSpeed * _lightningRainMoveSpeedMultiplier;
         public string lightningRainKey = "Q";
         #endregion
 
         #region IceShield Ability Settings
         [Header("IceShield Ability Settings")]
+        public int iceShieldLevel = 0;
         public int iceShieldMaxStacks = 4;
         public float iceShieldHealthPerStack = 50f;
-        public float iceShieldCooldownTime = 100f;
+        public float iceShieldCooldownTime = 60;
+        public float iceShieldCooldownReductionPerStack = 0.1f;
+        public float iceShieldDebuffDamageReduction = 0.7f;
+        public float iceShieldDebuffDuration = 10f;
+        public int iceShieldStacks;
         public float iceShieldRange = 12f;
         public string iceShieldKey = "Shift";
         #endregion
@@ -547,7 +558,7 @@ namespace Player
             {
                 yield return new WaitForSecondsRealtime(1f);
                 spreadFireRemainingCooldownTime -= 1f;
-                spreadFireCDText.text = spreadFireRemainingCooldownTime + "";
+                spreadFireCDText.text = Mathf.CeilToInt(spreadFireRemainingCooldownTime) + "";
             }
             spreadFireOnCooldown = false;
         }
@@ -576,7 +587,7 @@ namespace Player
             {
                 yield return new WaitForSecondsRealtime(1f);
                 lightningRainRemainingCooldownTime -= 1f;
-                lightningRainCDText.text = lightningRainRemainingCooldownTime + "";
+                lightningRainCDText.text = Mathf.CeilToInt(lightningRainRemainingCooldownTime) + "";
             }
             lightningRainOnCooldown = false;
         }
@@ -605,14 +616,14 @@ namespace Player
             {
                 yield return new WaitForSecondsRealtime(1f);
                 iceShieldRemainingCooldownTime -= 1f;
-                iceShieldCDText.text = iceShieldRemainingCooldownTime + "";
+                iceShieldCDText.text = Mathf.CeilToInt(iceShieldRemainingCooldownTime) + "";
             }
             iceShieldOnCooldown = false;
         }
 
         private void OnIceShieldCooldownStart()
         {
-            iceShieldRemainingCooldownTime = iceShieldCooldownTime;
+            iceShieldRemainingCooldownTime = iceShieldCooldownTime - (iceShieldCooldownTime * (iceShieldCooldownReductionPerStack * iceShieldStacks));
             ChangeIconAlpha(iceShieldCDIcon, true);
             _coroutineIceShieldCooldown = StartCoroutine(CoroutineIceShieldCooldown());
         }
@@ -634,7 +645,7 @@ namespace Player
             {
                 yield return new WaitForSecondsRealtime(1f);
                 naturesMelodyRemainingCooldownTime -= 1f;
-                naturesMelodyCDText.text = naturesMelodyRemainingCooldownTime + "";
+                naturesMelodyCDText.text = Mathf.CeilToInt(naturesMelodyRemainingCooldownTime) + "";
             }
             naturesMelodyOnCooldown = false;
         }

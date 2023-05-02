@@ -3060,9 +3060,9 @@ RectTransform:
   - {fileID: 5570815405762456143}
   - {fileID: 7239923963795356863}
   - {fileID: 659952873848014320}
-  - {fileID: 9222845086285154525}
   - {fileID: 905589671}
   - {fileID: 1960781064}
+  - {fileID: 9222845086285154525}
   m_Father: {fileID: 6551864348415892055}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3263,6 +3263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b916222eee191b243945578cdc6fabb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _descriptionText: {fileID: 5886423265796473099}
 --- !u!95 &1343346210622223032
 Animator:
   serializedVersion: 5
@@ -5501,6 +5502,10 @@ PrefabInstance:
     - target: {fileID: 760387800532167616, guid: 6af4d7ad19bd14e45875765da9566b6b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 760387800532167621, guid: 6af4d7ad19bd14e45875765da9566b6b, type: 3}
+      propertyPath: orbAbility
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 760387800532167626, guid: 6af4d7ad19bd14e45875765da9566b6b, type: 3}
       propertyPath: m_Name

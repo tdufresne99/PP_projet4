@@ -10,7 +10,6 @@ public class LevelManager : MonoBehaviour
 {
     #region Calculated Values
     private GameObject _currentLevelGO;
-    private int _currentLevelIndex = 0;
     private LevelsIntro _currentLevelsIntroCS;
     private int _maxLevelIndex;
     [SerializeField] private List<EnemyDamageReceiver> _currentEnemiesInLevel;
@@ -30,7 +29,7 @@ public class LevelManager : MonoBehaviour
     private Coroutine _couroutineNextLevel;
 
 
-    private int _currentLevel = 0;
+    [SerializeField] private int _currentLevel = 0;
     public int currentLevel
     {
         get => _currentLevel;

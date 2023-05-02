@@ -23,7 +23,7 @@ namespace Enemy.Tank
             _manager.transform.LookAt(_manager.targetTransform, Vector3.up);
             _manager.currentMovementSpeed = 0;
 
-            _manager.enemyDamageReceiverCS.damageMultiplier = _manager.shieldDamageReduction;
+            _manager.enemyDamageReceiverCS.damageMultiplier *= _manager.shieldDamageReduction;
 
             _coroutineShieldUp = _manager.StartCoroutine(CoroutineShieldUp());
         }
@@ -36,7 +36,7 @@ namespace Enemy.Tank
         public override void Exit()
         {
             _manager.enemyAnimator.SetBool("iceShield", false);
-            _manager.enemyDamageReceiverCS.damageMultiplier = 1f;
+            _manager.enemyDamageReceiverCS.damageMultiplier /= _manager.shieldDamageReduction;
             _manager.abilityLocked = false;
             _manager.shieldOnCooldown = true;
         }

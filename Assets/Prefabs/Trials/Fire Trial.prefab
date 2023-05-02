@@ -4310,7 +4310,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: "Description : Enflamme les ennemis dans une zone autour de vous, leur
+    infligeant des d\xE9g\xE2ts au fil du temps.  \n\nComment l'utiliser : Appuyez
+    sur [E] pour activer le Feu de propagation. Pendant l'activation, approchez-vous
+    des ennemis pour les enflammer et leur infliger des d\xE9g\xE2ts au fil du temps.
+    Cette capacit\xE9 a une p\xE9riode de r\xE9cup\xE9ration avant de pouvoir \xEAtre
+    utilis\xE9e \xE0 nouveau."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
   m_sharedMaterial: {fileID: -1756470839720027593, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}

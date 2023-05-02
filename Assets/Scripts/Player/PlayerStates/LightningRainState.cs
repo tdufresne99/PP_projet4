@@ -5,6 +5,7 @@ using Enemy.Tank;
 using Enemy.Range;
 using Enemy.Melee;
 using Enemy.Healer;
+using System.Collections.Generic;
 
 namespace Player
 {
@@ -28,7 +29,7 @@ namespace Player
             _lightRainPerformed = false;
             _charges = 0;
 
-            _manager.currentMovementSpeed = _manager.lightningRainMoveSpeed;
+            _manager.currentMovementSpeed *= _manager.lightningRainMoveSpeed;
             _manager.abilityLocked = true;
             _coroutineLightningRain = _manager.StartCoroutine(CoroutineChargeLightningRain());
         }
@@ -37,7 +38,7 @@ namespace Player
         {
             if (Input.GetKeyUp(KeyCode.Q))
             {
-                if (_coroutineLightningRain != null) 
+                if (_coroutineLightningRain != null)
                 {
                     _manager.StopCoroutine(_coroutineLightningRain);
                 }
@@ -51,8 +52,8 @@ namespace Player
 
         public override void Exit()
         {
-            if(_coroutineLightningRain != null) _manager.StopCoroutine(_coroutineLightningRain);
-            _manager.currentMovementSpeed = _manager.baseMovementSpeed;
+            if (_coroutineLightningRain != null) _manager.StopCoroutine(_coroutineLightningRain);
+            _manager.currentMovementSpeed /= _manager.lightningRainMoveSpeed;
             _manager.abilityLocked = false;
             _manager.lightningRainOnCooldown = true;
         }
@@ -71,7 +72,7 @@ namespace Player
 
         private void PerformLightningRain()
         {
-            if (_lightRainPerformed) 
+            if (_lightRainPerformed)
             {
                 Debug.LogWarning("lightning rain already performed...");
                 return;
@@ -80,50 +81,56 @@ namespace Player
             _manager.playerAnimator.SetTrigger("lightningRain");
 
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.spreadFireRange);
+            List<EnemyDamageReceiver> enemiesHit = new List<EnemyDamageReceiver>(colliders.Length);
+
             foreach (Collider collider in colliders)
             {
                 var detectedEnemy = collider.GetComponent<EnemyDamageReceiver>();
-
                 if (detectedEnemy != null)
                 {
-                    switch (detectedEnemy.enemyType)
-                    {
-                        case EnemyTypes.Melee:
-                            var meleeManager = detectedEnemy.GetComponent<MeleeEnemyStateManager>();
-                            meleeManager.stunDuration = _manager.lightningRainStunDuration;
-                            meleeManager.TransitionToState(meleeManager.stunState);
-                            break;
-
-                        case EnemyTypes.Range:
-                            var rangeManager = detectedEnemy.GetComponent<RangeEnemyStateManager>();
-                            rangeManager.stunDuration = _manager.lightningRainStunDuration;
-                            rangeManager.TransitionToState(rangeManager.stunState);
-                            break;
-
-                        case EnemyTypes.Tank:
-                            var tankManager = detectedEnemy.GetComponent<TankEnemyStateManager>();
-                            tankManager.currentStunDuration = _manager.lightningRainStunDuration;
-                            tankManager.TransitionToState(tankManager.stunState);
-                            break;
-
-                        case EnemyTypes.Healer:
-                            var healerManager = detectedEnemy.GetComponent<HealerEnemyStateManager>();
-                            healerManager.stunDuration = _manager.lightningRainStunDuration;
-                            healerManager.TransitionToState(healerManager.stunState);
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    _manager.playerDamageDealerCS.DealDamage(detectedEnemy, _manager.lightningRainDamagePerCharge * _charges, _manager.currentLeech);
-
-                    Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.green, 1f);
+                    enemiesHit.Add(detectedEnemy);
                 }
-                else
+            }
+
+            if(_manager.lightningRainLevel > 1) 
+            {
+                var dmgBuff = _manager.gameObject.AddComponent<LightningRainDamageBuff>();
+                dmgBuff.GetBuffValues(_manager, enemiesHit.Count, _manager.lightningRainDamageBuffPerStacks, _manager.lightningRainDamageBuffDuration);
+            }
+
+            foreach (EnemyDamageReceiver enemyHit in enemiesHit)
+            {
+                switch (enemyHit.enemyType)
                 {
-                    Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.red, 1f);
+                    case EnemyTypes.Melee:
+                        var meleeManager = enemyHit.GetComponent<MeleeEnemyStateManager>();
+                        meleeManager.stunDuration = _manager.lightningRainStunDuration;
+                        meleeManager.TransitionToState(meleeManager.stunState);
+                        break;
+
+                    case EnemyTypes.Range:
+                        var rangeManager = enemyHit.GetComponent<RangeEnemyStateManager>();
+                        rangeManager.stunDuration = _manager.lightningRainStunDuration;
+                        rangeManager.TransitionToState(rangeManager.stunState);
+                        break;
+
+                    case EnemyTypes.Tank:
+                        var tankManager = enemyHit.GetComponent<TankEnemyStateManager>();
+                        tankManager.currentStunDuration = _manager.lightningRainStunDuration;
+                        tankManager.TransitionToState(tankManager.stunState);
+                        break;
+
+                    case EnemyTypes.Healer:
+                        var healerManager = enemyHit.GetComponent<HealerEnemyStateManager>();
+                        healerManager.stunDuration = _manager.lightningRainStunDuration;
+                        healerManager.TransitionToState(healerManager.stunState);
+                        break;
+
+                    default:
+                        break;
                 }
+
+                _manager.playerDamageDealerCS.DealDamage(enemyHit, _manager.lightningRainDamagePerCharge * _charges, _manager.currentLeech);
             }
             _manager.TransitionToState(_manager.idleState);
         }
