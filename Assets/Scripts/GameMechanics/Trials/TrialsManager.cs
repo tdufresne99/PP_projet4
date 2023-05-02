@@ -70,16 +70,17 @@ public class TrialsManager : MonoBehaviour
 
         _currentTrialsSkillDescriptionCS = _currentTrialGO.GetComponentInChildren<TrialsSkillDescription>();
         if (_currentTrialsSkillDescriptionCS == null) Debug.LogError("No TrialsSkillDescription component found in " + _currentTrialGO.name + "'s children (TrialsManager.cs)");
-        else _currentTrialsSkillDescriptionCS.ToggleActivity(false);
+        else _currentTrialsSkillDescriptionCS.ToggleActivity(false, PlayerAbilityEnum.None);
 
         _currentTrialsEnemyCS = _currentTrialGO.GetComponentInChildren<TrialsEnemy>();
         if (_currentTrialsEnemyCS == null) Debug.LogError("No TrialsEnemy component found in " + _currentTrialGO.name + "'s children (TrialsManager.cs)");
         else _currentTrialsEnemyCS.ToggleActivity(false);
     }
 
-    public void OnSkillOrbPickUp()
+    public void OnSkillOrbPickUp(PlayerAbilityEnum orbAbility)
     {
-        _currentTrialsSkillDescriptionCS.gameObject.SetActive(true);
+        Debug.Log("manager" + orbAbility);
+        _currentTrialsSkillDescriptionCS.ToggleActivity(true, orbAbility);
     }
 
     public void OnContinue()

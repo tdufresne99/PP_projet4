@@ -1631,6 +1631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b916222eee191b243945578cdc6fabb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _descriptionText: {fileID: 2325078635301214425}
 --- !u!95 &5347752014367082410
 Animator:
   serializedVersion: 5
@@ -1995,7 +1996,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &179980931637296086
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2147,7 +2148,7 @@ Transform:
   - {fileID: 179980931018510204}
   - {fileID: 882088963465588014}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &179980931677802477
 GameObject:
@@ -4309,12 +4310,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Description : Enflamme les ennemis dans une zone autour de vous, leur
-    infligeant des d\xE9g\xE2ts au fil du temps.\n\r\nComment l'utiliser : Appuyez
-    sur [E] pour activer le Feu de propagation. Pendant l'activation, approchez-vous
-    des ennemis pour les enflammer et leur infliger des d\xE9g\xE2ts au fil du temps.
-    Cette capacit\xE9 a une p\xE9riode de r\xE9cup\xE9ration avant de pouvoir \xEAtre
-    utilis\xE9e \xE0 nouveau."
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
   m_sharedMaterial: {fileID: -1756470839720027593, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
@@ -5368,6 +5364,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 179980931640839629}
     m_Modifications:
+    - target: {fileID: 7234362863197776683, guid: 140be2cf10fe8e246b3c8e3ab8991e17, type: 3}
+      propertyPath: orbAbility
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7234362863197776686, guid: 140be2cf10fe8e246b3c8e3ab8991e17, type: 3}
       propertyPath: m_RootOrder
       value: 15

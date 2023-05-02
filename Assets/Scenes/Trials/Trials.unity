@@ -198,7 +198,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153915222}
-  m_LocalRotation: {x: 0.41973302, y: 0.000000014513998, z: -0.00000000671186, w: 0.90764767}
+  m_LocalRotation: {x: 0.41973302, y: 0.000000048085745, z: -0.000000022236796, w: 0.90764767}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1272,7 +1272,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703034428}
-  m_LocalRotation: {x: 0.3142539, y: 0.00000004321752, z: -0.000000014306031, w: 0.94933903}
+  m_LocalRotation: {x: 0.3142539, y: -0.00000004321752, z: 0.000000014306031, w: 0.94933903}
   m_LocalPosition: {x: 0, y: 10.18, z: -38.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1308,7 +1308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &767242032
 Light:
   m_ObjectHideFlags: 0
@@ -2061,6 +2061,7 @@ GameObject:
   - component: {fileID: 1419862639}
   - component: {fileID: 1419862638}
   - component: {fileID: 1419862640}
+  - component: {fileID: 1419862641}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -2120,6 +2121,28 @@ MonoBehaviour:
   _playerReset: {fileID: 578164975}
   _fadeOutGo: {fileID: 332827082}
   _fadeInGo: {fileID: 203051733}
+--- !u!114 &1419862641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419862637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d26cd81af7e8ca04b86b43215f52aeeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spreadFireDescriptions:
+  - "Description : Enflamme les ennemis dans une zone autour de vous, leur infligeant
+    des d\xE9g\xE2ts au fil du temps.  Comment l'utiliser : Appuyez sur [E] pour
+    activer le Feu de propagation. Pendant l'activation, approchez-vous des ennemis
+    pour les enflammer et leur infliger des d\xE9g\xE2ts au fil du temps. Cette capacit\xE9
+    a une p\xE9riode de r\xE9cup\xE9ration avant de pouvoir \xEAtre utilis\xE9e \xE0
+    nouveau."
+  lightningRainDescriptions: []
+  iceShieldDescriptions: []
+  naturesMelodyDescriptions: []
 --- !u!1 &1421183302
 GameObject:
   m_ObjectHideFlags: 0
@@ -2402,7 +2425,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494809690}
-  m_LocalRotation: {x: 0.3142539, y: 0.00000001633469, z: -0.0000000054071725, w: 0.94933903}
+  m_LocalRotation: {x: 0.3142539, y: -0.00000001633469, z: 0.0000000054071725, w: 0.94933903}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4939,7 +4962,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890583035}
-  m_LocalRotation: {x: 0.36689648, y: 0.000000016006439, z: -0.0000000063129604, w: 0.9302618}
+  m_LocalRotation: {x: 0.36689648, y: 0.000000016006437, z: -0.00000000631296, w: 0.9302618}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -178,12 +178,14 @@ namespace Player
 
         #region SpreadFire Ability Settings
         [Header("SpreadFire Ability Settings")]
+        public int spreadFireLevel = 1;
         public float spreadFireRange = 12f;
         [SerializeField] private float _spreadFireDamageMultiplier = 6f;
         public float spreadFireDamage => currentAttackDamage * _spreadFireDamageMultiplier;
-        public int spreadFireTicks = 5;
-        public float spreadFireDuration = 8f;
-        public float spreadFireCooldownTime = 45f;
+        public float spreadFireDamageIncreaseDebuff => (spreadFireLevel > 1) ? 0.15f : 0;
+        public int spreadFireTicks => (spreadFireLevel > 2) ? 9 : 5;
+        public float spreadFireDuration => (spreadFireLevel > 2) ? 15 : 8;
+        public float spreadFireCooldownTime = 12f;
         public string spreadFireKey = "E";
         #endregion
 
@@ -462,8 +464,12 @@ namespace Player
             switch (ability)
             {
                 case PlayerAbilityEnum.SpreadFire:
-                    spreadFireState = new SpreadFireState(this);
-                    ChangeIconAlpha(spreadFireCDIcon, false);
+                    if(spreadFireLevel < 1) 
+                    {
+                        spreadFireState = new SpreadFireState(this);
+                        ChangeIconAlpha(spreadFireCDIcon, false);
+                    }
+                    spreadFireLevel++;
                     break;
 
                 case PlayerAbilityEnum.IceShield:
