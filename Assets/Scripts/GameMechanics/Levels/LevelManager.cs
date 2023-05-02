@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     public PlayerStateManager playerStateManagerCS;
+    [SerializeField] private List<PlayerAbilityEnum> _playerPotentialSkillUpgrades;
     [SerializeField] private GameObject[] _levelsGOs;
     [SerializeField] private TextMeshProUGUI _level;
     [SerializeField] private Vector3 _origin = Vector3.zero;
