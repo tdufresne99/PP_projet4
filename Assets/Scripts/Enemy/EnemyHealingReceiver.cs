@@ -23,6 +23,7 @@ namespace Enemy
 
         public void OnHealingReceived(float healing)
         {
+            if(_healthManagerCS.isDead) return;
             _healthManagerCS.ReceiveHealing(healing * _healingMultiplier);
         }
     }

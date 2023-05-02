@@ -446,6 +446,9 @@ namespace Player
 
         public void ResetPlayer(Transform resetPosition)
         {
+            Debug.Log("resetPlayer");
+            TransitionToState(idleState);
+
             transform.position = resetPosition.position;
             transform.rotation = resetPosition.rotation;
 
@@ -455,8 +458,6 @@ namespace Player
             naturesMelodyRemainingCooldownTime = 0;
 
             SetBaseValues();
-
-            TransitionToState(idleState);
         }
 
         public void OnAbilityLearned(PlayerAbilityEnum ability)
@@ -494,6 +495,13 @@ namespace Player
 
         private void OnHealthPointsEmpty(HealthManager hm)
         {
+            Debug.Log("onHealthEmpty");
+
+            if(isDead) return;
+
+            Debug.Log("isNowDead");
+
+            isDead = true;
             TransitionToState(dyingState);
             OnPlayerDeath?.Invoke();
         }
@@ -505,7 +513,7 @@ namespace Player
 
         private void OnDamageReceived(float damageReceived)
         {
-            Debug.Log("-" + damageReceived);
+
         }
 
         private void OnHealingDealt(float healingDealt)

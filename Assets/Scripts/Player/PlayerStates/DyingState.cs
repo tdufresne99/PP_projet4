@@ -28,6 +28,7 @@ namespace Player
         public override void Exit()
         {
             _manager.playerAnimator.SetBool("isDead", false);
+            _manager.healthManagerCS.isDead = false;
             _manager.isDead = false;
         }
 

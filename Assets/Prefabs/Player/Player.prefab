@@ -163,22 +163,22 @@ MonoBehaviour:
   _spreadFireDamageMultiplier: 6
   spreadFireTicks: 5
   spreadFireDuration: 8
-  spreadFireCooldownTime: 12
+  spreadFireCooldownTime: 5
   spreadFireKey: E
   lightningRainRadius: 8
   lightningRainDamagePerChargeMultiplier: 2
   lightningRainMaxCharges: 3
-  lightningRainCooldownTime: 30
+  lightningRainCooldownTime: 5
   lightningRainActivationDelay: 3
   lightningRainStunDuration: 3
   _lightningRainMoveSpeedMultiplier: 0.25
   lightningRainKey: Q
   iceShieldMaxStacks: 4
   iceShieldHealthPerStack: 50
-  iceShieldCooldownTime: 60
+  iceShieldCooldownTime: 5
   iceShieldRange: 12
   iceShieldKey: Shift
-  naturesMelodyCooldownTime: 60
+  naturesMelodyCooldownTime: 5
   naturesMelodyTickTime: 0.25
   _naturesMelodyMoveSpeedMultiplier: 0
   naturesMelodyMaxTicks: 10
@@ -267,6 +267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthBar: {fileID: 0}
   _maxHealthPoints: 400
+  isDead: 0
   _currentHealthPoints: 400
 --- !u!114 &4784034779846718189
 MonoBehaviour:

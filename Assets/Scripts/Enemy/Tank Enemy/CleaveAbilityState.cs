@@ -33,6 +33,7 @@ namespace Enemy.Tank
 
         public override void Exit()
         {
+            _manager.cleaveHitboxGO.SetActive(false);
             _manager.abilityLocked = false;
             _manager.cleaveOnCooldown = true;
         }

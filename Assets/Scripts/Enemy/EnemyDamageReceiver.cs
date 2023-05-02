@@ -29,6 +29,7 @@ namespace Enemy
 
         public void DamageReceived(float damage)
         {
+            if(_healthManagerCS.isDead) return;
             var accurateDamageReceived = damage * _damageMultiplier;
             _healthManagerCS.ReceiveDamage(accurateDamageReceived);
             OnDamageReceived.Invoke(accurateDamageReceived);

@@ -27,6 +27,7 @@ namespace Player
 
         public void ReceiveDamage(float damage)
         {
+            if(_healthManagerCS.isDead) return;
             var calculatedDamageReceived = damage * _damageMultiplier;
             _healthManagerCS.ReceiveDamage(calculatedDamageReceived);
             OnDamageReceived?.Invoke(calculatedDamageReceived);
