@@ -87,6 +87,8 @@ namespace Player
             }
         }
         public float naturesMelodyRemainingCooldownTime;
+
+        public float cooldownReduction = 0;
         #endregion
         // ---------------------------------------------------------
 
@@ -225,12 +227,16 @@ namespace Player
 
         #region NaturesMelody Ability Settings
         [Header("NaturesMelody Ability Settings")]
+        public int naturesMelodyLevel = 0;
         public float naturesMelodyCooldownTime = 100f;
         public float naturesMelodyTickTime = 0.25f;
-        [SerializeField] private float _naturesMelodyMoveSpeedMultiplier = 0f;
-        public float naturesMelodyMoveSpeed => currentMovementSpeed * _naturesMelodyMoveSpeedMultiplier;
+        public float naturesMelodyMoveSpeedMultiplier = 0.01f;
         public int naturesMelodyMaxTicks = 10;
         public string naturesMelodyKey = "R";
+        public float naturesMelodyBuffTotalHealing => healthManagerCS.maxHealthPoints * 0.4f;
+        public float naturesMelodyBuffDuration = 10f;
+        public int naturesMelodyBuffTicks = 10;
+        public float naturesMelodyBuffCooldownReduction = 0.5f;
         #endregion
         // << ========================
         #endregion
@@ -556,7 +562,7 @@ namespace Player
             spreadFireCDText.text = spreadFireRemainingCooldownTime + "";
             while (spreadFireRemainingCooldownTime > 0)
             {
-                yield return new WaitForSecondsRealtime(1f);
+                yield return new WaitForSecondsRealtime(1f - cooldownReduction);
                 spreadFireRemainingCooldownTime -= 1f;
                 spreadFireCDText.text = Mathf.CeilToInt(spreadFireRemainingCooldownTime) + "";
             }
@@ -585,7 +591,7 @@ namespace Player
             lightningRainCDText.text = lightningRainRemainingCooldownTime + "";
             while (lightningRainRemainingCooldownTime > 0)
             {
-                yield return new WaitForSecondsRealtime(1f);
+                yield return new WaitForSecondsRealtime(1f - cooldownReduction);
                 lightningRainRemainingCooldownTime -= 1f;
                 lightningRainCDText.text = Mathf.CeilToInt(lightningRainRemainingCooldownTime) + "";
             }
@@ -614,7 +620,7 @@ namespace Player
             iceShieldCDText.text = iceShieldRemainingCooldownTime + "";
             while (iceShieldRemainingCooldownTime > 0)
             {
-                yield return new WaitForSecondsRealtime(1f);
+                yield return new WaitForSecondsRealtime(1f - cooldownReduction);
                 iceShieldRemainingCooldownTime -= 1f;
                 iceShieldCDText.text = Mathf.CeilToInt(iceShieldRemainingCooldownTime) + "";
             }
@@ -643,7 +649,7 @@ namespace Player
             naturesMelodyCDText.text = naturesMelodyRemainingCooldownTime + "";
             while (naturesMelodyRemainingCooldownTime > 0)
             {
-                yield return new WaitForSecondsRealtime(1f);
+                yield return new WaitForSecondsRealtime(1f - cooldownReduction);
                 naturesMelodyRemainingCooldownTime -= 1f;
                 naturesMelodyCDText.text = Mathf.CeilToInt(naturesMelodyRemainingCooldownTime) + "";
             }

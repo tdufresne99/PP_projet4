@@ -18,14 +18,14 @@ namespace Player
             // ---- Set state animations ------------------------------
             _manager.playerAnimator.SetTrigger("naturesMelody");
 
-            _manager.currentMovementSpeed = _manager.naturesMelodyMoveSpeed;
+            _manager.currentMovementSpeed *= _manager.naturesMelodyMoveSpeedMultiplier;
             _manager.abilityLocked = true;
             _coroutineNaturesMelody = _manager.StartCoroutine(CoroutineNaturesMelody());
         }
 
         public override void Execute()
         {
-            if(Input.GetKeyDown(KeyCode.LeftControl))
+            if(Input.GetKeyUp(KeyCode.R))
             {
                 if (_coroutineNaturesMelody != null) 
                 {
@@ -43,8 +43,14 @@ namespace Player
         public override void Exit()
         {
             if(_coroutineNaturesMelody != null) _manager.StopCoroutine(_coroutineNaturesMelody);
-            
-            _manager.currentMovementSpeed = _manager.baseMovementSpeed;
+
+            if(_manager.naturesMelodyLevel > 1) 
+            {
+                var healBuff = _manager.gameObject.AddComponent<NaturesMelodyHealBuff>();
+                healBuff.GetBuffValues(_manager, _manager.playerHealingReceiverCS, _manager.naturesMelodyBuffTotalHealing, _manager.naturesMelodyBuffDuration, _manager.naturesMelodyBuffTicks, _manager.naturesMelodyBuffCooldownReduction);
+            }
+
+            _manager.currentMovementSpeed /= _manager.naturesMelodyMoveSpeedMultiplier;
             _manager.abilityLocked = false;
             _manager.naturesMelodyOnCooldown = true;
         }
