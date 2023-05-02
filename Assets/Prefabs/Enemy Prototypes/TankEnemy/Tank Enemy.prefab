@@ -106,7 +106,7 @@ Transform:
   - {fileID: 479491875}
   - {fileID: 543450651993865402}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &6564061161486787235
 CapsuleCollider:
@@ -160,16 +160,16 @@ MonoBehaviour:
   enemyDamageReceiverCS: {fileID: 0}
   tankAnimator: {fileID: 0}
   playerStateManagerCS: {fileID: 0}
-  cleaveHitboxGO: {fileID: 0}
+  cleaveHitboxGO: {fileID: 479491874}
   resetTransform: {fileID: 0}
   targetTransform: {fileID: 0}
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 0
   _level: 0
-  statsBuffPerLevel: 0.2
+  statsBuffPerLevel: 0.1
   baseAttackRange: 4
-  baseAttackDamage: 20
+  baseAttackDamage: 10
   baseLeech: 0
   baseAttackSpeed: 1.5
   detectionRange: 5
