@@ -11,16 +11,18 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private float _maxHealthPoints = 100f;
     public float maxHealthPoints => _maxHealthPoints;
 
+    public bool isDead = false;
     [SerializeField] private float _currentHealthPoints = 100f;
     public float currentHealthPoints
+
     {
         get => _currentHealthPoints;
         set
         {
-            if (_currentHealthPoints == value) return;
-
+            if (_currentHealthPoints == value || isDead) return;
             if (value <= 0)
             {
+                isDead = true;
                 _currentHealthPoints = 0;
                 OnHealthPointsEmpty?.Invoke(this);
             }

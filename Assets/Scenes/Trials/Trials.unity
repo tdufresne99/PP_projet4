@@ -198,7 +198,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153915222}
-  m_LocalRotation: {x: 0.41973302, y: 0.000000014513998, z: -0.00000000671186, w: 0.90764767}
+  m_LocalRotation: {x: 0.41973302, y: 0.0000000145100465, z: -0.000000006710033, w: 0.90764767}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -310,7 +310,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh100556
+  m_Name: pb_Mesh38130
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -989,7 +989,7 @@ RectTransform:
   m_GameObject: {fileID: 652167579}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 683355478}
@@ -1308,7 +1308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &767242032
 Light:
   m_ObjectHideFlags: 0
@@ -2110,6 +2110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4f4a1f996718540a1ecbf6743f12cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentTrialGO: {fileID: 0}
+  _currentTrialIndex: 0
   playerStateManagerCS: {fileID: 749685436}
   _trialsGOs:
   - {fileID: 179980931640839630, guid: a67718b9546b31f4397167e27c4005e7, type: 3}
@@ -4180,7 +4182,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661886946}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -50, y: 0, z: -50}
+  m_LocalPosition: {x: -50, y: -0.1, z: -50}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -4667,7 +4669,7 @@ RectTransform:
   m_GameObject: {fileID: 1780543899}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 412840094}
@@ -4939,7 +4941,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890583035}
-  m_LocalRotation: {x: 0.36689648, y: 0.000000016006439, z: -0.0000000063129604, w: 0.9302618}
+  m_LocalRotation: {x: 0.3668965, y: -0.00000001600644, z: 0.0000000063129613, w: 0.9302618}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5464,10 +5466,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4784034779846718189, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
-      propertyPath: _shieldBars.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4784034779846718189, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: _shieldBars.Array.data[0]
       value: 
       objectReference: {fileID: 1486972654}
@@ -5496,10 +5494,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1651930350}
     - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
-      propertyPath: baseAttackDamage
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: spreadFireCDIcon
       value: 
       objectReference: {fileID: 652167582}
@@ -5523,34 +5517,6 @@ PrefabInstance:
       propertyPath: naturesMelodyCDText
       value: 
       objectReference: {fileID: 1421183304}
-    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
-      propertyPath: lightningStormCDIcon
-      value: 
-      objectReference: {fileID: 553479131}
-    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
-      propertyPath: lightningStormCDText
-      value: 
-      objectReference: {fileID: 625070682}
-    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
-      propertyPath: iceShieldCooldownTime
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
-      propertyPath: groundLayerMask.m_Bits
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
-      propertyPath: spreadFireCooldownTime
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
-      propertyPath: lightningRainCooldownTime
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
-      propertyPath: naturesMelodyCooldownTime
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 4784034779846718191, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: _healthBar
       value: 
@@ -5559,14 +5525,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 703034432}
-    - target: {fileID: 7501647634680246084, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7501647634915929539, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7501647634915929542, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: m_Camera
       value: 

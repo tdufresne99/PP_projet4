@@ -8,11 +8,11 @@ using System;
 public class TrialsManager : MonoBehaviour
 {
     #region Calculated Values
-    private GameObject _currentTrialGO;
+    [SerializeField] private GameObject _currentTrialGO;
     private TrialsIntro _currentTrialsIntroCS;
     private TrialsSkillDescription _currentTrialsSkillDescriptionCS;
     private TrialsEnemy _currentTrialsEnemyCS;
-    private int _currentTrialIndex = 0;
+    [SerializeField] private int _currentTrialIndex = 0;
     private int _maxTrialIndex;
     #endregion
 
@@ -27,6 +27,7 @@ public class TrialsManager : MonoBehaviour
     [SerializeField] private GameObject _fadeInGo;
     #endregion
 
+    private bool trialsCompleted = false;
     private Coroutine _couroutineNextTrial;
     private float _fadeOutTime = 3.2f;
 
@@ -41,7 +42,7 @@ public class TrialsManager : MonoBehaviour
 
     void Start()
     {
-        playerStateManagerCS.healthManagerCS.OnHealthPointsEmpty += OnTrialFailed;
+        playerStateManagerCS.OnPlayerDeath += OnTrialFailed;
 
         _maxTrialIndex = _trialsGOs.Length;
         StartTrial();
@@ -87,7 +88,7 @@ public class TrialsManager : MonoBehaviour
         _currentTrialsEnemyCS.gameObject?.SetActive(true);
     }
 
-    public void OnTrialFailed(HealthManager hm)
+    public void OnTrialFailed()
     {
         Debug.Log("Trial Failed");
         _couroutineNextTrial = StartCoroutine(CoroutinResetTrial());
@@ -124,7 +125,10 @@ public class TrialsManager : MonoBehaviour
 
     private void OnTrialsCompleted()
     {
+        if(trialsCompleted == true) return;
+
         Debug.Log("Trials completed");
+        trialsCompleted = true;
         FadeCanvasToggle(false);
         Invoke("LoadLevelScene", _fadeOutTime);
     } 
