@@ -2,10 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
+    public GameObject iconHolder;
+    [NonSerialized] public Color defaultColor;
+    private Color _stunColor = new Color(0.5f,0.5f,0.5f,0.5f);
+    public Color stunColor => _stunColor;
     [SerializeField] private RectTransform _healthBar;
+    [SerializeField] private Image _healthBarColor;
     private ShieldManager _shieldManagerCS;
 
     [SerializeField] private float _maxHealthPoints = 100f;
@@ -30,7 +36,7 @@ public class HealthManager : MonoBehaviour
             {
                 _currentHealthPoints = _maxHealthPoints;
             }
-            else 
+            else
             {
                 _currentHealthPoints = value;
             }
@@ -41,6 +47,7 @@ public class HealthManager : MonoBehaviour
 
     void Start()
     {
+        defaultColor = _healthBarColor.color;
         _shieldManagerCS = GetComponent<ShieldManager>();
     }
 
@@ -52,9 +59,9 @@ public class HealthManager : MonoBehaviour
 
     public void ReceiveDamage(float damageReceived)
     {
-        if(_shieldManagerCS != null)
+        if (_shieldManagerCS != null)
         {
-            if(_shieldManagerCS.currentShieldPoints > 0)
+            if (_shieldManagerCS.currentShieldPoints > 0)
             {
                 _shieldManagerCS.ReceiveDamage(damageReceived);
                 return;
@@ -72,6 +79,11 @@ public class HealthManager : MonoBehaviour
     private void AjustHealthBar()
     {
         _healthBar.localScale = new Vector3(_currentHealthPoints / _maxHealthPoints, 1, 1);
+    }
+
+    public void ChangeHealthbarColor(Color color)
+    {
+        _healthBarColor.color = color;
     }
 
     public event Action<HealthManager> OnHealthPointsEmpty;

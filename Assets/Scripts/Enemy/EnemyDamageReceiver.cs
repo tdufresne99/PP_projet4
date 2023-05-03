@@ -31,7 +31,6 @@ namespace Enemy
         {
             if(_healthManagerCS.isDead) return;
             var accurateDamageReceived = damage * _damageMultiplier;
-            Debug.Log("-" + accurateDamageReceived);
             _healthManagerCS.ReceiveDamage(accurateDamageReceived);
             OnDamageReceived.Invoke(accurateDamageReceived);
         }

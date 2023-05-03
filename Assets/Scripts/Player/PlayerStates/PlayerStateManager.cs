@@ -212,6 +212,7 @@ namespace Player
         }
         public float spreadFireRange = 12f;
         [SerializeField] private float _spreadFireDamageMultiplier = 6f;
+        public GameObject spreadFireDebuffIconGO;
         public float spreadFireDamage => currentAttackDamage * _spreadFireDamageMultiplier;
         public float spreadFireCooldownTime = 12f;
         public static string spreadFireKey = "E";
@@ -242,6 +243,7 @@ namespace Player
                 }
             }
         }
+        public GameObject lightningRainBuffIconGO;
         public float lightningRainDamageBuffPerStacks = 0.1f;
         public float lightningRainDamageBuffDuration = 10f;
         public float lightningRainRadius = 8f;
@@ -278,6 +280,7 @@ namespace Player
         public float iceShieldHealthPerStack = 50f;
         public float iceShieldCooldownTime = 60;
         public float iceShieldCooldownReductionPerStack = 0.1f;
+        public GameObject iceShieldDebuffIconGO;
         public float iceShieldDebuffDamageReduction = 0.5f;
         public float iceShieldDebuffDuration = 10f;
         public int iceShieldStacks;
@@ -304,6 +307,7 @@ namespace Player
                 }
             }
         }
+        public GameObject naturesMelodyBuffIconGO;
         public float naturesMelodyCooldownTime = 100f;
         public float naturesMelodyTickTime = 0.25f;
         public float naturesMelodyMoveSpeedMultiplier = 0.01f;
@@ -445,6 +449,7 @@ namespace Player
 
             if (playerHoldingJump && playerIsGrounded)
             {
+                playerAnimator.SetTrigger("jump");
                 playerRigidbody.AddForce(Vector3.up * currentJumpForce, ForceMode.Impulse);
                 playerHoldingJump = false;
             }
@@ -539,7 +544,6 @@ namespace Player
 
         public void ResetPlayer(Transform resetPosition)
         {
-            Debug.Log("resetPlayer");
             TransitionToState(idleState);
 
             transform.position = resetPosition.position;

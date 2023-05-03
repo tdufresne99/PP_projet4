@@ -212,8 +212,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bd06bf0557554743887663e9a9fa34a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconHolder: {fileID: 2202477637088860380}
+  defaultColor: {r: 0, g: 0, b: 0, a: 0}
+  stunColor: {r: 0, g: 0, b: 0, a: 0.5}
   _healthBar: {fileID: 1829295514042096862}
+  _healthBarColor: {fileID: 1829295514042096863}
   _maxHealthPoints: 100
+  isDead: 0
   _currentHealthPoints: 100
 --- !u!114 &8652202984830103598
 MonoBehaviour:
@@ -380,6 +385,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3282360655081806640, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_Name
+      value: BuffsDebuffs Holder
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -390,9 +399,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3062301022224588594, guid: d05d39919c124d646819bbb7a1322703, type: 3}
   m_PrefabInstance: {fileID: 3683254130311349228}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1829295514042096863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3062301022224588595, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+  m_PrefabInstance: {fileID: 3683254130311349228}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1829295514063738211 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3062301022447654543, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+  m_PrefabInstance: {fileID: 3683254130311349228}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2202477637088860380 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3282360655081806640, guid: d05d39919c124d646819bbb7a1322703, type: 3}
   m_PrefabInstance: {fileID: 3683254130311349228}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6609679266233008682

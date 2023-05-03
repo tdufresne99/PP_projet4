@@ -17,7 +17,7 @@ namespace Enemy.Tank
         {
             // ---- Set state animations ------------------------------
             _manager.enemyAnimator.SetBool("isStunned", true);
-            
+            _manager.healthManagerCS.ChangeHealthbarColor(_manager.healthManagerCS.stunColor);
             _manager.stunned = true;
             _manager.currentMovementSpeed = 0;
             _coroutineStun = _manager.StartCoroutine(CoroutineStun());
@@ -32,6 +32,7 @@ namespace Enemy.Tank
         {
             _manager.enemyAnimator.SetBool("isStunned", false);
             if (_coroutineStun != null) _manager.StopCoroutine(_coroutineStun);
+            _manager.healthManagerCS.ChangeHealthbarColor(_manager.healthManagerCS.defaultColor);
         }
 
         private IEnumerator CoroutineStun()

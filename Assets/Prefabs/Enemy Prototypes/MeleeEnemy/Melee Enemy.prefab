@@ -39,7 +39,7 @@ Transform:
   - {fileID: 4795973794743050314}
   - {fileID: 543450652744686080}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &4795973796544503314
 CapsuleCollider:
@@ -105,11 +105,11 @@ MonoBehaviour:
   baseHealthPoints: 225
   enrageCooldownTime: 45
   enrageDuration: 10
-  enrageSize: 1.2
+  enrageSizeMultiplier: 1.4
   _enrageAttackDamageMultiplier: 1.25
-  _enrageLeech: 0.3
-  _enrageAttackSpeed: 0.5
-  _enrageMovementSpeed: 5
+  _enrageLeechMultiplier: 0.5
+  _enrageAttackSpeedMultiplier: 1.5
+  _enrageMovementSpeedMultiplier: 1.5
   maxEnrageStacks: 3
   baseMovementSpeed: 5
   _inCombat: 0
@@ -171,8 +171,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bd06bf0557554743887663e9a9fa34a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconHolder: {fileID: 5007030746677620213}
+  defaultColor: {r: 0, g: 0, b: 0, a: 0}
+  stunColor: {r: 0, g: 0, b: 0, a: 0.5}
   _healthBar: {fileID: 4795973794897340919}
+  _healthBarColor: {fileID: 4795973794897340918}
   _maxHealthPoints: 100
+  isDead: 0
   _currentHealthPoints: 100
 --- !u!114 &1747550998
 MonoBehaviour:
@@ -310,6 +315,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3062301022447654538, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3062301022447654542, guid: d05d39919c124d646819bbb7a1322703, type: 3}
       propertyPath: m_Name
       value: HealthBar Canvas
@@ -406,6 +415,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3282360655081806640, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+      propertyPath: m_Name
+      value: BuffsDebuffs Holder
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -416,8 +429,24 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3062301022447654543, guid: d05d39919c124d646819bbb7a1322703, type: 3}
   m_PrefabInstance: {fileID: 7562038896271505093}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4795973794897340918 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3062301022224588595, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+  m_PrefabInstance: {fileID: 7562038896271505093}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4795973794897340919 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3062301022224588594, guid: d05d39919c124d646819bbb7a1322703, type: 3}
+  m_PrefabInstance: {fileID: 7562038896271505093}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5007030746677620213 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3282360655081806640, guid: d05d39919c124d646819bbb7a1322703, type: 3}
   m_PrefabInstance: {fileID: 7562038896271505093}
   m_PrefabAsset: {fileID: 0}

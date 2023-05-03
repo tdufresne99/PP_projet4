@@ -61,7 +61,8 @@ namespace Player
                     if(_manager.iceShieldLevel > 2) 
                     {
                         var debuff = detectedEnemy.gameObject.AddComponent<IceShieldDamageReductionDebuff>();
-                        debuff.GetDebuffValues(_manager.iceShieldDebuffDuration, _manager.iceShieldDebuffDamageReduction);
+                        debuff.GetDebuffValues(_manager.iceShieldDebuffDuration, _manager.iceShieldDebuffDamageReduction, _manager.iceShieldDebuffIconGO);
+
                     }
 
                     Debug.DrawLine(_manager.transform.position, collider.transform.position, Color.green, 1f);

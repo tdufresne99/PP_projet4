@@ -51,7 +51,6 @@ public class SkillsUpgradesInformations : MonoBehaviour
 
     public string[] GetSkillsInformations(PlayerAbilityEnum ability, int levelIndex)
     {
-        Debug.Log(levelIndex + "index");
         string[] skillInfos = new string[2];
         switch (ability)
         {

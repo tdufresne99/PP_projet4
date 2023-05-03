@@ -11,6 +11,7 @@ public class SkillUpOrb : MonoBehaviour
         var playerStateManagerCS = other.GetComponent<PlayerStateManager>();
         if(playerStateManagerCS != null)
         {
+            Debug.Log("player collided with Skill Up Orb");
             LevelManager.instance?.OnSkillUpOrbPickedUp();
             Destroy(gameObject);
         }

@@ -17,6 +17,9 @@ namespace Enemy.Healer
         {
             // ---- Set state animations ------------------------------
             _manager.enemyAnimator.SetBool("isStunned", true);
+
+            _manager.healthManagerCS.ChangeHealthbarColor(_manager.healthManagerCS.stunColor);
+
             _manager.stunned = true;
             _manager.currentMovementSpeed = 0;
             _coroutineStun = _manager.StartCoroutine(CoroutineStun());
@@ -24,11 +27,12 @@ namespace Enemy.Healer
 
         public override void Execute()
         {
-
+            
         }
 
         public override void Exit()
         {
+            _manager.healthManagerCS.ChangeHealthbarColor(_manager.healthManagerCS.defaultColor);
             _manager.enemyAnimator.SetBool("isStunned", false);
             if (_coroutineStun != null) _manager.StopCoroutine(_coroutineStun);
         }

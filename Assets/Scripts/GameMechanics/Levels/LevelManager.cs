@@ -30,10 +30,11 @@ public class LevelManager : MonoBehaviour
         PlayerAbilityEnum.NaturesMelody,
     };
     [SerializeField] private GameObject _skillUpCanvasGO;
+    [SerializeField] private GameObject _skillUpOrbGO;
+    [SerializeField] private Transform _skillUpOrbSpawnPoint;
     [SerializeField] private GameObject[] _choicesGOs;
     [SerializeField] private Animator _choicesAnimator;
     [SerializeField] private GameObject[] _levelsGOs;
-    [SerializeField] private TextMeshProUGUI _level;
     [SerializeField] private Vector3 _origin = Vector3.zero;
     [SerializeField] private Transform _playerReset;
     [SerializeField] private GameObject _fadeOutGo;
@@ -86,6 +87,7 @@ public class LevelManager : MonoBehaviour
         FadeCanvasToggle(true);
         playerStateManagerCS.ResetPlayer(_playerReset);
         InstanciateLevel();
+        
         _currentLevelsIntroCS.ToggleActivity(true);
     }
 
@@ -94,6 +96,8 @@ public class LevelManager : MonoBehaviour
         var randomLevelIndex = UnityEngine.Random.Range(0, _levelsGOs.Length);
 
         _currentLevelGO = Instantiate(_levelsGOs[randomLevelIndex], _origin, Quaternion.identity);
+
+        if(_currentLevel % 3 == 0 && _currentLevel != 0) Instantiate(_skillUpOrbGO, _skillUpOrbSpawnPoint.position, Quaternion.identity, _currentLevelGO.transform);
 
         _currentLevelsIntroCS = _currentLevelGO.GetComponentInChildren<LevelsIntro>();
         if (_currentLevelsIntroCS == null) Debug.LogError("No LevelsIntro component found in " + _currentLevelGO.name + "'s children (LevelsManager.cs)");

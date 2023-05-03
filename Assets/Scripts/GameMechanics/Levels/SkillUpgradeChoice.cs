@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class SkillUpgradeChoice : MonoBehaviour
 {
+    private bool skillUpChosen = false;
     [SerializeField] private Color _spreadFireColor;
     [SerializeField] private Color _lightningRainColor;
     [SerializeField] private Color _iceShieldColor;
@@ -59,10 +60,16 @@ public class SkillUpgradeChoice : MonoBehaviour
         _title.color = backgroundColor;
 
         _description.text = description;
+        
+        skillUpChosen = false;
     }
 
     public void OnSkillUpChosen()
     {
+        if(skillUpChosen) return;
+
+        skillUpChosen = true;
+        Debug.Log("Skill chosen on " + gameObject.name);
         LevelManager.instance.OnSkillUpChosen(choiceAbility);
     }
 
