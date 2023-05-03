@@ -11,13 +11,25 @@ public class LevelManager : MonoBehaviour
     #region Calculated Values
     private GameObject _currentLevelGO;
     private LevelsIntro _currentLevelsIntroCS;
+    [SerializeField] private SkillsUpgradesInformations _skillsUpgradesInformationsCS;
     private int _maxLevelIndex;
     [SerializeField] private List<EnemyDamageReceiver> _currentEnemiesInLevel;
     public int enemyCount => _currentEnemiesInLevel.Count;
     #endregion
 
     public PlayerStateManager playerStateManagerCS;
-    [SerializeField] private List<PlayerAbilityEnum> _playerPotentialSkillUpgrades;
+    [SerializeField] private List<PlayerAbilityEnum> _playerPotentialSkillUpgrades = new List<PlayerAbilityEnum>{
+        PlayerAbilityEnum.SpreadFire,
+        PlayerAbilityEnum.SpreadFire,
+        PlayerAbilityEnum.LightningRain,
+        PlayerAbilityEnum.LightningRain,
+        PlayerAbilityEnum.IceShield,
+        PlayerAbilityEnum.IceShield,
+        PlayerAbilityEnum.NaturesMelody,
+        PlayerAbilityEnum.NaturesMelody,
+    };
+    [SerializeField] private GameObject _choicesParentGO;
+    [SerializeField] private GameObject[] _choicesGOs;
     [SerializeField] private GameObject[] _levelsGOs;
     [SerializeField] private TextMeshProUGUI _level;
     [SerializeField] private Vector3 _origin = Vector3.zero;
@@ -30,14 +42,14 @@ public class LevelManager : MonoBehaviour
     private Coroutine _couroutineNextLevel;
 
 
-    [SerializeField] private int _currentLevel = 0;
+    [SerializeField] private int _currentLevel = 1;
     public int currentLevel
     {
         get => _currentLevel;
         set
         {
             if (_currentLevel == value) return;
-            if (value < 0) value = 0;
+            if (value < 1) value = 1;
             _currentLevel = value;
         }
     }
@@ -53,8 +65,6 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        _currentLevel = 1;
-        
         SubscribeToRequiredEvents();
 
         playerStateManagerCS.healthManagerCS.OnHealthPointsEmpty += OnLevelFailed;
@@ -150,6 +160,63 @@ public class LevelManager : MonoBehaviour
         StartLevel();
     }
 
+    public void OnSkillUpOrbPickedUp()
+    {
+        _choicesParentGO.SetActive(true);
+
+        var tempPotentialSkillUps = _playerPotentialSkillUpgrades;
+        var chosenSkills = new List<PlayerAbilityEnum>(_choicesGOs.Length);
+
+        for (int i = 0; i < _choicesGOs.Length; i++)
+        {
+            int index = UnityEngine.Random.Range(0, tempPotentialSkillUps.Count);
+            var chosenSkill = tempPotentialSkillUps[i];
+            chosenSkills.Add(chosenSkill);
+            tempPotentialSkillUps.Remove(chosenSkill);
+        }
+
+        for (int i = 0; i < chosenSkills.Count; i++)
+        {
+            var choiceGO = _choicesGOs[i];
+
+            var ability = chosenSkills[i];
+            int abilityLevel;
+            switch (ability)
+            {
+                case PlayerAbilityEnum.SpreadFire :
+                abilityLevel = playerStateManagerCS.spreadFireLevel;
+                break;
+
+                case PlayerAbilityEnum.LightningRain :
+                abilityLevel = playerStateManagerCS.lightningRainLevel;
+                break;
+                
+                case PlayerAbilityEnum.IceShield :
+                abilityLevel = playerStateManagerCS.iceShieldLevel;
+                break;
+
+                case PlayerAbilityEnum.NaturesMelody :
+                abilityLevel = playerStateManagerCS.naturesMelodyLevel;
+                break;
+
+                default:
+                abilityLevel = 0;
+                break;
+            }
+
+            var skillInfos = _skillsUpgradesInformationsCS.GetSkillsInformations(ability, abilityLevel - 1);
+
+            var skillUpChoice = choiceGO.GetComponent<SkillUpgradeChoice>();
+            if(skillUpChoice == null) 
+            {
+                Debug.LogWarning("No skillUpChoice script found on " + skillUpChoice.name + "(LevelManager.cs)");
+                continue;
+            }
+            skillUpChoice.DisplaySkillUpgradeInformation(ability, skillInfos[0], skillInfos[1]);
+        }
+
+    }
+
     private void OnGameOver()
     {
         Debug.Log("GameOver");
@@ -159,12 +226,12 @@ public class LevelManager : MonoBehaviour
     {
         if(_fadeInGo == null)
         {
-            Debug.LogWarning(_fadeInGo.name + "is null (TrialsManager.cs)");
+            Debug.LogWarning(_fadeInGo.name + "is null (LevelManager.cs)");
             return;
         }
         if(_fadeOutGo == null)
         {
-            Debug.LogWarning(_fadeOutGo.name + "is null (TrialsManager.cs)");
+            Debug.LogWarning(_fadeOutGo.name + "is null (LevelManager.cs)");
             return;
         }
         _fadeInGo?.SetActive(fadeIn);

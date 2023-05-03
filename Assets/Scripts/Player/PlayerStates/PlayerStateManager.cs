@@ -184,8 +184,8 @@ namespace Player
         public float spreadFireRange = 12f;
         [SerializeField] private float _spreadFireDamageMultiplier = 6f;
         public float spreadFireDamage => currentAttackDamage * _spreadFireDamageMultiplier;
-        public float spreadFireCooldownTime = 12f;
-        public string spreadFireKey = "E";
+        public static float spreadFireCooldownTime = 12f;
+        public static string spreadFireKey = "E";
         // lvl 2
         public float spreadFireDamageIntakeMultiplier => (spreadFireLevel > 1) ? 1.3f : 1f;
         // lvl 3
@@ -203,12 +203,12 @@ namespace Player
         [SerializeField] private float lightningRainDamagePerChargeMultiplier = 3f;
         public int lightningRainMaxCharges = 3;
         public float lightningRainDamagePerCharge => currentAttackDamage * lightningRainDamagePerChargeMultiplier;
-        public float lightningRainCooldownTime = 100f;
+        public static float lightningRainCooldownTime = 100f;
         public float lightningRainActivationDelay = 3f;
         public float lightningRainStunDuration => (lightningRainLevel > 2) ? 5f : 3f;
         [SerializeField] private float _lightningRainMoveSpeedMultiplier = 1.25f;
         public float lightningRainMoveSpeed => currentMovementSpeed * _lightningRainMoveSpeedMultiplier;
-        public string lightningRainKey = "Q";
+        public static string lightningRainKey = "Q";
         #endregion
 
         #region IceShield Ability Settings
@@ -216,23 +216,23 @@ namespace Player
         public int iceShieldLevel = 0;
         public int iceShieldMaxStacks = 4;
         public float iceShieldHealthPerStack = 50f;
-        public float iceShieldCooldownTime = 60;
+        public static float iceShieldCooldownTime = 60;
         public float iceShieldCooldownReductionPerStack = 0.1f;
         public float iceShieldDebuffDamageReduction = 0.7f;
         public float iceShieldDebuffDuration = 10f;
         public int iceShieldStacks;
         public float iceShieldRange = 12f;
-        public string iceShieldKey = "Shift";
+        public static string iceShieldKey = "Shift";
         #endregion
 
         #region NaturesMelody Ability Settings
         [Header("NaturesMelody Ability Settings")]
         public int naturesMelodyLevel = 0;
-        public float naturesMelodyCooldownTime = 100f;
+        public static float naturesMelodyCooldownTime = 100f;
         public float naturesMelodyTickTime = 0.25f;
         public float naturesMelodyMoveSpeedMultiplier = 0.01f;
         public int naturesMelodyMaxTicks = 10;
-        public string naturesMelodyKey = "R";
+        public static string naturesMelodyKey = "R";
         public float naturesMelodyBuffTotalHealing => healthManagerCS.maxHealthPoints * 0.4f;
         public float naturesMelodyBuffDuration = 10f;
         public int naturesMelodyBuffTicks = 10;
