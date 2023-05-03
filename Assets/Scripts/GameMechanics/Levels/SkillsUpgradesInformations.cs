@@ -12,8 +12,8 @@ public class SkillsUpgradesInformations : MonoBehaviour
     };
     string[] fireSkillDescriptions= new string[]
     {
-        "Ajoute un effet supplémentaire à Feu de propagation [E] qui fait que les cibles affectée par Feu de propagation [E] reçoivent des dégâts amplifié de 30% ",
-        "Feu de propagation peut maintenant accumuler jusqu'à 3 charges sur les cibles si l'effet est utiliser à plusieurs reprise sur la même cible avant que la durée de l'effet ne se soit achevée",
+        "Les dégâts reçus de toutes sources par les ennemis affectés par Feu de propagation [E] sont amplifiés de 30%.",
+        "Feu de propagation peut désormais accumuler jusqu'à 3 charges si l'effet est utilisé plusieurs fois sur la même cible avant que la durée de l'effet ne se termine.",
     };
 
     string[] lightningSkillNames = new string[]
@@ -23,8 +23,8 @@ public class SkillsUpgradesInformations : MonoBehaviour
     };
     string[] lightningSkillDescriptions = new string[]
     {
-        "Pluie de foudre II description",
-        "Pluie de foudre III description",
+        "Pour chaque ennemi touché par Pluie de foudre [Q], vous obtenez un bonus de dégâts de 10% pendant 10 secondes.",
+        "Augmente la durée de l'effet d'étourdissement sur les cibles touchées par Pluie de foudre [Q] de 3 secondes à 5 secondes.",
     };
 
     string[] iceSkillNames = new string[]
@@ -34,8 +34,8 @@ public class SkillsUpgradesInformations : MonoBehaviour
     };
     string[] iceSkillDescriptions = new string[]
     {
-        "Bouclier de glace II description",
-        "Bouclier de glace III description",
+        "Le temps de chargement de Bouclier de glace [Shift] est réduit de 10% par ennemi à proximité lorsque l'habileté est utilisée.",
+        "Les ennemis à proximités lorsque Bouclier de glace [Shift] est utilisée font 50% moins de dégâts pour les 10 prochaines secondes.",
     };
 
     string[] natureSkillNames = new string[]
@@ -45,8 +45,8 @@ public class SkillsUpgradesInformations : MonoBehaviour
     };
     string[] natureSkillDescriptions = new string[]
     {
-        "Mélodie de la nature II description",
-        "Mélodie de la nature III description",
+        "Lorsque Mélodie de la nature [R] commence son temps de recharge, le joueur reçoit un effet de soins qui le soigne périodiquement sur 10 secondes.",
+        "Lorsque Mélodie de la nature [R] commence son temps de recharge, tous les habiletés du joueurs se rechargent 2x plus rapidement qu'en temps normal pendant 10 secondes.",
     };
 
     public string[] GetSkillsInformations(PlayerAbilityEnum ability, int levelIndex)

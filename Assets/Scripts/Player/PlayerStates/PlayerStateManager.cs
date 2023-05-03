@@ -129,14 +129,27 @@ namespace Player
         public LayerMask targetLayerMask;
         public LayerMask groundLayerMask;
         public Camera mainCamera;
+
         public TextMeshProUGUI spreadFireCDText;
         public TextMeshProUGUI lightningRainCDText;
         public TextMeshProUGUI iceShieldCDText;
         public TextMeshProUGUI naturesMelodyCDText;
+
         public Image spreadFireCDIcon;
+        public GameObject spreadFireLevel2UI;
+        public GameObject spreadFireLevel3UI;
+
         public Image lightningRainCDIcon;
+        public GameObject lightningRainLevel2UI;
+        public GameObject lightningRainLevel3UI;
+
         public Image iceShieldCDIcon;
+        public GameObject iceShieldLevel2UI;
+        public GameObject iceShieldLevel3UI;
+
         public Image naturesMelodyCDIcon;
+        public GameObject naturesMelodyLevel2UI;
+        public GameObject naturesMelodyLevel3UI;
         #endregion
         // ---------------------------------------------------------
 
@@ -180,11 +193,27 @@ namespace Player
 
         #region SpreadFire Ability Settings
         [Header("SpreadFire Ability Settings")]
-        public int spreadFireLevel = 0;
+        [SerializeField] private int _spreadFireLevel = 0;
+        public int spreadFireLevel
+        {
+            get => _spreadFireLevel;
+            set
+            {
+                if (_spreadFireLevel == value) return;
+                if (value > 3 || value < 1) Mathf.Clamp(value, 1, 3);
+                _spreadFireLevel = value;
+                if (_spreadFireLevel == 2) spreadFireLevel2UI.SetActive(true);
+                if (_spreadFireLevel == 3)
+                {
+                    spreadFireLevel2UI.SetActive(false);
+                    spreadFireLevel3UI.SetActive(true);
+                }
+            }
+        }
         public float spreadFireRange = 12f;
         [SerializeField] private float _spreadFireDamageMultiplier = 6f;
         public float spreadFireDamage => currentAttackDamage * _spreadFireDamageMultiplier;
-        public static float spreadFireCooldownTime = 12f;
+        public float spreadFireCooldownTime = 12f;
         public static string spreadFireKey = "E";
         // lvl 2
         public float spreadFireDamageIntakeMultiplier => (spreadFireLevel > 1) ? 1.3f : 1f;
@@ -196,29 +225,60 @@ namespace Player
 
         #region LightningRain Ability Settings
         [Header("LightningRain Ability Settings")]
-        public int lightningRainLevel = 0;
+        [SerializeField] private int _lightningRainLevel = 0;
+        public int lightningRainLevel
+        {
+            get => _lightningRainLevel;
+            set
+            {
+                if (_lightningRainLevel == value) return;
+                if (value > 3 || value < 1) Mathf.Clamp(value, 1, 3);
+                _lightningRainLevel = value;
+                if (_lightningRainLevel == 2) lightningRainLevel2UI.SetActive(true);
+                if (_lightningRainLevel == 3)
+                {
+                    lightningRainLevel2UI.SetActive(false);
+                    lightningRainLevel3UI.SetActive(true);
+                }
+            }
+        }
         public float lightningRainDamageBuffPerStacks = 0.1f;
         public float lightningRainDamageBuffDuration = 10f;
         public float lightningRainRadius = 8f;
         [SerializeField] private float lightningRainDamagePerChargeMultiplier = 3f;
         public int lightningRainMaxCharges = 3;
         public float lightningRainDamagePerCharge => currentAttackDamage * lightningRainDamagePerChargeMultiplier;
-        public static float lightningRainCooldownTime = 100f;
+        public float lightningRainCooldownTime = 100f;
         public float lightningRainActivationDelay = 3f;
         public float lightningRainStunDuration => (lightningRainLevel > 2) ? 5f : 3f;
-        [SerializeField] private float _lightningRainMoveSpeedMultiplier = 1.25f;
-        public float lightningRainMoveSpeed => currentMovementSpeed * _lightningRainMoveSpeedMultiplier;
+        public float _lightningRainMoveSpeedMultiplier = 0.25f;
         public static string lightningRainKey = "Q";
         #endregion
 
         #region IceShield Ability Settings
         [Header("IceShield Ability Settings")]
-        public int iceShieldLevel = 0;
+        [SerializeField] public int _iceShieldLevel = 0;
+        public int iceShieldLevel
+        {
+            get => _iceShieldLevel;
+            set
+            {
+                if (_iceShieldLevel == value) return;
+                if (value > 3 || value < 1) Mathf.Clamp(value, 1, 3);
+                _iceShieldLevel = value;
+                if (_iceShieldLevel == 2) iceShieldLevel2UI.SetActive(true);
+                if (_iceShieldLevel == 3)
+                {
+                    iceShieldLevel2UI.SetActive(false);
+                    iceShieldLevel3UI.SetActive(true);
+                }
+            }
+        }
         public int iceShieldMaxStacks = 4;
         public float iceShieldHealthPerStack = 50f;
-        public static float iceShieldCooldownTime = 60;
+        public float iceShieldCooldownTime = 60;
         public float iceShieldCooldownReductionPerStack = 0.1f;
-        public float iceShieldDebuffDamageReduction = 0.7f;
+        public float iceShieldDebuffDamageReduction = 0.5f;
         public float iceShieldDebuffDuration = 10f;
         public int iceShieldStacks;
         public float iceShieldRange = 12f;
@@ -227,8 +287,24 @@ namespace Player
 
         #region NaturesMelody Ability Settings
         [Header("NaturesMelody Ability Settings")]
-        public int naturesMelodyLevel = 0;
-        public static float naturesMelodyCooldownTime = 100f;
+        public int _naturesMelodyLevel = 0;
+        public int naturesMelodyLevel
+        {
+            get => _naturesMelodyLevel;
+            set
+            {
+                if (_naturesMelodyLevel == value) return;
+                if (value > 3 || value < 1) Mathf.Clamp(value, 1, 3);
+                _naturesMelodyLevel = value;
+                if (_naturesMelodyLevel == 2) naturesMelodyLevel2UI.SetActive(true);
+                if (_naturesMelodyLevel == 3)
+                {
+                    naturesMelodyLevel2UI.SetActive(false);
+                    naturesMelodyLevel3UI.SetActive(true);
+                }
+            }
+        }
+        public float naturesMelodyCooldownTime = 100f;
         public float naturesMelodyTickTime = 0.25f;
         public float naturesMelodyMoveSpeedMultiplier = 0.01f;
         public int naturesMelodyMaxTicks = 10;
@@ -359,7 +435,7 @@ namespace Player
 
         void FixedUpdate()
         {
-            if (playerIsGrounded) 
+            if (playerIsGrounded)
             {
                 playerRigidbody.velocity = playerMovement + (transform.up * playerRigidbody.velocity.y);
                 bool isRunning = (Mathf.Abs(playerRigidbody.velocity.x) > 0.1f || Mathf.Abs(playerRigidbody.velocity.z) > 0.1f);
@@ -448,7 +524,7 @@ namespace Player
 
             healthManagerCS.SetHealthPointsValues(maxHealthPoints);
 
-            if(LevelManager.instance != null) playerCompletedTrials = true;
+            if (LevelManager.instance != null) playerCompletedTrials = true;
         }
 
         private void SubscribeToRequiredEvents()
@@ -482,7 +558,7 @@ namespace Player
             switch (ability)
             {
                 case PlayerAbilityEnum.SpreadFire:
-                    if(spreadFireLevel < 1) 
+                    if (spreadFireLevel < 1)
                     {
                         spreadFireState = new SpreadFireState(this);
                         ChangeIconAlpha(spreadFireCDIcon, false);
@@ -497,12 +573,12 @@ namespace Player
 
                 case PlayerAbilityEnum.NaturesMelody:
                     naturesMelodyState = new NaturesMelodyState(this);
-                    ChangeIconAlpha( naturesMelodyCDIcon, false);
+                    ChangeIconAlpha(naturesMelodyCDIcon, false);
                     break;
 
                 case PlayerAbilityEnum.LightningRain:
                     lightningRainState = new LightningRainState(this);
-                    ChangeIconAlpha( lightningRainCDIcon, false);
+                    ChangeIconAlpha(lightningRainCDIcon, false);
                     break;
 
                 default:
@@ -514,7 +590,7 @@ namespace Player
         {
             Debug.Log("onHealthEmpty");
 
-            if(isDead) return;
+            if (isDead) return;
 
             Debug.Log("isNowDead");
 

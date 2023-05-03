@@ -18,7 +18,8 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     public PlayerStateManager playerStateManagerCS;
-    [SerializeField] private List<PlayerAbilityEnum> _playerPotentialSkillUpgrades = new List<PlayerAbilityEnum>{
+    [SerializeField]
+    private List<PlayerAbilityEnum> _playerPotentialSkillUpgrades = new List<PlayerAbilityEnum>{
         PlayerAbilityEnum.SpreadFire,
         PlayerAbilityEnum.SpreadFire,
         PlayerAbilityEnum.LightningRain,
@@ -28,8 +29,9 @@ public class LevelManager : MonoBehaviour
         PlayerAbilityEnum.NaturesMelody,
         PlayerAbilityEnum.NaturesMelody,
     };
-    [SerializeField] private GameObject _choicesParentGO;
+    [SerializeField] private GameObject _skillUpCanvasGO;
     [SerializeField] private GameObject[] _choicesGOs;
+    [SerializeField] private Animator _choicesAnimator;
     [SerializeField] private GameObject[] _levelsGOs;
     [SerializeField] private TextMeshProUGUI _level;
     [SerializeField] private Vector3 _origin = Vector3.zero;
@@ -114,23 +116,23 @@ public class LevelManager : MonoBehaviour
     private void OnEnemyDeath(HealthManager enemyToRemove)
     {
         var dmgReceiver = enemyToRemove.GetComponent<EnemyDamageReceiver>();
-        if(dmgReceiver == null) 
+        if (dmgReceiver == null)
         {
             Debug.LogWarning("No EnemyDamageReceiver found on " + enemyToRemove.gameObject.name + ", enemy will not be Destroyed properly (LevelManager.cs).");
             return;
-        } 
-        if(_currentEnemiesInLevel.Contains(dmgReceiver))
+        }
+        if (_currentEnemiesInLevel.Contains(dmgReceiver))
         {
             _currentEnemiesInLevel.Remove(dmgReceiver);
             enemyToRemove.OnHealthPointsEmpty -= OnEnemyDeath;
         }
 
-        if(enemyCount <= 0) OnLevelCompleted();
+        if (enemyCount <= 0) OnLevelCompleted();
     }
 
     private void OnLevelFailed(HealthManager hm)
     {
-        if(playerStateManagerCS.currentLifes > 1)
+        if (playerStateManagerCS.currentLifes > 1)
         {
             playerStateManagerCS.currentLifes--;
             _coroutineResetLevel = StartCoroutine(CoroutinResetLevel());
@@ -162,7 +164,7 @@ public class LevelManager : MonoBehaviour
 
     public void OnSkillUpOrbPickedUp()
     {
-        _choicesParentGO.SetActive(true);
+        _skillUpCanvasGO.SetActive(true);
 
         var tempPotentialSkillUps = _playerPotentialSkillUpgrades;
         var chosenSkills = new List<PlayerAbilityEnum>(_choicesGOs.Length);
@@ -183,38 +185,75 @@ public class LevelManager : MonoBehaviour
             int abilityLevel;
             switch (ability)
             {
-                case PlayerAbilityEnum.SpreadFire :
-                abilityLevel = playerStateManagerCS.spreadFireLevel;
-                break;
+                case PlayerAbilityEnum.SpreadFire:
+                    abilityLevel = playerStateManagerCS.spreadFireLevel;
+                    break;
 
-                case PlayerAbilityEnum.LightningRain :
-                abilityLevel = playerStateManagerCS.lightningRainLevel;
-                break;
-                
-                case PlayerAbilityEnum.IceShield :
-                abilityLevel = playerStateManagerCS.iceShieldLevel;
-                break;
+                case PlayerAbilityEnum.LightningRain:
+                    abilityLevel = playerStateManagerCS.lightningRainLevel;
+                    break;
 
-                case PlayerAbilityEnum.NaturesMelody :
-                abilityLevel = playerStateManagerCS.naturesMelodyLevel;
-                break;
+                case PlayerAbilityEnum.IceShield:
+                    abilityLevel = playerStateManagerCS.iceShieldLevel;
+                    break;
+
+                case PlayerAbilityEnum.NaturesMelody:
+                    abilityLevel = playerStateManagerCS.naturesMelodyLevel;
+                    break;
 
                 default:
-                abilityLevel = 0;
-                break;
+                    abilityLevel = 0;
+                    break;
             }
 
             var skillInfos = _skillsUpgradesInformationsCS.GetSkillsInformations(ability, abilityLevel - 1);
 
             var skillUpChoice = choiceGO.GetComponent<SkillUpgradeChoice>();
-            if(skillUpChoice == null) 
+            if (skillUpChoice == null)
             {
                 Debug.LogWarning("No skillUpChoice script found on " + skillUpChoice.name + "(LevelManager.cs)");
                 continue;
             }
             skillUpChoice.DisplaySkillUpgradeInformation(ability, skillInfos[0], skillInfos[1]);
         }
+    }
 
+    public void OnSkillUpChosen(PlayerAbilityEnum ability)
+    {
+        switch (ability)
+        {
+            case PlayerAbilityEnum.SpreadFire:
+                playerStateManagerCS.spreadFireLevel++;
+                break;
+
+            case PlayerAbilityEnum.LightningRain:
+                playerStateManagerCS.lightningRainLevel++;
+                break;
+
+            case PlayerAbilityEnum.IceShield:
+                playerStateManagerCS.iceShieldLevel++;
+                break;
+
+            case PlayerAbilityEnum.NaturesMelody:
+                playerStateManagerCS.naturesMelodyLevel++;
+                break;
+
+            default:
+                break;
+        }
+
+        _choicesAnimator.SetTrigger("fadeOut");
+        Invoke("ToggleSkillUpCanvas", 3f);
+    }
+
+    private void ToggleSkillUpCanvas()
+    {
+        if (_skillUpCanvasGO == null)
+        {
+            Debug.LogWarning("Choices canvas is null (LevelManager.cs)");
+            return;
+        }
+        _skillUpCanvasGO?.SetActive(!_skillUpCanvasGO.activeSelf);
     }
 
     private void OnGameOver()
@@ -224,12 +263,12 @@ public class LevelManager : MonoBehaviour
 
     public void FadeCanvasToggle(bool fadeIn)
     {
-        if(_fadeInGo == null)
+        if (_fadeInGo == null)
         {
             Debug.LogWarning(_fadeInGo.name + "is null (LevelManager.cs)");
             return;
         }
-        if(_fadeOutGo == null)
+        if (_fadeOutGo == null)
         {
             Debug.LogWarning(_fadeOutGo.name + "is null (LevelManager.cs)");
             return;

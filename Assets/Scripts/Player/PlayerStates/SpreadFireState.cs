@@ -41,6 +41,7 @@ namespace Player
         {
             var moveSpeed = _manager.currentMovementSpeed;
             _manager.currentMovementSpeed = 0;
+            yield return new WaitForSecondsRealtime(0.5f);
             _manager.spreadFireOnCooldown = true;
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.spreadFireRange);
             foreach (Collider collider in colliders)

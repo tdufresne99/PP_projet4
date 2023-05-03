@@ -29,7 +29,7 @@ namespace Player
             _lightRainPerformed = false;
             _charges = 0;
 
-            _manager.currentMovementSpeed *= _manager.lightningRainMoveSpeed;
+            _manager.currentMovementSpeed *= _manager._lightningRainMoveSpeedMultiplier;
             _manager.abilityLocked = true;
             _coroutineLightningRain = _manager.StartCoroutine(CoroutineChargeLightningRain());
         }
@@ -53,7 +53,7 @@ namespace Player
         public override void Exit()
         {
             if (_coroutineLightningRain != null) _manager.StopCoroutine(_coroutineLightningRain);
-            _manager.currentMovementSpeed /= _manager.lightningRainMoveSpeed;
+            _manager.currentMovementSpeed /= _manager._lightningRainMoveSpeedMultiplier;
             _manager.abilityLocked = false;
             _manager.lightningRainOnCooldown = true;
         }

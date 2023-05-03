@@ -15,9 +15,12 @@ public class SkillUpgradeChoice : MonoBehaviour
     [SerializeField] private GameObject _iconHolder;
     [SerializeField] private TextMeshProUGUI _title;
     [SerializeField] private TextMeshProUGUI _description;
+    private PlayerAbilityEnum choiceAbility;
 
     public void DisplaySkillUpgradeInformation(PlayerAbilityEnum ability, string title, string description)
     {
+        choiceAbility = ability;
+
         GameObject icon;
         Color backgroundColor;
         switch (ability)
@@ -56,6 +59,11 @@ public class SkillUpgradeChoice : MonoBehaviour
         _title.color = backgroundColor;
 
         _description.text = description;
+    }
+
+    public void OnSkillUpChosen()
+    {
+        LevelManager.instance.OnSkillUpChosen(choiceAbility);
     }
 
 }
