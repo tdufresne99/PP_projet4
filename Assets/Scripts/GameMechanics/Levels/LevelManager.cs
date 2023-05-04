@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Player;
 using Enemy;
 using System.Collections;
@@ -41,6 +42,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Vector3 _origin = Vector3.zero;
     [SerializeField] private PlayerStateManager _playerStateManagerCS;
     [SerializeField] private Transform _playerReset;
+    [SerializeField] private TextMeshProUGUI _lifesText;
     [SerializeField] private GameObject _fadeOutGo;
     [SerializeField] private GameObject _fadeInGo;
 
@@ -181,6 +183,7 @@ public class LevelManager : MonoBehaviour
         if (playerStateManagerCS.currentLifes > 1)
         {
             playerStateManagerCS.currentLifes--;
+            _lifesText.text = playerStateManagerCS.currentLifes + "";
             _coroutineResetLevel = StartCoroutine(CoroutinResetLevel());
         }
         else OnGameOver();
@@ -330,7 +333,8 @@ public class LevelManager : MonoBehaviour
 
     private void OnGameOver()
     {
-        Debug.Log("GameOver");
+        GameManager.instance.levelReached = _currentLevel;
+        SceneManager.LoadScene(GameManager.instance.gameOverSceneIndex);
     }
 
     public void FadeCanvasToggle(bool fadeIn)

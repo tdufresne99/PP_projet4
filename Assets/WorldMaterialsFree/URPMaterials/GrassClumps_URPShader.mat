@@ -99,7 +99,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HeightDisplacement: 0.015
+    - _HeightDisplacement: 0
     - _Metallic: 0
     - _MetallicStrength: 0.1
     - _Mode: 0
@@ -113,7 +113,7 @@ Material:
     - _TessMax: 25
     - _TessMin: 10
     - _TessValue: 1
-    - _Tile: 3.72
+    - _Tile: 10
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 0

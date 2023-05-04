@@ -182,7 +182,7 @@ namespace Player
         public float baseMovementSpeed = 20f;
         public float baseJumpForce = 20f;
         public float gravityMultiplier = 20f;
-        public float rotateSpeed = 5f;
+        public float rotateSpeed = 6f;
         public float mouseSensitivity = 100f;
 
         #endregion

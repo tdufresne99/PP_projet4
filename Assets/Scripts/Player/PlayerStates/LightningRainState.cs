@@ -13,6 +13,7 @@ namespace Player
     {
         private PlayerStateManager _manager;
         private Coroutine _coroutineLightningRain;
+        private Coroutine _coroutinePerformLightningRain;
         private int _charges = 0;
         private bool _lightRainPerformed = false;
 
@@ -46,13 +47,14 @@ namespace Player
                 {
                     Debug.LogWarning("Could not stop coroutine lightning rain");
                 }
-                PerformLightningRain();
+                _coroutinePerformLightningRain = _manager.StartCoroutine(CoroutinePerformLightningRain());
             }
         }
 
         public override void Exit()
         {
             if (_coroutineLightningRain != null) _manager.StopCoroutine(_coroutineLightningRain);
+            if (_coroutinePerformLightningRain != null) _manager.StopCoroutine(_coroutinePerformLightningRain);
             _manager.currentMovementSpeed /= _manager._lightningRainMoveSpeedMultiplier;
             _manager.abilityLocked = false;
             _manager.lightningRainOnCooldown = true;
@@ -67,15 +69,15 @@ namespace Player
                 _charges++;
                 yield return new WaitForSecondsRealtime(activationDelayPerCharge);
             }
-            PerformLightningRain();
+            _coroutinePerformLightningRain = _manager.StartCoroutine(CoroutinePerformLightningRain());
         }
 
-        private void PerformLightningRain()
+        private IEnumerator CoroutinePerformLightningRain()
         {
             if (_lightRainPerformed)
             {
                 Debug.LogWarning("lightning rain already performed...");
-                return;
+                _manager.TransitionToState(_manager.idleState);
             }
             _lightRainPerformed = true;
             _manager.playerAnimator.SetTrigger("lightningRain");
@@ -132,6 +134,7 @@ namespace Player
 
                 _manager.playerDamageDealerCS.DealDamage(enemyHit, _manager.lightningRainDamagePerCharge * _charges, _manager.currentLeech);
             }
+            yield return new WaitForSecondsRealtime(1f);
             _manager.TransitionToState(_manager.idleState);
         }
     }
