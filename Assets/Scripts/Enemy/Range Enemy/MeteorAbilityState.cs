@@ -42,7 +42,7 @@ namespace Enemy.Range
             _meteorOverlayGO = InstantiateMeteorOverlay();
             var meteorHitLocation = _meteorOverlayGO.transform.position;
 
-            yield return new WaitForSecondsRealtime(2f);
+            yield return new WaitForSecondsRealtime(_manager.meteorCastTime);
 
             GameObject.Destroy(_meteorOverlayGO);
             InstantiateMeteor(meteorHitLocation);
@@ -51,13 +51,13 @@ namespace Enemy.Range
 
         public GameObject InstantiateMeteorOverlay()
         {
-            var instanciatedMeteorOverlay = GameObject.Instantiate(_manager.meteorOverlayGO, new Vector3(_manager.targetTransform.position.x, 0.22f, _manager.targetTransform.position.z), Quaternion.identity);
+            var instanciatedMeteorOverlay = GameObject.Instantiate(_manager.meteorOverlayGO, new Vector3(_manager.targetTransform.position.x, 0, _manager.targetTransform.position.z), Quaternion.identity);
             return instanciatedMeteorOverlay;
         }
 
         public GameObject InstantiateMeteor(Vector3 meteorHitLocation)
         {
-            var instanciatedMeteor = GameObject.Instantiate(_manager.meteorGO, new Vector3(meteorHitLocation.x + Random.Range(-5f, 5f), 5f, meteorHitLocation.z + Random.Range(-5f, 5f)), Quaternion.identity);
+            var instanciatedMeteor = GameObject.Instantiate(_manager.meteorGO, new Vector3(meteorHitLocation.x + Random.Range(-5f, 5f), _manager.meteorStartHeight, meteorHitLocation.z + Random.Range(-5f, 5f)), Quaternion.identity);
 
             Meteor meteorCS = instanciatedMeteor.GetComponent<Meteor>();
 

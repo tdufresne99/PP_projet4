@@ -17,6 +17,7 @@ namespace Enemy.Tank
         public override void Enter()
         {
             // ---- Set state animations ------------------------------
+            Debug.Log("cleaveCast");
             _manager.enemyAnimator.SetTrigger("cleaveCast");
 
             _manager.abilityLocked = true;
@@ -40,11 +41,12 @@ namespace Enemy.Tank
 
         private IEnumerator PerformCleaveAttack()
         {
-            yield return new WaitForSecondsRealtime(2f);
+            yield return new WaitForSecondsRealtime(5f);
             _manager.cleaveHitboxGO.SetActive(true);
-            _manager.enemyAnimator.SetTrigger("cleaveCast");
-            yield return new WaitForSecondsRealtime(0.5f);
-            _manager.TransitionToState(_manager.idleState);
+            Debug.Log("cleave");
+            _manager.enemyAnimator.SetTrigger("cleave");
+            yield return new WaitForSecondsRealtime(1f);
+            _manager.TransitionToState(_manager.chaseState);
         }
     }
 }

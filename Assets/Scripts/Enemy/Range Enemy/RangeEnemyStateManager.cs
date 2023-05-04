@@ -153,6 +153,8 @@ namespace Enemy.Range
         [SerializeField] private float _meteorDamageMultiplier = 8f;
         public float meteorDamage => currentAttackDamage * _meteorDamageMultiplier;
         public float meteorSpeed = 22f;
+        public float meteorCastTime = 2f;
+        public float meteorStartHeight = 4f;
         #endregion
         // -------------------------------------------------<
         // ------------------------------------------------->

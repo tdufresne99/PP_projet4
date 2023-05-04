@@ -112,11 +112,12 @@ namespace Enemy.Melee
         [Header("-- Enrage Settings --")]
         public float enrageCooldownTime = 45f;
         public float enrageDuration = 10f;
-        public float enrageSizeMultiplier = 1.4f;
+        public float enrageSizeMultiplier = 1.5f;
         [SerializeField] private float _enrageAttackDamageMultiplier = 1.25f;
         public float _enrageLeechMultiplier = 0.5f;
         [SerializeField] private float _enrageAttackSpeedMultiplier = 1.5f;
         [SerializeField] private float _enrageMovementSpeedMultiplier = 1.5f;
+        [SerializeField] private ParticleSystem _particuleSystem;
         public int maxEnrageStacks = 3;
         #endregion
         // -------------------------------------------------<
@@ -381,6 +382,7 @@ namespace Enemy.Melee
         {
             // Set enrage animations & model
             gameObject.transform.localScale *= enrageSizeMultiplier;
+            _particuleSystem.Play();
 
             enrageActive = true;
 
@@ -396,7 +398,8 @@ namespace Enemy.Melee
         public void OnEnrageExit()
         {
             // Set base animations & model
-            gameObject.transform.localScale = Vector3.one;
+            gameObject.transform.localScale /= enrageSizeMultiplier;
+            _particuleSystem.Stop();
 
             // Set base values
             currentAttackDamage /= _enrageAttackDamageMultiplier;

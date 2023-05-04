@@ -33,10 +33,6 @@ namespace Enemy.Healer
 
         public IEnumerator CoroutineHealing()
         {
-            Debug.DrawLine(_manager.transform.position, _manager.transform.position + Vector3.forward * _manager.healRange, Color.magenta, 3.5f);
-            Debug.DrawLine(_manager.transform.position, _manager.transform.position + Vector3.back * _manager.healRange, Color.magenta, 3.5f);
-            Debug.DrawLine(_manager.transform.position, _manager.transform.position + Vector3.right * _manager.healRange, Color.magenta, 3.5f);
-            Debug.DrawLine(_manager.transform.position, _manager.transform.position + Vector3.left * _manager.healRange, Color.magenta, 3.5f);
             yield return new WaitForSecondsRealtime(_manager.healCastTime);
 
             var detectedEnemyHealingReceivers = new List<EnemyHealingReceiver>();

@@ -72,7 +72,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4863136097378408996}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -147,7 +147,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -695,7 +695,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
+    type: 0
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -901,7 +901,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 100
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5048,8 +5048,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconHolder: {fileID: 47324173329958040}
-  defaultColor: {r: 0, g: 0, b: 0, a: 0}
-  stunColor: {r: 0, g: 0, b: 0, a: 0.5}
   _healthBar: {fileID: 529755953655087258}
   _healthBarColor: {fileID: 529755953655087259}
   _maxHealthPoints: 150
@@ -5322,7 +5320,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 97e396cedfc3d5d419b634e97527af0f, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 9a590f5b27655ae4a8820317605c0f9e, type: 2}
+      objectReference: {fileID: 9100000, guid: ec923d510cd916d44a8923268304c3cb, type: 2}
     - target: {fileID: 5866666021909216657, guid: 97e396cedfc3d5d419b634e97527af0f, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0

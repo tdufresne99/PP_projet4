@@ -359,7 +359,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EnemyAnimator
+  m_Name: MeleeEnemy
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: meteor
@@ -545,7 +545,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1435680042914008387}
-    m_Position: {x: 460, y: 590, z: 0}
+    m_Position: {x: 330, y: 510, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8560330635843902370}
     m_Position: {x: 330, y: 360, z: 0}
@@ -563,16 +563,16 @@ AnimatorStateMachine:
     m_Position: {x: 30, y: 410, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7766196588052010066}
-    m_Position: {x: 330, y: 460, z: 0}
+    m_Position: {x: 330, y: 430, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2587400516849121794}
     m_Position: {x: 330, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3878476463640124046}
-    m_Position: {x: 480, y: -50, z: 0}
+    m_Position: {x: 450, y: 70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4875901237104868695}
-    m_Position: {x: 230, y: -50, z: 0}
+    m_Position: {x: 220, y: 70, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 4960058777398330766}

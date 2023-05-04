@@ -14,6 +14,8 @@ namespace Enemy.Melee
 
         public override void Enter()
         {
+            if(_manager.enrageActive) _manager.OnEnrageExit();
+
             // ---- Set state animations ------------------------------
             _manager.enemyAnimator.SetTrigger("die");
             _manager.Invoke("SelfDestruct", 2f);

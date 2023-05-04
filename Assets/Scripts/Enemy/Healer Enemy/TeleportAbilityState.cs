@@ -6,6 +6,7 @@ namespace Enemy.Healer
     public class TeleportAbilityState : HealerEnemyState
     {
         private HealerEnemyStateManager _manager;
+        private Coroutine _coroutineTeleport;
 
         public TeleportAbilityState(HealerEnemyStateManager manager)
         {
@@ -16,8 +17,7 @@ namespace Enemy.Healer
         {
             // ---- Set state animations ------------------------------
 
-            TeleportRangeEnemy(_manager.teleportLocationFinderCS.GetRandomPosition(_manager.transform));
-            _manager.TransitionToState(_manager.chaseState);
+            _coroutineTeleport = _manager.StartCoroutine(CoroutineTeleportRangeEnemy(_manager.teleportLocationFinderCS.GetRandomPosition(_manager.transform)));
         }
 
         public override void Execute()
@@ -30,10 +30,13 @@ namespace Enemy.Healer
             _manager.teleportOnCooldown = true;
         }
 
-        public void TeleportRangeEnemy(Vector3 teleportPosition)
+        public IEnumerator CoroutineTeleportRangeEnemy(Vector3 teleportPosition)
         {
+            _manager.enemyAnimator.SetTrigger("teleport");
+            yield return new WaitForSecondsRealtime(0.7f);
             _manager.transform.position = teleportPosition;
             _manager.transform.LookAt(_manager.targetTransform);
+            _manager.TransitionToState(_manager.chaseState);
         }
     }
 }
