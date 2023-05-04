@@ -18,24 +18,28 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     public PlayerStateManager playerStateManagerCS;
+    private bool PlayerUnlockedAllSkillUps = false;
     [SerializeField]
-    private List<PlayerAbilityEnum> _playerPotentialSkillUpgrades = new List<PlayerAbilityEnum>{
-        PlayerAbilityEnum.SpreadFire,
+    private PlayerAbilityEnum[] _playerUpgradableSkills = new PlayerAbilityEnum[] {
         PlayerAbilityEnum.SpreadFire,
         PlayerAbilityEnum.LightningRain,
-        PlayerAbilityEnum.LightningRain,
         PlayerAbilityEnum.IceShield,
-        PlayerAbilityEnum.IceShield,
-        PlayerAbilityEnum.NaturesMelody,
         PlayerAbilityEnum.NaturesMelody,
     };
+    [SerializeField] private Dictionary<PlayerAbilityEnum, int> playerSkillUps;
+    private List<List<PlayerAbilityEnum>> playerAvailableSkillUps = new List<List<PlayerAbilityEnum>>();
     [SerializeField] private GameObject _skillUpCanvasGO;
     [SerializeField] private GameObject _skillUpOrbGO;
     [SerializeField] private Transform _skillUpOrbSpawnPoint;
-    [SerializeField] private GameObject[] _choicesGOs;
+
     [SerializeField] private Animator _choicesAnimator;
+    [SerializeField] private GameObject _choicesHolder;
+    [SerializeField] private GameObject _choiceGO;
+    [SerializeField] private int _maxSkillUpsToDisplay = 3;
+
     [SerializeField] private GameObject[] _levelsGOs;
     [SerializeField] private Vector3 _origin = Vector3.zero;
+    [SerializeField] private PlayerStateManager _playerStateManagerCS;
     [SerializeField] private Transform _playerReset;
     [SerializeField] private GameObject _fadeOutGo;
     [SerializeField] private GameObject _fadeInGo;
@@ -75,6 +79,44 @@ public class LevelManager : MonoBehaviour
         _maxLevelIndex = _levelsGOs.Length;
 
         StartLevel();
+
+        GetCurrentAvailableSkillUps();
+    }
+
+    private void GetCurrentAvailableSkillUps()
+    {
+
+        playerAvailableSkillUps = new List<List<PlayerAbilityEnum>>(2);
+
+        for (int level = 0; level + 2 <= _playerStateManagerCS.spreadFireMaxLevel; level++)
+        {
+            if (level > playerAvailableSkillUps.Count - 1) playerAvailableSkillUps.Add(new List<PlayerAbilityEnum>(_playerUpgradableSkills.Length));
+
+            playerAvailableSkillUps[level].Add(PlayerAbilityEnum.SpreadFire);
+        }
+        for (int level = 0; level + 2 <= _playerStateManagerCS.lightningRainMaxLevel; level++)
+        {
+            if (level > playerAvailableSkillUps.Count - 1) playerAvailableSkillUps.Add(new List<PlayerAbilityEnum>(_playerUpgradableSkills.Length));
+            playerAvailableSkillUps[level].Add(PlayerAbilityEnum.LightningRain);
+        }
+        for (int level = 0; level + 2 <= _playerStateManagerCS.iceShieldMaxLevel; level++)
+        {
+            if (level > playerAvailableSkillUps.Count - 1) playerAvailableSkillUps.Add(new List<PlayerAbilityEnum>(_playerUpgradableSkills.Length));
+            playerAvailableSkillUps[level].Add(PlayerAbilityEnum.IceShield);
+        }
+        for (int level = 0; level + 2 <= _playerStateManagerCS.naturesMelodyMaxLevel; level++)
+        {
+            if (level > playerAvailableSkillUps.Count - 1) playerAvailableSkillUps.Add(new List<PlayerAbilityEnum>(_playerUpgradableSkills.Length));
+            playerAvailableSkillUps[level].Add(PlayerAbilityEnum.NaturesMelody);
+        }
+
+        for (int i = 0; i < playerAvailableSkillUps.Count; i++)
+        {
+            for (int y = 0; y < playerAvailableSkillUps[i].Count; y++)
+            {
+                Debug.Log("list i=" + i + ", value=" + playerAvailableSkillUps[i][y]);
+            }
+        }
     }
 
     private void SubscribeToRequiredEvents()
@@ -87,7 +129,7 @@ public class LevelManager : MonoBehaviour
         FadeCanvasToggle(true);
         playerStateManagerCS.ResetPlayer(_playerReset);
         InstanciateLevel();
-        
+
         _currentLevelsIntroCS.ToggleActivity(true);
     }
 
@@ -97,7 +139,7 @@ public class LevelManager : MonoBehaviour
 
         _currentLevelGO = Instantiate(_levelsGOs[randomLevelIndex], _origin, Quaternion.identity);
 
-        if(_currentLevel % 3 == 0 && _currentLevel != 0) Instantiate(_skillUpOrbGO, _skillUpOrbSpawnPoint.position, Quaternion.identity, _currentLevelGO.transform);
+        if (_currentLevel % 3 == 0 && _currentLevel != 0) Instantiate(_skillUpOrbGO, _skillUpOrbSpawnPoint.position, Quaternion.identity, _currentLevelGO.transform);
 
         _currentLevelsIntroCS = _currentLevelGO.GetComponentInChildren<LevelsIntro>();
         if (_currentLevelsIntroCS == null) Debug.LogError("No LevelsIntro component found in " + _currentLevelGO.name + "'s children (LevelsManager.cs)");
@@ -168,94 +210,122 @@ public class LevelManager : MonoBehaviour
 
     public void OnSkillUpOrbPickedUp()
     {
-        _skillUpCanvasGO.SetActive(true);
+        if (PlayerUnlockedAllSkillUps) return;
+        Debug.Log("On skill up orb picked up");
+        var playerAvailableSkillUpsTemp = playerAvailableSkillUps;
+        bool canvasUp = false;
 
-        var tempPotentialSkillUps = _playerPotentialSkillUpgrades;
-        var chosenSkills = new List<PlayerAbilityEnum>(_choicesGOs.Length);
-
-        for (int i = 0; i < _choicesGOs.Length; i++)
+        for (int i = 0; i < _maxSkillUpsToDisplay; i++)
         {
-            int index = UnityEngine.Random.Range(0, tempPotentialSkillUps.Count);
-            var chosenSkill = tempPotentialSkillUps[i];
-            chosenSkills.Add(chosenSkill);
-            tempPotentialSkillUps.Remove(chosenSkill);
-        }
-
-        for (int i = 0; i < chosenSkills.Count; i++)
-        {
-            var choiceGO = _choicesGOs[i];
-
-            var ability = chosenSkills[i];
-            int abilityLevel;
-            switch (ability)
+            Debug.Log("Display skill " + i);
+            bool skillUpsRemaining = false;
+            for (int y = 0; y < playerAvailableSkillUpsTemp.Count; y++)
             {
-                case PlayerAbilityEnum.SpreadFire:
-                    abilityLevel = playerStateManagerCS.spreadFireLevel;
+                if (playerAvailableSkillUpsTemp[y].Count > 0)
+                {
+                    skillUpsRemaining = true;
                     break;
-
-                case PlayerAbilityEnum.LightningRain:
-                    abilityLevel = playerStateManagerCS.lightningRainLevel;
-                    break;
-
-                case PlayerAbilityEnum.IceShield:
-                    abilityLevel = playerStateManagerCS.iceShieldLevel;
-                    break;
-
-                case PlayerAbilityEnum.NaturesMelody:
-                    abilityLevel = playerStateManagerCS.naturesMelodyLevel;
-                    break;
-
-                default:
-                    abilityLevel = 0;
-                    break;
+                }
             }
-
-            var skillInfos = _skillsUpgradesInformationsCS.GetSkillsInformations(ability, abilityLevel - 1);
-
-            var skillUpChoice = choiceGO.GetComponent<SkillUpgradeChoice>();
-            if (skillUpChoice == null)
+            if (skillUpsRemaining == false)
             {
-                Debug.LogWarning("No skillUpChoice script found on " + skillUpChoice.name + "(LevelManager.cs)");
-                continue;
+                Debug.Log("Player unlocked all the skills, gg!");
+                PlayerUnlockedAllSkillUps = true;
+                return;
             }
-            skillUpChoice.DisplaySkillUpgradeInformation(ability, skillInfos[0], skillInfos[1]);
+            if (canvasUp == false)
+            {
+                ToggleSkillUpCanvas();
+                canvasUp = true;
+            }
+            for (int levelIndex = 0; levelIndex < playerAvailableSkillUpsTemp.Count; levelIndex++)
+            {
+                Debug.Log("Display skill level" + levelIndex);
+                if (playerAvailableSkillUpsTemp[levelIndex].Count < 1) continue;
+
+                int randomSkillIndex = UnityEngine.Random.Range(0, playerAvailableSkillUpsTemp[levelIndex].Count);
+
+                var drawnSkillUp = playerAvailableSkillUpsTemp[levelIndex][randomSkillIndex];
+
+                playerAvailableSkillUpsTemp[levelIndex].Remove(drawnSkillUp);
+
+                var skillInfos = _skillsUpgradesInformationsCS.GetSkillsInformations(drawnSkillUp, levelIndex);
+
+                var instantiatedSkillUpChoice = Instantiate(_choiceGO, _choicesHolder.transform);
+                Debug.Log("Instanciated an object at levlIndex=" + levelIndex);
+
+                var skillUpChoice = instantiatedSkillUpChoice.GetComponent<SkillUpgradeChoice>();
+
+                if (skillUpChoice == null)
+                {
+                    Debug.LogWarning("No skillUpChoice script found on " + skillUpChoice.name + "(LevelManager.cs)");
+                    return;
+                }
+
+                skillUpChoice.DisplaySkillUpgradeInformation(drawnSkillUp, skillInfos[0], skillInfos[1]);
+                break;
+            }
         }
     }
 
     public void OnSkillUpChosen(PlayerAbilityEnum ability)
     {
+        int chosenSkillUpLevel;
         switch (ability)
         {
             case PlayerAbilityEnum.SpreadFire:
                 playerStateManagerCS.spreadFireLevel++;
+                chosenSkillUpLevel = playerStateManagerCS.spreadFireLevel;
                 break;
 
             case PlayerAbilityEnum.LightningRain:
                 playerStateManagerCS.lightningRainLevel++;
+                chosenSkillUpLevel = playerStateManagerCS.lightningRainLevel;
                 break;
 
             case PlayerAbilityEnum.IceShield:
                 playerStateManagerCS.iceShieldLevel++;
+                chosenSkillUpLevel = playerStateManagerCS.iceShieldLevel;
                 break;
 
             case PlayerAbilityEnum.NaturesMelody:
                 playerStateManagerCS.naturesMelodyLevel++;
+                chosenSkillUpLevel = playerStateManagerCS.naturesMelodyLevel;
                 break;
 
             default:
-                break;
+                Debug.LogError("Ability type " + ability + " not supported as chosen skill up...");
+                return;
         }
 
+        playerAvailableSkillUps[chosenSkillUpLevel - 2].Remove(ability);
+
+        for (int i = 0; i < playerAvailableSkillUps.Count; i++)
+        {
+            for (int y = 0; y < playerAvailableSkillUps[i].Count; y++)
+            {
+                Debug.Log("list i=" + i + ", value=" + playerAvailableSkillUps[i][y]);
+            }
+        }
+        
         _choicesAnimator.SetTrigger("fadeOut");
         Invoke("ToggleSkillUpCanvas", 3f);
     }
 
     private void ToggleSkillUpCanvas()
     {
+
         if (_skillUpCanvasGO == null)
         {
             Debug.LogWarning("Choices canvas is null (LevelManager.cs)");
             return;
+        }
+        if (_skillUpCanvasGO.activeSelf)
+        {
+            for (int i = 0; i < _choicesHolder.transform.childCount; i++)
+            {
+                GameObject.Destroy(_choicesHolder.transform.GetChild(i).gameObject);
+            }
         }
         _skillUpCanvasGO?.SetActive(!_skillUpCanvasGO.activeSelf);
     }

@@ -193,6 +193,7 @@ namespace Player
 
         #region SpreadFire Ability Settings
         [Header("SpreadFire Ability Settings")]
+        public int spreadFireMaxLevel = 3;
         [SerializeField] private int _spreadFireLevel = 0;
         public int spreadFireLevel
         {
@@ -226,6 +227,7 @@ namespace Player
 
         #region LightningRain Ability Settings
         [Header("LightningRain Ability Settings")]
+        public int lightningRainMaxLevel = 3;
         [SerializeField] private int _lightningRainLevel = 0;
         public int lightningRainLevel
         {
@@ -259,6 +261,7 @@ namespace Player
 
         #region IceShield Ability Settings
         [Header("IceShield Ability Settings")]
+        public int iceShieldMaxLevel = 3;
         [SerializeField] public int _iceShieldLevel = 0;
         public int iceShieldLevel
         {
@@ -290,6 +293,7 @@ namespace Player
 
         #region NaturesMelody Ability Settings
         [Header("NaturesMelody Ability Settings")]
+        public int naturesMelodyMaxLevel = 3;
         public int _naturesMelodyLevel = 0;
         public int naturesMelodyLevel
         {
