@@ -110,13 +110,13 @@ public class LevelManager : MonoBehaviour
             playerAvailableSkillUps[level].Add(PlayerAbilityEnum.NaturesMelody);
         }
 
-        for (int i = 0; i < playerAvailableSkillUps.Count; i++)
-        {
-            for (int y = 0; y < playerAvailableSkillUps[i].Count; y++)
-            {
-                Debug.Log("list i=" + i + ", value=" + playerAvailableSkillUps[i][y]);
-            }
-        }
+        // for (int i = 0; i < playerAvailableSkillUps.Count; i++)
+        // {
+        //     for (int y = 0; y < playerAvailableSkillUps[i].Count; y++)
+        //     {
+        //         Debug.Log("list i=" + i + ", value=" + playerAvailableSkillUps[i][y]);
+        //     }
+        // }
     }
 
     private void SubscribeToRequiredEvents()
@@ -211,13 +211,18 @@ public class LevelManager : MonoBehaviour
     public void OnSkillUpOrbPickedUp()
     {
         if (PlayerUnlockedAllSkillUps) return;
-        Debug.Log("On skill up orb picked up");
-        var playerAvailableSkillUpsTemp = playerAvailableSkillUps;
+        var playerAvailableSkillUpsTemp = new List<List<PlayerAbilityEnum>>();
+        foreach (var item in playerAvailableSkillUps)
+        {
+            var newItem = new List<PlayerAbilityEnum>(item);
+            playerAvailableSkillUpsTemp.Add(newItem);
+        }
         bool canvasUp = false;
 
+
+        int lastInstantiatedSkillUpIndex = -1;
         for (int i = 0; i < _maxSkillUpsToDisplay; i++)
         {
-            Debug.Log("Display skill " + i);
             bool skillUpsRemaining = false;
             for (int y = 0; y < playerAvailableSkillUpsTemp.Count; y++)
             {
@@ -240,7 +245,7 @@ public class LevelManager : MonoBehaviour
             }
             for (int levelIndex = 0; levelIndex < playerAvailableSkillUpsTemp.Count; levelIndex++)
             {
-                Debug.Log("Display skill level" + levelIndex);
+                if (playerAvailableSkillUpsTemp[levelIndex].Count < 1 && lastInstantiatedSkillUpIndex == levelIndex) return;
                 if (playerAvailableSkillUpsTemp[levelIndex].Count < 1) continue;
 
                 int randomSkillIndex = UnityEngine.Random.Range(0, playerAvailableSkillUpsTemp[levelIndex].Count);
@@ -252,7 +257,7 @@ public class LevelManager : MonoBehaviour
                 var skillInfos = _skillsUpgradesInformationsCS.GetSkillsInformations(drawnSkillUp, levelIndex);
 
                 var instantiatedSkillUpChoice = Instantiate(_choiceGO, _choicesHolder.transform);
-                Debug.Log("Instanciated an object at levlIndex=" + levelIndex);
+                lastInstantiatedSkillUpIndex = levelIndex;
 
                 var skillUpChoice = instantiatedSkillUpChoice.GetComponent<SkillUpgradeChoice>();
 
@@ -263,6 +268,7 @@ public class LevelManager : MonoBehaviour
                 }
 
                 skillUpChoice.DisplaySkillUpgradeInformation(drawnSkillUp, skillInfos[0], skillInfos[1]);
+
                 break;
             }
         }
@@ -300,14 +306,6 @@ public class LevelManager : MonoBehaviour
 
         playerAvailableSkillUps[chosenSkillUpLevel - 2].Remove(ability);
 
-        for (int i = 0; i < playerAvailableSkillUps.Count; i++)
-        {
-            for (int y = 0; y < playerAvailableSkillUps[i].Count; y++)
-            {
-                Debug.Log("list i=" + i + ", value=" + playerAvailableSkillUps[i][y]);
-            }
-        }
-        
         _choicesAnimator.SetTrigger("fadeOut");
         Invoke("ToggleSkillUpCanvas", 3f);
     }
