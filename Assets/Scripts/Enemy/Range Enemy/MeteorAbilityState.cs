@@ -5,6 +5,7 @@ namespace Enemy.Range
 {
     public class MeteorAbilityState : RangeEnemyState
     {
+        
         private GameObject _meteorOverlayGO;
         private GameObject _meteorGO;
         private RangeEnemyStateManager _manager;
@@ -40,6 +41,7 @@ namespace Enemy.Range
         private IEnumerator CoroutineMeteorCast()
         {
             _meteorOverlayGO = InstantiateMeteorOverlay();
+            _manager.rangeAudioSource.PlayOneShot(_manager.meteorCastSound);
             var meteorHitLocation = _meteorOverlayGO.transform.position;
 
             yield return new WaitForSecondsRealtime(_manager.meteorCastTime);

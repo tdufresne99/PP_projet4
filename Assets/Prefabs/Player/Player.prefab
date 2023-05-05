@@ -5000,7 +5000,7 @@ Transform:
   - {fileID: 5039236837200239762}
   - {fileID: 5632966893660079072}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &4784034779846718168
 CapsuleCollider:
@@ -5134,13 +5134,13 @@ MonoBehaviour:
   mouseSensitivity: 100
   desaturatedIconAlphaValue: 0.1
   spreadFireMaxLevel: 3
-  _spreadFireLevel: 3
+  _spreadFireLevel: 1
   spreadFireRange: 12
   _spreadFireDamageMultiplier: 6
   spreadFireDebuffIconGO: {fileID: 6249099249512687343, guid: f04bae1286d7ff348b3f9b9e892c5b2d, type: 3}
-  spreadFireCooldownTime: 5
+  spreadFireCooldownTime: 15
   lightningRainMaxLevel: 3
-  _lightningRainLevel: 3
+  _lightningRainLevel: 1
   lightningRainBuffIconGO: {fileID: 228944640965241188, guid: 25f9f4a6b3ff18242b8f45013062992e, type: 3}
   lightningRainDamageBuffPerStacks: 0.1
   lightningRainDamageBuffDuration: 10
@@ -5151,10 +5151,10 @@ MonoBehaviour:
   lightningRainActivationDelay: 3
   _lightningRainMoveSpeedMultiplier: 0.25
   iceShieldMaxLevel: 3
-  _iceShieldLevel: 3
+  _iceShieldLevel: 1
   iceShieldMaxStacks: 4
   iceShieldHealthPerStack: 50
-  iceShieldCooldownTime: 5
+  iceShieldCooldownTime: 20
   iceShieldCooldownReductionPerStack: 0.1
   iceShieldDebuffIconGO: {fileID: 5860391991015958052, guid: 7f32aa4cecc81064c9805a3b53a10475, type: 3}
   iceShieldDebuffDamageReduction: 0.5
@@ -5164,9 +5164,10 @@ MonoBehaviour:
   naturesMelodyMaxLevel: 3
   _naturesMelodyLevel: 1
   naturesMelodyBuffIconGO: {fileID: 3582432948841551914, guid: 08b4e3f6041d22742a63ded0f4215ce0, type: 3}
-  naturesMelodyCooldownTime: 5
+  naturesMelodyCooldownTime: 20
   naturesMelodyTickTime: 0.25
   naturesMelodyMoveSpeedMultiplier: 0.01
+  naturesMelodyRotateSpeedMultiplier: 0
   naturesMelodyMaxTicks: 10
   naturesMelodyBuffDuration: 10
   naturesMelodyBuffTicks: 10
@@ -5178,6 +5179,7 @@ MonoBehaviour:
   currentLeech: 0
   currentAttackSpeed: 0
   currentMovementSpeed: 0
+  currentRotateSpeed: 0
   playerMovement: {x: 0, y: 0, z: 0}
   horizontalIntput: 0
   currentJumpForce: 0

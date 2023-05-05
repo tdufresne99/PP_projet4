@@ -18,6 +18,7 @@ namespace Player
             // ---- Set state animations ------------------------------
             _manager.playerAnimator.SetBool("isAttacking", true);
             _coroutineMeleeAttack = _manager.StartCoroutine(CoroutineMelee());
+            _manager.currentMovementSpeed = 0;
         }
 
         public override void Execute()
@@ -30,6 +31,8 @@ namespace Player
             if(_coroutineMeleeAttack != null) _manager.StopCoroutine(_coroutineMeleeAttack);
             _manager.playerAnimator.SetBool("isAttacking", false);
             _manager.meleeHitboxGO.SetActive(false);
+            _manager.currentMovementSpeed = _manager.baseMovementSpeed;
+
         }
 
         public IEnumerator CoroutineMelee()

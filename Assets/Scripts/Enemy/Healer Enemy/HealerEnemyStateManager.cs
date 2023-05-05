@@ -94,6 +94,8 @@ namespace Enemy.Healer
         public GameObject healingHitboxGO;
         public LayerMask targetLayerMask;
         public AudioClip deathSound;
+        public AudioClip teleportSound;
+        public AudioClip healSound;
         #endregion
         // ---------------------------------------------------------
 

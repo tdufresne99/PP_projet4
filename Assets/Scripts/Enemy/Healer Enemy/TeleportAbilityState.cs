@@ -34,6 +34,7 @@ namespace Enemy.Healer
         {
             _manager.enemyAnimator.SetTrigger("teleport");
             yield return new WaitForSecondsRealtime(0.7f);
+            _manager.healerAudioSource.PlayOneShot(_manager.teleportSound);
             _manager.transform.position = teleportPosition;
             _manager.transform.LookAt(_manager.targetTransform);
             _manager.TransitionToState(_manager.chaseState);

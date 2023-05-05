@@ -1359,6 +1359,22 @@ PrefabInstance:
         la touche pour lancer la Pluie de Foudre. Cette capacit\xE9 a une p\xE9riode
         de r\xE9cup\xE9ration avant de pouvoir \xEAtre utilis\xE9e \xE0 nouveau."
       objectReference: {fileID: 0}
+    - target: {fileID: 3000381053441988398, guid: e8752ba47a49d9843b0f04d19be7ab3f, type: 3}
+      propertyPath: m_fontSize
+      value: 15.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000381053441988398, guid: e8752ba47a49d9843b0f04d19be7ab3f, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
+    - target: {fileID: 3000381053441988398, guid: e8752ba47a49d9843b0f04d19be7ab3f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 15.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000381053441988398, guid: e8752ba47a49d9843b0f04d19be7ab3f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -1756470839720027593, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
     - target: {fileID: 3655039872447508408, guid: e8752ba47a49d9843b0f04d19be7ab3f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -270
@@ -1467,6 +1483,14 @@ PrefabInstance:
       propertyPath: m_text
       value: Apprendre
       objectReference: {fileID: 0}
+    - target: {fileID: 5402189026639070457, guid: e8752ba47a49d9843b0f04d19be7ab3f, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
+    - target: {fileID: 5402189026639070457, guid: e8752ba47a49d9843b0f04d19be7ab3f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -1756470839720027593, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
     - target: {fileID: 7447627868350742683, guid: e8752ba47a49d9843b0f04d19be7ab3f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

@@ -92,6 +92,8 @@ namespace Enemy.Range
         public GameObject meteorGO;
         public LayerMask targetLayerMask;
         public AudioClip deathSound;
+        public AudioClip teleportSound;
+        public AudioClip meteorCastSound;
         #endregion
         // ---------------------------------------------------------
 

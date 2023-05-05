@@ -35,6 +35,7 @@ namespace Enemy.Range
             _manager.enemyAnimator.SetTrigger("teleport");
             yield return new WaitForSecondsRealtime(0.7f);
             _manager.transform.position = teleportPosition;
+            _manager.rangeAudioSource.PlayOneShot(_manager.teleportSound);
             _manager.transform.LookAt(_manager.targetTransform);
             _manager.TransitionToState(_manager.chaseState);
         }

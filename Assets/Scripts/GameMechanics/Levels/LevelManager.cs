@@ -33,10 +33,16 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject _skillUpOrbGO;
     [SerializeField] private Transform _skillUpOrbSpawnPoint;
 
+    [SerializeField] private GameObject[] enemiesGOs;
     [SerializeField] private Animator _choicesAnimator;
     [SerializeField] private GameObject _choicesHolder;
     [SerializeField] private GameObject _choiceGO;
     [SerializeField] private int _maxSkillUpsToDisplay = 3;
+
+    [SerializeField] private Transform[] _enemiesSpawnPoints;
+    [SerializeField] private int _maxEnemies = 10;
+    [SerializeField] private int _baseEnemies = 3;
+    [SerializeField] private int _currentEnemies = 3;
 
     [SerializeField] private GameObject[] _levelsGOs;
     [SerializeField] private Vector3 _origin = Vector3.zero;
@@ -88,6 +94,10 @@ public class LevelManager : MonoBehaviour
 
         _maxLevelIndex = _levelsGOs.Length;
 
+        _maxEnemies = _enemiesSpawnPoints.Length;
+
+        _currentEnemies = _baseEnemies;
+
         StartLevel();
 
         GetCurrentAvailableSkillUps();
@@ -138,6 +148,7 @@ public class LevelManager : MonoBehaviour
     {
         FadeCanvasToggle(true);
         playerStateManagerCS.ResetPlayer(_playerReset);
+        
         InstanciateLevel();
 
         _currentLevelsIntroCS.ToggleActivity(true);
@@ -154,8 +165,23 @@ public class LevelManager : MonoBehaviour
         _currentLevelsIntroCS = _currentLevelGO.GetComponentInChildren<LevelsIntro>();
         if (_currentLevelsIntroCS == null) Debug.LogError("No LevelsIntro component found in " + _currentLevelGO.name + "'s children (LevelsManager.cs)");
         else _currentLevelsIntroCS.ToggleActivity(false);
-
+        InstanciateEnemies();
         GetEnemiesInLevel();
+    }
+
+    private void InstanciateEnemies()
+    {
+        if(_currentLevel % 5 == 0)
+        {
+            _currentEnemies++;
+        }
+
+        for (int i = 0; i < _currentEnemies; i++)
+        {
+            if (i >= _enemiesSpawnPoints.Length) return;
+            int randomEnemy = UnityEngine.Random.Range(0, enemiesGOs.Length);
+            Instantiate(enemiesGOs[randomEnemy], _enemiesSpawnPoints[i].position, Quaternion.identity, _currentLevelGO.transform);
+        }
     }
 
     private void GetEnemiesInLevel()

@@ -5008,7 +5008,7 @@ GameObject:
   m_Layer: 8
   m_Name: RangeEnemy
   m_TagString: Untagged
-  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -5093,6 +5093,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   deathSound: {fileID: 8300000, guid: 7fb879b0659f505468ec26198bbd349f, type: 3}
+  teleportSound: {fileID: 8300000, guid: 35bd1adf37a2be44781792af90ea62f0, type: 3}
+  meteorCastSound: {fileID: 8300000, guid: f9fc2b94f20742a4abec04def60baa0b, type: 3}
   _level: 0
   statsBuffPerLevel: 0.1
   baseAttackRange: 20

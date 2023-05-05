@@ -18,6 +18,8 @@ namespace Enemy.Healer
         {
             // ---- Set state animations ------------------------------
             _manager.enemyAnimator.SetTrigger("heal");
+            _manager.healerAudioSource.PlayOneShot(_manager.healSound);
+
             _coroutineHealing = _manager.StartCoroutine(CoroutineHealing());
         }
 
