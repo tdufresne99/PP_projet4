@@ -16,6 +16,7 @@ namespace Enemy.Tank
         {
             // ---- Set state animations ------------------------------
             _manager.enemyAnimator.SetTrigger("die");
+            _manager.tankAudioSource.PlayOneShot(_manager.deathSound);
             _manager.Invoke("SelfDestruct", 2f);
         }
 

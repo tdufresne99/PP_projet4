@@ -16,6 +16,7 @@ namespace Player
         {
             // ---- Set state animations ------------------------------
             _manager.playerAnimator.SetBool("isDead", true);
+            GameManager.instance.PlaySoundOneShot(_manager.deathSound);
 
             _manager.isDead = true;
         }

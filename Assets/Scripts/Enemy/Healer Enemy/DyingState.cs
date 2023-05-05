@@ -16,6 +16,7 @@ namespace Enemy.Healer
         {
             // ---- Set state animations ------------------------------
             _manager.enemyAnimator.SetTrigger("die");
+            _manager.healerAudioSource.PlayOneShot(_manager.deathSound);
             _manager.Invoke("SelfDestruct", 2f);
         }
 

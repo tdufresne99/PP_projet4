@@ -34,6 +34,7 @@ namespace Enemy.Tank
 
         public override void Exit()
         {
+            _manager.tankAudioSource.volume = 1f;
             _manager.cleaveHitboxGO.SetActive(false);
             _manager.abilityLocked = false;
             _manager.cleaveOnCooldown = true;
@@ -41,10 +42,13 @@ namespace Enemy.Tank
 
         private IEnumerator PerformCleaveAttack()
         {
-            yield return new WaitForSecondsRealtime(5f);
+            _manager.tankAudioSource.volume = 0.4f;
+            _manager.tankAudioSource.PlayOneShot(_manager.cleaveSound);
+            yield return new WaitForSecondsRealtime(3f);
             _manager.cleaveHitboxGO.SetActive(true);
             Debug.Log("cleave");
             _manager.enemyAnimator.SetTrigger("cleave");
+            _manager.tankAudioSource.volume = 1f;
             yield return new WaitForSecondsRealtime(1f);
             _manager.TransitionToState(_manager.chaseState);
         }

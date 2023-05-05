@@ -39,6 +39,7 @@ namespace Player
             {
                 yield return new WaitForSecondsRealtime(0.2f);
                 _manager.meleeHitboxGO.SetActive(true);
+                _manager.playerAudioSource.PlayOneShot(_manager.meleeAttacksSound);
                 yield return new WaitForSecondsRealtime(0.6f);
                 _manager.meleeHitboxGO.SetActive(false);
             }

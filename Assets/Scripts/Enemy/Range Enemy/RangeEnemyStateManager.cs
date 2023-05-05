@@ -76,6 +76,7 @@ namespace Enemy.Range
         [HideInInspector] public EnemyDamageDealer enemyDamageDealerCS;
         [HideInInspector] public EnemyDamageReceiver enemyDamageReceiverCS;
         [HideInInspector] public TeleportLocationFinder teleportLocationFinderCS;
+        [HideInInspector] public AudioSource rangeAudioSource;
         #endregion
         // ---------------------------------------------------------
 
@@ -90,6 +91,7 @@ namespace Enemy.Range
         public GameObject meteorOverlayGO;
         public GameObject meteorGO;
         public LayerMask targetLayerMask;
+        public AudioClip deathSound;
         #endregion
         // ---------------------------------------------------------
 
@@ -293,6 +295,9 @@ namespace Enemy.Range
 
             if (TryGetComponent(out TeleportLocationFinder teleportLocationFinderTemp)) teleportLocationFinderCS = teleportLocationFinderTemp;
             else Debug.LogError("The component 'TeleportLocationFinder' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+
+            if (TryGetComponent(out AudioSource audioSourceTemp)) rangeAudioSource = audioSourceTemp;
+            else Debug.LogError("The component 'AudioSource' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
 
         private void GetTrialsRequiredLinks()

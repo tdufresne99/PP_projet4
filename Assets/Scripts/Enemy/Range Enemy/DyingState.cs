@@ -16,6 +16,7 @@ namespace Enemy.Range
         {
             // ---- Set state animations ------------------------------
             _manager.enemyAnimator.SetTrigger("die");
+            _manager.rangeAudioSource.PlayOneShot(_manager.deathSound);
             _manager.Invoke("SelfDestruct", 2f);
         }
 

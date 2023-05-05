@@ -77,6 +77,7 @@ namespace Enemy.Tank
         [HideInInspector] public EnemyDamageDealer enemyDamageDealerCS;
         [HideInInspector] public EnemyDamageReceiver enemyDamageReceiverCS;
         [HideInInspector] public Animator tankAnimator;
+        [HideInInspector] public AudioSource tankAudioSource;
         #endregion
         // ---------------------------------------------------------
 
@@ -88,6 +89,8 @@ namespace Enemy.Tank
         public Transform resetTransform;
         public Transform targetTransform;
         public LayerMask targetLayerMask;
+        public AudioClip deathSound;
+        public AudioClip cleaveSound;
         #endregion
         // ---------------------------------------------------------
 
@@ -273,6 +276,9 @@ namespace Enemy.Tank
 
             if (TryGetComponent(out HealthManager healthManagerTemp)) healthManagerCS = healthManagerTemp;
             else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+
+            if (TryGetComponent(out AudioSource audioSourceTemp)) tankAudioSource = audioSourceTemp;
+            else Debug.LogError("The component 'AudioSource' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
 
         private void GetTrialsRequiredLinks()

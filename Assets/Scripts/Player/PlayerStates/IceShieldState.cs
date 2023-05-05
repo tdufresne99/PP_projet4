@@ -20,6 +20,7 @@ namespace Player
         {
             // ---- Set state animations ------------------------------
             _manager.playerAnimator.SetTrigger("iceShield");
+            _manager.playerAudioSource.PlayOneShot(_manager.iceShieldSound);
 
 
             _manager.abilityLocked = true;

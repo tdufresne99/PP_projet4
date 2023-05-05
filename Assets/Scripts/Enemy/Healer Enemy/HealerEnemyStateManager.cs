@@ -79,6 +79,7 @@ namespace Enemy.Healer
         [HideInInspector] public EnemyDamageDealer enemyDamageDealerCS;
         [HideInInspector] public EnemyDamageReceiver enemyDamageReceiverCS;
         [HideInInspector] public TeleportLocationFinder teleportLocationFinderCS;
+        [HideInInspector] public AudioSource healerAudioSource;
         #endregion
         // ---------------------------------------------------------
 
@@ -92,6 +93,7 @@ namespace Enemy.Healer
         public GameObject projectileGO;
         public GameObject healingHitboxGO;
         public LayerMask targetLayerMask;
+        public AudioClip deathSound;
         #endregion
         // ---------------------------------------------------------
 
@@ -284,6 +286,9 @@ namespace Enemy.Healer
 
             if (TryGetComponent(out TeleportLocationFinder teleportLocationFinderTemp)) teleportLocationFinderCS = teleportLocationFinderTemp;
             else Debug.LogError("The component 'TeleportLocationFinder' does not exist on object " + gameObject.name + " (HealerEnemyStateManager.cs)");
+
+            if (TryGetComponent(out AudioSource audioSourceTemp)) healerAudioSource = audioSourceTemp;
+            else Debug.LogError("The component 'AudioSource' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
 
         private void GetTrialsRequiredLinks()

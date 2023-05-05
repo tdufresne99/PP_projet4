@@ -63,7 +63,7 @@ namespace Player
         void OnDestroy()
         {
             if(_instanciatedBuffIconGO != null) Destroy(_instanciatedBuffIconGO);
-            _playerStateManagerCS.currentDamageMultiplier /= _buffPerStack * _stacks;
+            _playerStateManagerCS.currentDamageMultiplier = 1;
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Enemy.Melee
 
             // ---- Set state animations ------------------------------
             _manager.enemyAnimator.SetTrigger("die");
+            _manager.meleeAudioSource.PlayOneShot(_manager.deathSound);
             _manager.Invoke("SelfDestruct", 2f);
         }
 

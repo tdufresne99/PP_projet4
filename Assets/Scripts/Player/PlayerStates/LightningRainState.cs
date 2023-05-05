@@ -62,6 +62,7 @@ namespace Player
 
         private IEnumerator CoroutineChargeLightningRain()
         {
+            _manager.playerAudioSource.PlayOneShot(_manager.lightningRainCastSound);
             var activationDelayPerCharge = _manager.lightningRainActivationDelay / _manager.lightningRainMaxCharges;
 
             for (int i = 0; i < _manager.lightningRainMaxCharges; i++)
@@ -81,6 +82,7 @@ namespace Player
             }
             _lightRainPerformed = true;
             _manager.playerAnimator.SetTrigger("lightningRain");
+            _manager.playerAudioSource.PlayOneShot(_manager.lightningRainSound);
 
             Collider[] colliders = Physics.OverlapSphere(_manager.transform.position, _manager.spreadFireRange);
             List<EnemyDamageReceiver> enemiesHit = new List<EnemyDamageReceiver>(colliders.Length);

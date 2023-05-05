@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public int levelReached = 0;
     public Toggle trialsToggle;
     public bool trials;
+    private AudioSource _gameManagerAudioSource;
     private static GameManager _instance;
     public static GameManager instance => _instance;
     void Awake()
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour
         if (_instance == null) _instance = this;
         else Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
+
+        _gameManagerAudioSource = GetComponent<AudioSource>();
     }
 
     public void ToggleTrials()
@@ -45,5 +48,10 @@ public class GameManager : MonoBehaviour
     public void ButtonLoadMenuScene()
     {
         SceneManager.LoadScene(menuSceneIndex);
+    }
+
+    public void PlaySoundOneShot(AudioClip clip)
+    {
+        _gameManagerAudioSource.PlayOneShot(clip);
     }
 }

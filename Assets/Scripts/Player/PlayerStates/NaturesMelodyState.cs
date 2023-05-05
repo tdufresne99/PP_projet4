@@ -17,8 +17,10 @@ namespace Player
         {
             // ---- Set state animations ------------------------------
             _manager.playerAnimator.SetTrigger("naturesMelody");
+            _manager.playerAudioSource.PlayOneShot(_manager.naturesMelodySound);
 
             _manager.currentMovementSpeed *= _manager.naturesMelodyMoveSpeedMultiplier;
+            _manager.currentRotateSpeed *= _manager.naturesMelodyRotateSpeedMultiplier;
             _manager.abilityLocked = true;
             _coroutineNaturesMelody = _manager.StartCoroutine(CoroutineNaturesMelody());
         }
@@ -50,7 +52,8 @@ namespace Player
                 healBuff.GetBuffValues(_manager, _manager.playerHealingReceiverCS, _manager.naturesMelodyBuffTotalHealing, _manager.naturesMelodyBuffDuration, _manager.naturesMelodyBuffTicks, _manager.naturesMelodyBuffCooldownReduction);
             }
 
-            _manager.currentMovementSpeed /= _manager.naturesMelodyMoveSpeedMultiplier;
+            _manager.currentMovementSpeed = _manager.baseMovementSpeed;
+            _manager.currentRotateSpeed = _manager.rotateSpeed;
             _manager.abilityLocked = false;
             _manager.naturesMelodyOnCooldown = true;
         }

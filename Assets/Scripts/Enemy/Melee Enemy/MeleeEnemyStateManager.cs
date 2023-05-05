@@ -60,6 +60,7 @@ namespace Enemy.Melee
         [HideInInspector] public HealthManager healthManagerCS;
         [HideInInspector] public EnemyDamageDealer enemyDamageDealerCS;
         [HideInInspector] public EnemyDamageReceiver enemyDamageReceiverCS;
+        [HideInInspector] public AudioSource meleeAudioSource;
         #endregion
         // ---------------------------------------------------------
 
@@ -70,6 +71,7 @@ namespace Enemy.Melee
         public Transform resetTransform;
         public Transform targetTransform;
         public LayerMask targetLayerMask;
+        public AudioClip deathSound;
         #endregion
         // ---------------------------------------------------------
 
@@ -266,6 +268,9 @@ namespace Enemy.Melee
 
             if (TryGetComponent(out HealthManager healthManagerTemp)) healthManagerCS = healthManagerTemp;
             else Debug.LogError("The component 'HealthManager' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
+
+            if (TryGetComponent(out AudioSource audioSourceTemp)) meleeAudioSource = audioSourceTemp;
+            else Debug.LogError("The component 'AudioSource' does not exist on object " + gameObject.name + " (MeleeEnemyStateManager.cs)");
         }
 
         private void GetTrialsRequiredLinks()

@@ -46,6 +46,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject _fadeOutGo;
     [SerializeField] private GameObject _fadeInGo;
 
+    [SerializeField] private AudioClip skillUpSound;
+
+    private AudioSource LevelAudioSource;
+
     private float _fadeOutTime = 3.2f;
     private Coroutine _coroutineResetLevel;
     private Coroutine _couroutineNextLevel;
@@ -63,6 +67,8 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    private bool _playerPickedUpSkillUpOrb = false;
+
     private static LevelManager _instance;
     public static LevelManager instance => _instance;
 
@@ -74,6 +80,8 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        LevelAudioSource = GetComponent<AudioSource>();
+
         SubscribeToRequiredEvents();
 
         playerStateManagerCS.healthManagerCS.OnHealthPointsEmpty += OnLevelFailed;
@@ -141,7 +149,7 @@ public class LevelManager : MonoBehaviour
 
         _currentLevelGO = Instantiate(_levelsGOs[randomLevelIndex], _origin, Quaternion.identity);
 
-        if (_currentLevel % 3 == 0 && _currentLevel != 0) Instantiate(_skillUpOrbGO, _skillUpOrbSpawnPoint.position, Quaternion.identity, _currentLevelGO.transform);
+        if (_currentLevel % 3 == 0 && _currentLevel != 0 && !_playerPickedUpSkillUpOrb) Instantiate(_skillUpOrbGO, _skillUpOrbSpawnPoint.position, Quaternion.identity, _currentLevelGO.transform);
 
         _currentLevelsIntroCS = _currentLevelGO.GetComponentInChildren<LevelsIntro>();
         if (_currentLevelsIntroCS == null) Debug.LogError("No LevelsIntro component found in " + _currentLevelGO.name + "'s children (LevelsManager.cs)");
@@ -199,6 +207,7 @@ public class LevelManager : MonoBehaviour
 
     private void OnLevelCompleted()
     {
+        _playerPickedUpSkillUpOrb = false;
         _couroutineNextLevel = StartCoroutine(CoroutineNextLevel());
     }
 
@@ -279,6 +288,9 @@ public class LevelManager : MonoBehaviour
 
     public void OnSkillUpChosen(PlayerAbilityEnum ability)
     {
+        _playerPickedUpSkillUpOrb = true;
+        LevelAudioSource.PlayOneShot(skillUpSound);
+
         int chosenSkillUpLevel;
         switch (ability)
         {

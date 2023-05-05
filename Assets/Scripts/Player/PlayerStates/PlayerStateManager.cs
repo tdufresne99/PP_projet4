@@ -116,6 +116,7 @@ namespace Player
         [HideInInspector] public PlayerDamageReceiver playerDamageReceiverCS;
         [HideInInspector] public PlayerHealingDealer playerHealingDealerCS;
         [HideInInspector] public PlayerHealingReceiver playerHealingReceiverCS;
+        [HideInInspector] public AudioSource playerAudioSource;
         #endregion
         // ---------------------------------------------------------
 
@@ -150,6 +151,14 @@ namespace Player
         public Image naturesMelodyCDIcon;
         public GameObject naturesMelodyLevel2UI;
         public GameObject naturesMelodyLevel3UI;
+
+        public AudioClip deathSound;
+        public AudioClip fireSpreadSound;
+        public AudioClip lightningRainCastSound;
+        public AudioClip lightningRainSound;
+        public AudioClip iceShieldSound;
+        public AudioClip naturesMelodySound;
+        public AudioClip meleeAttacksSound;
         #endregion
         // ---------------------------------------------------------
 
@@ -314,7 +323,8 @@ namespace Player
         public GameObject naturesMelodyBuffIconGO;
         public float naturesMelodyCooldownTime = 100f;
         public float naturesMelodyTickTime = 0.25f;
-        public float naturesMelodyMoveSpeedMultiplier = 0.01f;
+        public float naturesMelodyMoveSpeedMultiplier = 0.0f;
+        public float naturesMelodyRotateSpeedMultiplier = 0.0f;
         public int naturesMelodyMaxTicks = 10;
         public static string naturesMelodyKey = "R";
         public float naturesMelodyBuffTotalHealing => healthManagerCS.maxHealthPoints * 0.4f;
@@ -336,6 +346,7 @@ namespace Player
         public float currentLeech;
         public float currentAttackSpeed;
         public float currentMovementSpeed;
+        public float currentRotateSpeed;
         public Vector3 playerMovement;
         public float horizontalIntput;
         public float currentJumpForce;
@@ -449,7 +460,7 @@ namespace Player
                 bool isRunning = (Mathf.Abs(playerRigidbody.velocity.x) > 0.1f || Mathf.Abs(playerRigidbody.velocity.z) > 0.1f);
             }
 
-            transform.Rotate(Vector3.up, horizontalIntput * rotateSpeed);
+            transform.Rotate(Vector3.up, horizontalIntput * currentRotateSpeed);
 
             if (playerHoldingJump && playerIsGrounded)
             {
@@ -503,6 +514,9 @@ namespace Player
 
             if (TryGetComponent(out PlayerHealingDealer playerHealingDealerTemp)) playerHealingDealerCS = playerHealingDealerTemp;
             else Debug.LogError("The component 'PlayerHealingDealer' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
+
+            if (TryGetComponent(out AudioSource playerAudioSourceTemp)) playerAudioSource = playerAudioSourceTemp;
+            else Debug.LogError("The component 'AudioSource' does not exist on object " + gameObject.name + " (PlayerStateManager.cs)");
         }
 
         private void CreateStateInstances()
@@ -526,6 +540,7 @@ namespace Player
             currentLeech = baseLeech;
             currentAttackSpeed = baseAttackSpeed;
             currentMovementSpeed = baseMovementSpeed;
+            currentRotateSpeed = rotateSpeed;
             currentJumpForce = baseJumpForce;
 
             shieldManagerCS.SetShieldPointsValues(iceShieldHealthPerStack * iceShieldMaxStacks);
