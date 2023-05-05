@@ -1,0 +1,25 @@
+btn_click : https://freesound.org/people/MATRIXXX_/sounds/657948/
+
+spreadFire : https://freesound.org/people/hykenfreak/sounds/331621/
+
+lightningSpell : https://freesound.org/people/InspectorJ/sounds/413187/
+
+lightningRainCast : https://freesound.org/people/InspectorJ/sounds/413187/
+
+iceSpell : https://freesound.org/people/NoahBangs/sounds/636085/
+
+natureSpell : https://freesound.org/people/Cunningar0807/sounds/436128/
+
+skillUp : https://freesound.org/people/InspectorJ/sounds/411460/
+
+meteor : https://freesound.org/people/Kodack/sounds/258195/
+
+rangeAttack : https://freesound.org/people/Robinhood76/sounds/263670/
+
+meleeAttack : https://freesound.org/people/unfa/sounds/221538/
+
+skillOrb : https://freesound.org/people/spectral9/sounds/255622/
+
+enemyDeath : https://freesound.org/people/AlexMurphy53/sounds/571387/
+
+teleport : https://freesound.org/people/Sergenious/sounds/55853/
