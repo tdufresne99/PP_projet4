@@ -96,7 +96,7 @@ namespace Player
                 }
             }
 
-            if(_manager.lightningRainLevel > 1) 
+            if(_manager.lightningRainLevel > 1 && enemiesHit.Count > 0) 
             {
                 var dmgBuff = _manager.gameObject.AddComponent<LightningRainDamageBuff>();
                 dmgBuff.GetBuffValues(_manager, enemiesHit.Count, _manager.lightningRainDamageBuffPerStacks, _manager.lightningRainDamageBuffDuration);

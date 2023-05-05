@@ -74,6 +74,7 @@ public class LevelManager : MonoBehaviour
     }
 
     private bool _playerPickedUpSkillUpOrb = false;
+    private bool _playerDiedThisRound = false;
 
     private static LevelManager _instance;
     public static LevelManager instance => _instance;
@@ -152,6 +153,7 @@ public class LevelManager : MonoBehaviour
         InstanciateLevel();
 
         _currentLevelsIntroCS.ToggleActivity(true);
+        _playerDiedThisRound = false;
     }
 
     private void InstanciateLevel()
@@ -214,8 +216,9 @@ public class LevelManager : MonoBehaviour
 
     private void OnLevelFailed(HealthManager hm)
     {
-        if (playerStateManagerCS.currentLifes > 1)
+        if (!_playerDiedThisRound && playerStateManagerCS.currentLifes > 1)
         {
+            _playerDiedThisRound = true;
             playerStateManagerCS.currentLifes--;
             _lifesText.text = playerStateManagerCS.currentLifes + "";
             _coroutineResetLevel = StartCoroutine(CoroutinResetLevel());
@@ -371,7 +374,7 @@ public class LevelManager : MonoBehaviour
 
     private void OnGameOver()
     {
-        GameManager.instance.levelReached = _currentLevel;
+        if(GameManager.instance != null) GameManager.instance.levelReached = _currentLevel;
         SceneManager.LoadScene(GameManager.instance.gameOverSceneIndex);
     }
 

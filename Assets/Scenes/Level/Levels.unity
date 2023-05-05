@@ -554,6 +554,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &665307500 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 665307500, guid: 110513c0b229e97428dceaacbc91ca90, type: 3}
+  m_PrefabInstance: {fileID: 5303028303305242880}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &767242031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,15 +1290,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2436112650909430088, guid: 07a7aee0e6f33be48b56cf64807bb8e9, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.36127836
+      value: 0.36127838
       objectReference: {fileID: 0}
     - target: {fileID: 2436112650909430088, guid: 07a7aee0e6f33be48b56cf64807bb8e9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000030851798
+      value: 0.000000032088447
       objectReference: {fileID: 0}
     - target: {fileID: 2436112650909430088, guid: 07a7aee0e6f33be48b56cf64807bb8e9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000011953446
+      value: -0.0000000124325865
       objectReference: {fileID: 0}
     - target: {fileID: 2436112651360963769, guid: 07a7aee0e6f33be48b56cf64807bb8e9, type: 3}
       propertyPath: m_Name
@@ -2215,6 +2220,10 @@ PrefabInstance:
       propertyPath: naturesMelodyLevel3UI
       value: 
       objectReference: {fileID: 1714773129}
+    - target: {fileID: 4784034779846718190, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: lightningRainCooldownTime
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4784034779846718191, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: _healthBar
       value: 
@@ -2227,6 +2236,14 @@ PrefabInstance:
       propertyPath: _healthBarColor
       value: 
       objectReference: {fileID: 1290044411}
+    - target: {fileID: 4784034779846718191, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: lowHealthWarning
+      value: 
+      objectReference: {fileID: 665307500}
+    - target: {fileID: 4784034779846718191, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: _lowHealthWarning
+      value: 
+      objectReference: {fileID: 665307500}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

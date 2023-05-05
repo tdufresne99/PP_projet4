@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
+    public GameObject lowHealthWarning;
     public GameObject iconHolder;
     [NonSerialized] public Color defaultColor;
     private Color _stunColor = new Color(0.5f,0.5f,0.5f,0.5f);
@@ -69,11 +70,13 @@ public class HealthManager : MonoBehaviour
         }
 
         currentHealthPoints -= damageReceived;
+        if(lowHealthWarning != null && currentHealthPoints / maxHealthPoints <= 0.3f) lowHealthWarning.SetActive(true);
     }
 
     public void ReceiveHealing(float healingReceived)
     {
         currentHealthPoints += healingReceived;
+        if(lowHealthWarning != null && currentHealthPoints / maxHealthPoints > 0.3f) lowHealthWarning.SetActive(false);
     }
 
     private void AjustHealthBar()

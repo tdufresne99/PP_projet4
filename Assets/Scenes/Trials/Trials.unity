@@ -240,6 +240,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203051733}
   m_CullTransparentMesh: 1
+--- !u!1 &300283544 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 665307500, guid: 110513c0b229e97428dceaacbc91ca90, type: 3}
+  m_PrefabInstance: {fileID: 762229453}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &320632223 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5303028302940581699, guid: 110513c0b229e97428dceaacbc91ca90, type: 3}
+  m_PrefabInstance: {fileID: 762229453}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &332827082
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,11 +1376,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2436112650909430088, guid: 07a7aee0e6f33be48b56cf64807bb8e9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000032858097
+      value: 0.000000032088625
       objectReference: {fileID: 0}
     - target: {fileID: 2436112650909430088, guid: 07a7aee0e6f33be48b56cf64807bb8e9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000127307835
+      value: -0.000000012432652
       objectReference: {fileID: 0}
     - target: {fileID: 2436112651360963769, guid: 07a7aee0e6f33be48b56cf64807bb8e9, type: 3}
       propertyPath: m_Name
@@ -1638,9 +1648,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 762229455}
     - target: {fileID: 4784034779846718191, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: iconHolder
+      value: 
+      objectReference: {fileID: 320632223}
+    - target: {fileID: 4784034779846718191, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: _healthBarColor
       value: 
       objectReference: {fileID: 762229456}
+    - target: {fileID: 4784034779846718191, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
+      propertyPath: lowHealthWarning
+      value: 
+      objectReference: {fileID: 300283544}
     - target: {fileID: 7501647634680246081, guid: 16e55b231b35ee24d838078127fcc975, type: 3}
       propertyPath: m_Camera
       value: 

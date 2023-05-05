@@ -563,6 +563,9 @@ namespace Player
 
         public void ResetPlayer(Transform resetPosition)
         {
+            if (healthManagerCS.lowHealthWarning != null) healthManagerCS.lowHealthWarning.SetActive(false);
+            abilityLocked = false;
+            healthManagerCS.isDead = false;
             TransitionToState(idleState);
 
             transform.position = resetPosition.position;
@@ -614,6 +617,8 @@ namespace Player
             Debug.Log("onHealthEmpty");
 
             if (isDead) return;
+
+            healthManagerCS.isDead = true;
 
             Debug.Log("isNowDead");
 

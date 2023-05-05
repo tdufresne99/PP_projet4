@@ -366,7 +366,7 @@ MonoBehaviour:
   _spreadFireColor: {r: 0.47843137, g: 0, b: 0, a: 1}
   _lightningRainColor: {r: 0.43137255, g: 0, b: 0.69411767, a: 1}
   _iceShieldColor: {r: 0, g: 0.78431374, b: 0.8627451, a: 1}
-  _naturesMelodyColor: {r: 0.3137255, g: 0.6666667, b: 0, a: 1}
+  _naturesMelodyColor: {r: 0.039215688, g: 0.46666667, b: 0.18039216, a: 1}
   _icons:
   - {fileID: 2454361613641954565, guid: eff094254decb4749b630a559a9c7815, type: 3}
   - {fileID: 2878198347876212380, guid: 6f6a9e0d1c79b1d4f9e634611430a014, type: 3}
@@ -444,8 +444,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Choisir
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
+  m_sharedMaterial: {fileID: -1756470839720027593, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -736,8 +736,8 @@ MonoBehaviour:
     Cette capacit\xE9 a une p\xE9riode de r\xE9cup\xE9ration avant de pouvoir \xEAtre
     utilis\xE9e \xE0 nouveau."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
+  m_sharedMaterial: {fileID: -1756470839720027593, guid: f20227a40a8e9b149b1a0b303b7b0b07, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

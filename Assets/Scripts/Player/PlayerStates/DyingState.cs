@@ -17,8 +17,11 @@ namespace Player
             // ---- Set state animations ------------------------------
             _manager.playerAnimator.SetBool("isDead", true);
             if(GameManager.instance != null) GameManager.instance.PlaySoundOneShot(_manager.deathSound);
+            _manager.currentMovementSpeed = 0;
+            _manager.currentRotateSpeed = 0;
 
             _manager.isDead = true;
+            _manager.abilityLocked = true;
         }
 
         public override void Execute()
@@ -31,6 +34,8 @@ namespace Player
             _manager.playerAnimator.SetBool("isDead", false);
             _manager.healthManagerCS.isDead = false;
             _manager.isDead = false;
+            _manager.currentMovementSpeed = _manager.baseMovementSpeed;
+            _manager.currentRotateSpeed = _manager.rotateSpeed;
         }
 
         private void OnDeath()
